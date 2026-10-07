@@ -14,6 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style>
 :root{
@@ -401,7 +402,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <p class="auth-error" id="authError"></p>
       <button type="submit" class="btn-primary" id="authSubmit"><span>Sign In</span></button>
     </form>
-    <p class="auth-foot">By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>.<br>Your data stays in your browser.</p>
+    <p class="auth-foot">By continuing, you agree to our <a href="#" id="authTermsLink">Terms</a> & <a href="#" id="authPrivacyLink">Privacy Policy</a>.<br>Your data stays in your browser.</p>
   </div>
 </div>
 
@@ -428,6 +429,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         </div>
         <div class="credit-bar"><div class="credit-fill" id="creditFill"></div></div>
         <button class="plan-btn" id="upgradeBtn">View plans</button>
+        <div id="pendingPaymentNotice" style="display:none;margin-top:8px;font-size:.68rem;color:var(--g-text-2);line-height:1.4"></div>
       </div>
       <div class="user-bar">
         <div class="avatar" id="userAvatar">G</div>
@@ -588,8 +590,18 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="field">
         <label>UPI Transaction ID / UTR Number</label>
         <input type="text" id="upiTxnId" placeholder="e.g. 402912345678" autocomplete="off">
-        <small>Ye 12-digit number UPI app ke "Payment Successful" screen pe milega.</small>
+        <small>Ye UPI app ke "Payment Successful" screen pe milega.</small>
       </div>
+      <div class="field">
+        <label>Payment Screenshot</label>
+        <input type="file" id="paymentScreenshot" accept="image/png,image/jpeg,image/webp" style="padding:10px">
+        <small>Payment successful screen ka screenshot upload karein. Ye verification email ke saath admin ko bheja jayega.</small>
+        <div id="paymentScreenshotPreview" style="display:none;margin-top:10px"></div>
+      </div>
+      <label style="display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:var(--g-text-2);line-height:1.5;margin:12px 0 14px">
+        <input type="checkbox" id="paymentTerms" style="margin-top:3px">
+        <span>I agree to the <a href="#" id="checkoutTermsLink" style="color:var(--g-blue)">Terms & Conditions</a> and <a href="#" id="checkoutPrivacyLink" style="color:var(--g-blue)">Privacy Policy</a>, and confirm that the payment details submitted by me are correct.</span>
+      </label>
       <button class="btn-primary" id="upiSubmitBtn" style="padding:14px">
         <i class="fa-solid fa-paper-plane"></i> Submit for Verification
       </button>
@@ -891,9 +903,23 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
 const RAZORPAY_KEY_ID = '';
 const PAYMENT_VERIFY_ENDPOINT = '';
+
+// Manual UPI verification
 const UPI_ID = 'mitpatel24112007@okhdfcbank';
 const UPI_NAME = 'Nexus AI';
+
+// Admin access
 const ADMIN_PASSWORD = 'nexus@admin2024';
+
+// EmailJS configuration.
+// Put your real EmailJS values here after creating a service/template.
+const EMAILJS_PUBLIC_KEY = '';
+const EMAILJS_SERVICE_ID = '';
+const EMAILJS_PAYMENT_TEMPLATE_ID = '';
+const ADMIN_EMAIL = 'admin@example.com';
+
+// This is a single-file/localStorage app. Email notification can be sent
+// through EmailJS, but true cross-device activation needs a shared backend/database.
 
 /* ============================================================
    HELPERS
@@ -943,6 +969,53 @@ let isGenerating = false;
 let abortCtrl = null;
 let pendingPlan = null;
 let currentRating = 0;
+let paymentScreenshotData = '';
+let paymentScreenshotName = '';
+
+function initEmailJS(){
+  try{
+    if(window.emailjs && EMAILJS_PUBLIC_KEY){
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+  }catch(e){ console.warn('EmailJS init failed:', e); }
+}
+
+async function sendPaymentVerificationEmail(record){
+  if(!window.emailjs || !EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_PAYMENT_TEMPLATE_ID){
+    return {sent:false, reason:'EmailJS is not configured.'};
+  }
+  try{
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_PAYMENT_TEMPLATE_ID, {
+      admin_email: ADMIN_EMAIL,
+      to_email: ADMIN_EMAIL,
+      user_name: record.userName,
+      user_email: record.userEmail,
+      plan_name: record.planName,
+      amount: record.amount,
+      txn_id: record.txnId,
+      reference_id: record.id,
+      submitted_at: new Date(record.submittedAt).toLocaleString('en-IN'),
+      screenshot_data: record.screenshotData || '',
+      screenshot_name: record.screenshotName || '',
+      approval_url: window.location.href.split('#')[0] + '?admin=1'
+    });
+    return {sent:true};
+  }catch(err){
+    console.error('Payment verification email failed:', err);
+    return {sent:false, reason:err.message || 'Email send failed.'};
+  }
+}
+
+function resetPaymentVerificationForm(){
+  paymentScreenshotData = '';
+  paymentScreenshotName = '';
+  const file = $('#paymentScreenshot');
+  const preview = $('#paymentScreenshotPreview');
+  const terms = $('#paymentTerms');
+  if(file) file.value = '';
+  if(preview){ preview.style.display = 'none'; preview.innerHTML = ''; }
+  if(terms) terms.checked = false;
+}
 
 function loadState(){
   try{
@@ -961,6 +1034,12 @@ function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
 function currentUser(){ return S.sessionId ? S.users.find(u => u.id === S.sessionId) : null; }
 function myChats(){ const u = currentUser(); if(!u) return []; if(!S.chats[u.id]) S.chats[u.id] = []; return S.chats[u.id]; }
 function myLibrary(){ const u = currentUser(); if(!u) return []; if(!S.library[u.id]) S.library[u.id] = []; return S.library[u.id]; }
+
+function pendingPaymentForCurrentUser(){
+  const u = currentUser();
+  if(!u) return null;
+  return (S.pendingPayments || []).slice().reverse().find(p => p.userId === u.id && p.status === 'pending') || null;
+}
 
 function planInfo(){
   const u = currentUser();
@@ -1205,6 +1284,14 @@ function updateUserUI(){
   $('#userSub').textContent = planInfo().label + ' plan';
 }
 function updatePlanUI(){
+  const pendingNotice = $('#pendingPaymentNotice');
+  const pendingPayment = pendingPaymentForCurrentUser();
+  if(pendingNotice){
+    pendingNotice.style.display = pendingPayment ? 'block' : 'none';
+    pendingNotice.innerHTML = pendingPayment
+      ? `<i class="fa-solid fa-clock"></i> Payment pending: ₹${pendingPayment.amount}. Admin approval required.`
+      : '';
+  }
   const u = currentUser(); if(!u) return;
   const info = planInfo();
   $('#planName').innerHTML = `<i class="fa-solid fa-bolt"></i> ${info.label}`;
@@ -1708,6 +1795,11 @@ function renderPlans(){
 function startCheckout(planId){
   const plan = PLANS.find(p => p.id === planId);
   if(!plan) return;
+  const existingPending = pendingPaymentForCurrentUser();
+  if(existingPending){
+    toast(`You already have a pending payment (${existingPending.planName}). Wait for admin verification.`, 'warn', 5000);
+    return;
+  }
   pendingPlan = plan;
   $('#checkoutTitle').textContent = `Subscribe to ${plan.name}`;
   $('#checkoutSub').textContent = `₹${plan.price.toLocaleString('en-IN')} · ${plan.period}`;
@@ -1720,6 +1812,7 @@ function startCheckout(planId){
   $('#payBtn').style.display = '';
   $('#upiSubmitBtn').style.display = '';
   $('#upiTxnId').value = '';
+  resetPaymentVerificationForm();
   $('#upiAmt').textContent = plan.price.toLocaleString('en-IN');
   $('#payBtn').disabled = false;
   switchPayMethod('razorpay');
@@ -1739,6 +1832,48 @@ function renderUPIQR(amountINR){
   $('#upiQrImg').src = qrUrl;
   $('#upiDeepLink').href = upiLink;
 }
+$('#paymentScreenshot')?.addEventListener('change', e => {
+  const file = e.target.files?.[0];
+  if(!file) return;
+  if(file.size > 2.5 * 1024 * 1024){
+    toast('Screenshot must be 2.5 MB or smaller.', 'err', 4000);
+    e.target.value = '';
+    return;
+  }
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){
+    toast('Please upload PNG, JPG/JPEG or WEBP screenshot.', 'err', 4000);
+    e.target.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    paymentScreenshotData = reader.result;
+    paymentScreenshotName = file.name;
+    const preview = $('#paymentScreenshotPreview');
+    if(preview){
+      preview.style.display = 'block';
+      preview.innerHTML = `<div style="display:flex;align-items:center;gap:10px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:10px;padding:8px">
+        <img src="${paymentScreenshotData}" alt="Payment screenshot" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--g-border)">
+        <div style="font-size:.76rem;color:var(--g-text-2);min-width:0">
+          <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(file.name)}</b>
+          <span>Screenshot ready for admin verification.</span>
+        </div>
+      </div>`;
+    }
+  };
+  reader.readAsDataURL(file);
+});
+
+$('#checkoutTermsLink')?.addEventListener('click', e => {
+  e.preventDefault();
+  showAboutDoc('Terms & Conditions', `Subscription payments are reviewed before activation for manual UPI payments. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after the administrator confirms receipt of the payment. Fake, altered, duplicated, or misleading payment proof may be rejected. Plans, credits, duration and features are those displayed at checkout. Service availability is not guaranteed and generated content remains the user's responsibility.`);
+});
+
+$('#checkoutPrivacyLink')?.addEventListener('click', e => {
+  e.preventDefault();
+  showAboutDoc('Privacy Policy', `For manual payment verification, Nexus AI stores the submitted transaction ID, plan, amount, account email and payment screenshot in the app's local state and may send those details to the configured administrator email through EmailJS for verification. Do not upload unrelated or sensitive documents. The payment screenshot is used only for payment verification and support. This single-file demo does not provide a secure server-side database.`);
+});
+
 $('#copyUpiBtn')?.addEventListener('click', () => {
   navigator.clipboard.writeText(UPI_ID).then(() => {
     $('#copyUpiBtn').innerHTML = '<i class="fa-solid fa-check"></i> Copied';
@@ -1756,27 +1891,70 @@ $$('.upi-app-btn').forEach(btn => {
 });
 $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const txnId = $('#upiTxnId').value.trim();
+  const terms = $('#paymentTerms')?.checked;
   if(!pendingPlan){ toast('No plan selected', 'err'); return; }
-  if(txnId.length < 6){ toast('Please enter a valid UPI transaction ID (min 6 chars).', 'err', 4000); $('#upiTxnId').focus(); return; }
+  if(txnId.length < 6){
+    toast('Please enter a valid UPI transaction ID (min 6 chars).', 'err', 4000);
+    $('#upiTxnId').focus();
+    return;
+  }
+  if(!paymentScreenshotData){
+    toast('Please upload the payment screenshot.', 'err', 4000);
+    $('#paymentScreenshot')?.focus();
+    return;
+  }
+  if(!terms){
+    toast('Please accept the Terms & Conditions and Privacy Policy.', 'err', 4000);
+    return;
+  }
+
   const btn = $('#upiSubmitBtn');
   btn.disabled = true;
   const original = btn.innerHTML;
-  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Submitting...';
-  await new Promise(r => setTimeout(r, 800));
+  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Sending for review...';
+
   const u = currentUser();
-  if(!u){ btn.disabled = false; btn.innerHTML = original; return; }
+  if(!u){
+    btn.disabled = false;
+    btn.innerHTML = original;
+    return;
+  }
+
   S.pendingPayments = S.pendingPayments || [];
   const record = {
-    id: uid(), userId: u.id, userName: u.name, userEmail: u.email,
-    plan: pendingPlan.id, planName: pendingPlan.name, amount: pendingPlan.price,
-    method: 'upi', upiId: UPI_ID, txnId, status: 'pending', submittedAt: Date.now()
+    id: uid(),
+    userId: u.id,
+    userName: u.name,
+    userEmail: u.email,
+    plan: pendingPlan.id,
+    planName: pendingPlan.name,
+    amount: pendingPlan.price,
+    method: 'upi',
+    upiId: UPI_ID,
+    txnId,
+    screenshotData: paymentScreenshotData,
+    screenshotName: paymentScreenshotName,
+    termsAccepted: true,
+    status: 'pending',
+    submittedAt: Date.now()
   };
+
   S.pendingPayments.push(record);
   saveState();
+
+  const mail = await sendPaymentVerificationEmail(record);
+
   btn.style.display = 'none';
   $('#upiSuccess').classList.add('show');
-  $('#upiSuccessMsg').innerHTML = `Your payment reference <b>${esc(txnId)}</b> has been submitted.<br><br><b>Status:</b> <span style="color:#f59e0b">Pending admin verification</span><br><b>Reference ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px">${record.id}</code><br><br>Your plan will activate automatically once verified.`;
-  toast('Submitted for verification', 'ok', 4000);
+  $('#upiSuccessMsg').innerHTML =
+    `Your payment reference <b>${esc(txnId)}</b> has been submitted.<br><br>` +
+    `<b>Status:</b> <span style="color:#f59e0b">Pending admin verification</span><br>` +
+    `<b>Reference ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px">${record.id}</code><br><br>` +
+    (mail.sent
+      ? `The verification email with your screenshot has been sent to the administrator.<br><br><b>Subscription will NOT activate until the administrator approves it.</b>`
+      : `<span style="color:#d93025">Email notification could not be sent because EmailJS is not configured.</span><br><br><b>Use the admin panel to review this pending payment.</b>`);
+
+  toast(mail.sent ? 'Payment sent for manual verification' : 'Payment saved as pending; email is not configured', mail.sent ? 'ok' : 'warn', 5000);
   btn.disabled = false;
   btn.innerHTML = original;
 });
@@ -1810,7 +1988,7 @@ $('#payBtn')?.addEventListener('click', async () => {
           const data = await res.json();
           verified = data.verified === true;
         } else {
-          verified = !!response.razorpay_payment_id;
+          verified = false;
         }
         if(verified){
           activateSubscription(pendingPlan, response.razorpay_payment_id);
@@ -1884,7 +2062,7 @@ function showAdminPanel(){
   overlay.innerHTML = `
     <div class="modal wide" style="max-width:860px">
       <button class="modal-x" id="adminClose"><i class="fa-solid fa-xmark"></i></button>
-      <div class="modal-head"><h2>🛡️ Admin — Pending Verifications</h2><p>Verify each payment in your UPI app before approving. <b>Only approve if you received the money.</b></p></div>
+      <div class="modal-head"><h2>🛡️ Admin — Pending Verifications</h2><p>Open the payment screenshot, compare the UTR/transaction ID and amount with your bank/UPI statement, then click Approve only after you personally confirm receipt. <b>Approval is the only point that activates the plan.</b></p></div>
       <div id="adminList"></div>
     </div>`;
   document.body.appendChild(overlay);
@@ -1906,7 +2084,9 @@ function renderAdminList(){
             <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
               <b>Email:</b> ${esc(p.userEmail)}<br>
               <b>Transaction ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
+              <b>Terms accepted:</b> ${p.termsAccepted ? 'Yes' : 'No'}<br>
               <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}
+              ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" alt="Payment screenshot" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;min-width:140px">
@@ -1942,7 +2122,25 @@ window.adminApprove = function(id){
   }
   saveState();
   renderAdminList();
-  alert('✅ Approved. User plan activated.');
+
+  if(window.emailjs && EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_PAYMENT_TEMPLATE_ID){
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_PAYMENT_TEMPLATE_ID, {
+      admin_email: ADMIN_EMAIL,
+      to_email: rec.userEmail,
+      user_name: rec.userName,
+      user_email: rec.userEmail,
+      plan_name: rec.planName,
+      amount: rec.amount,
+      txn_id: rec.txnId,
+      reference_id: rec.id,
+      submitted_at: new Date(rec.submittedAt).toLocaleString('en-IN'),
+      screenshot_data: rec.screenshotData || '',
+      screenshot_name: rec.screenshotName || '',
+      approval_url: window.location.href.split('#')[0]
+    }).catch(err => console.warn('Approval email failed:', err));
+  }
+
+  alert('Approved. User plan activated in this browser.');
 };
 window.adminReject = function(id){
   const rec = (S.pendingPayments || []).find(p => p.id === id);
@@ -2661,6 +2859,16 @@ function bindSettings(){
 }
 function showAboutDoc(title, text){ alert(`📄 ${title}\n\n${text}`); }
 
+$('#authTermsLink')?.addEventListener('click', e => {
+  e.preventDefault();
+  showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated only according to the payment verification flow shown at checkout. Manual UPI payments require truthful transaction information and genuine payment proof. Fake, altered, duplicated, or misleading payment proof may be rejected. You are responsible for content generated or used through the service.`);
+});
+
+$('#authPrivacyLink')?.addEventListener('click', e => {
+  e.preventDefault();
+  showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, settings and payment-verification information in browser localStorage in this single-file version. For manual payment verification, transaction details and the uploaded payment screenshot may be sent to the configured administrator email through EmailJS. Do not upload unrelated sensitive documents. This version does not provide secure server-side storage.`);
+} )
+
 /* ============================================================
    VOICE INPUT
    ============================================================ */
@@ -2754,6 +2962,7 @@ function bindAll(){
    ============================================================ */
 function init(){
   loadState();
+  initEmailJS();
   applyAllSettings();
   bindAll();
   bindSettings();
