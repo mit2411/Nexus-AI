@@ -830,17 +830,13 @@ button,input,textarea,select{font-family:inherit;color:inherit}
    CONFIGURATION — PASTE YOUR KEYS HERE
    ============================================================ */
 
-// 1) Get from https://console.cloud.google.com/apis/credentials
-//    Add your site to "Authorized JavaScript origins"
-const GOOGLE_CLIENT_ID = ''; // e.g. '1234567890-abc.apps.googleusercontent.com'
+// 1) Google OAuth Client ID
+const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
 
-// 2) Get from https://dashboard.razorpay.com/app/keys
-//    Use "rzp_test_..." for testing, "rzp_live_..." for real money
+// 2) Razorpay Key ID
 const RAZORPAY_KEY_ID = ''; // e.g. 'rzp_test_1234567890abcdef'
 
-// 3) (Production only) Your backend endpoint that verifies payment signature
-//    Razorpay sends: razorpay_order_id, razorpay_payment_id, razorpay_signature
-//    Your server must HMAC-SHA256 verify before returning {verified:true}
+// 3) Backend verification endpoint
 const PAYMENT_VERIFY_ENDPOINT = ''; // e.g. 'https://your-api.com/verify-payment'
 
 /* ============================================================
@@ -1051,11 +1047,8 @@ function initGoogle(){
 }
 
 async function handleGoogleResponse(response){
-  // Decode JWT (Google verifies signature server-side; for demo we decode payload)
   try{
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    // IMPORTANT: In production, send this credential to your backend to verify
-    // against Google's public keys before trusting it.
     const email = payload.email.toLowerCase();
     let user = S.users.find(u => u.email === email);
     if(!user){
@@ -1296,7 +1289,6 @@ async function callPollinations(messages, onDelta, signal){
 
 async function callOpenAICompat(messages, onDelta, signal){
   const key = S.settings.keys.openai;
-  const isOpenRouter = false;
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method:'POST',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer ' + key },
@@ -1508,7 +1500,6 @@ async function handleSend(){
   attachments = []; renderAttachments();
   setSendState('disabled');
 
-  // Auto-detect image request
   const lower = text.toLowerCase();
   const isImage = /\b(generate|create|draw|make|render|design|show)\b.*\b(image|picture|photo|thumbnail|art|poster|logo|banner)\b/.test(lower)
                   || /\b(image|thumbnail)\s+(of|for|with)\b/.test(lower);
@@ -1742,7 +1733,6 @@ function startCheckout(planId){
 $('#payBtn').addEventListener('click', async () => {
   if(!pendingPlan) return;
 
-  // If Razorpay key not set, block — we do NOT fake subscriptions
   if(!RAZORPAY_KEY_ID){
     toast('Payment not configured. Add RAZORPAY_KEY_ID in code.', 'err', 5000);
     return;
@@ -1755,13 +1745,10 @@ $('#payBtn').addEventListener('click', async () => {
 
   const options = {
     key: RAZORPAY_KEY_ID,
-    amount: pendingPlan.price * 100, // Razorpay uses paise
+    amount: pendingPlan.price * 100,
     currency: 'INR',
     name: 'Nexus AI',
     description: `Nexus ${pendingPlan.name} — ₹${pendingPlan.price}`,
-    // In production, create order_id on your server first and pass it here:
-    // order_id: orderId,
-    image: 'https://i.imgur.com/none.png',
     prefill: {
       name: currentUser()?.name || '',
       email: currentUser()?.email || '',
@@ -1769,17 +1756,12 @@ $('#payBtn').addEventListener('click', async () => {
     },
     theme: { color: '#1a73e8' },
     handler: async function(response){
-      // ⚠️ CRITICAL: In production, send response to your backend to
-      // verify the signature (HMAC-SHA256). Only activate after verification.
-      // For now, we only activate if response has razorpay_payment_id.
-
       btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff"></div> Verifying...';
 
       try{
         let verified = false;
 
         if(PAYMENT_VERIFY_ENDPOINT){
-          // Real production verification
           const res = await fetch(PAYMENT_VERIFY_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1788,10 +1770,8 @@ $('#payBtn').addEventListener('click', async () => {
           const data = await res.json();
           verified = data.verified === true;
         } else {
-          // Frontend-only: Razorpay's handler only fires on successful payment.
-          // Payment is real; subscription activated after payment_id received.
           verified = !!response.razorpay_payment_id;
-          console.warn('[Nexus] Payment verification endpoint not set. Using Razorpay handler as verification. For 100% security, deploy a backend to verify signature.');
+          console.warn('[Nexus] Payment verification endpoint not set. Using Razorpay handler as verification.');
         }
 
         if(verified){
@@ -1951,7 +1931,6 @@ function renderToolConfig(){
   };
   c.innerHTML = configs[activeTool] || '';
 
-  // Instrument toggles
   if(activeTool === 'song'){
     $$('#instrumentPills .instrument-pill').forEach(p => {
       p.addEventListener('click', () => p.classList.toggle('active'));
@@ -1970,7 +1949,6 @@ async function runTool(){
   const cost = costs[activeTool] || 2;
   if(!spend(cost)){ toast('Not enough credits. Upgrade to continue.', 'warn', 4000); openModal('upgradeModal'); return; }
 
-  // Check plan feature access
   if((activeTool === 'video' || activeTool === 'song') && !info.video){
     toast('This tool requires Basic plan or higher.', 'warn', 4000);
     openModal('upgradeModal'); return;
@@ -2026,18 +2004,16 @@ async function toolImage(prompt){
   toast('Image generated', 'ok');
 }
 
-/* ---------- VIDEO (canvas + audio → WebM) ---------- */
+/* ---------- VIDEO ---------- */
 async function toolVideo(prompt){
   const dur = parseInt($('#toolDuration').value, 10);
   const canvas = document.createElement('canvas');
   canvas.width = 1280; canvas.height = 720;
   const ctx = canvas.getContext('2d');
 
-  // Get frames text from AI
   const lines = await fetchAIVideoScript(prompt, dur);
 
   const stream = canvas.captureStream(30);
-  // Add silent audio track so it's a valid video
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const dest = audioCtx.createMediaStreamDestination();
   const osc = audioCtx.createOscillator();
@@ -2069,7 +2045,6 @@ async function toolVideo(prompt){
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Animated circles
       for(let i = 0; i < 8; i++){
         const angle = t * Math.PI * 2 + i * 0.8;
         const r = 200 + Math.sin(t * 3 + i) * 80;
@@ -2081,7 +2056,6 @@ async function toolVideo(prompt){
         ctx.fill();
       }
 
-      // Text lines
       const lineIdx = Math.min(lines.length - 1, Math.floor(t * lines.length));
       const line = lines[lineIdx];
       const localT = (t * lines.length) % 1;
@@ -2094,7 +2068,6 @@ async function toolVideo(prompt){
       ctx.shadowColor = 'rgba(0,0,0,0.4)';
       ctx.shadowBlur = 20;
 
-      // Word wrap
       const maxWidth = canvas.width - 160;
       const words = line.split(' ');
       const rows = [];
@@ -2158,13 +2131,11 @@ async function toolPPT(prompt){
   pptx.layout = 'LAYOUT_WIDE';
   pptx.author = 'Nexus AI';
 
-  // Title slide
   const titleSlide = pptx.addSlide();
   titleSlide.background = { color: '1a73e8' };
   titleSlide.addText(prompt, { x:0.5, y:2.2, w:12, h:1.5, fontSize:36, bold:true, color:'FFFFFF', align:'center' });
   titleSlide.addText('Created with Nexus AI', { x:0.5, y:3.8, w:12, h:0.5, fontSize:16, color:'FFFFFF', align:'center' });
 
-  // Content slides
   outline.forEach(s => {
     const slide = pptx.addSlide();
     slide.addText(s.title, { x:0.5, y:0.4, w:12, h:0.8, fontSize:28, bold:true, color:'1a73e8' });
@@ -2211,7 +2182,6 @@ async function toolPDF(prompt){
   const pageH = doc.internal.pageSize.getHeight();
   const margin = 60;
 
-  // Header
   doc.setFillColor(26, 115, 232);
   doc.rect(0, 0, pageW, 80, 'F');
   doc.setTextColor(255, 255, 255);
@@ -2222,7 +2192,6 @@ async function toolPDF(prompt){
   doc.setFont('helvetica', 'normal');
   doc.text(new Date().toLocaleString(), pageW - margin, 45, { align:'right' });
 
-  // Title
   doc.setTextColor(31, 31, 31);
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
@@ -2231,7 +2200,6 @@ async function toolPDF(prompt){
   doc.text(titleLines, margin, y);
   y += titleLines.length * 28 + 10;
 
-  // Body
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(60, 64, 67);
@@ -2263,8 +2231,6 @@ async function toolPDF(prompt){
 /* ---------- WORD ---------- */
 async function toolWord(prompt){
   const title = $('#toolTitle').value.trim() || 'Document';
-  // Generate a proper .docx XML doc (simple wrapper produces .doc compatible file)
-  // For real .docx, we'd use docx.js. Instead we produce a valid HTML-based .doc
   const html = `<!DOCTYPE html>
 <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
 <head><meta charset="utf-8"><title>${esc(title)}</title>
@@ -2294,13 +2260,12 @@ async function toolWord(prompt){
   toast('Word document generated', 'ok');
 }
 
-/* ---------- SONG (Web Audio + Speech Synthesis) ---------- */
+/* ---------- SONG ---------- */
 async function toolSong(prompt){
   const lang = $('#songLang').value;
   const dur = parseInt($('#songDur').value, 10);
   const instruments = $$('#instrumentPills .instrument-pill.active').map(p => p.dataset.inst);
 
-  // Get lyrics from AI
   const lyricMsg = [
     { role:'system', content: `You write song lyrics. Output ONLY lyrics text, ${dur <= 8 ? 3 : dur <= 15 ? 5 : 8} short lines, no headers, no tags. Language: ${lang.split('-')[0]}.` },
     { role:'user', content: `Write a short song about: ${prompt}` }
@@ -2310,7 +2275,6 @@ async function toolSong(prompt){
   lyrics = lyrics.replace(/\[.*?\]/g, '').split('\n').map(l => l.trim()).filter(Boolean);
   if(!lyrics.length) lyrics = [prompt];
 
-  // Record audio
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const dest = audioCtx.createMediaStreamDestination();
   const masterGain = audioCtx.createGain();
@@ -2318,7 +2282,6 @@ async function toolSong(prompt){
   masterGain.connect(dest);
   masterGain.connect(audioCtx.destination);
 
-  // Chord progression (I - V - vi - IV in C major)
   const chords = [[261.63, 329.63, 392.00], [392.00, 493.88, 587.33], [440.00, 523.25, 659.25], [349.23, 440.00, 523.25]];
   const beat = dur / 4;
   const notes = [];
@@ -2328,16 +2291,13 @@ async function toolSong(prompt){
     });
   });
 
-  // Melody (pentatonic)
   const melScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33];
   for(let i = 0; i < dur * 2; i++){
     const f = melScale[Math.floor(Math.random() * melScale.length)];
     notes.push({ freq: f, start: i * 0.5, duration: 0.4, type: 'melody' });
   }
 
-  // Schedule instrument playback
   const start = audioCtx.currentTime + 0.1;
-  const scheduled = [];
 
   function playInstrument(freq, t, dur, inst){
     const osc = audioCtx.createOscillator();
@@ -2368,17 +2328,14 @@ async function toolSong(prompt){
     }
   });
 
-  // Speak lyrics
   const utterance = new SpeechSynthesisUtterance(lyrics.join('. '));
   utterance.lang = lang;
   utterance.rate = 0.9;
   utterance.pitch = 1.0;
-  // Try to find matching voice
   const voices = speechSynthesis.getVoices();
   const voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
   if(voice) utterance.voice = voice;
 
-  // Record via MediaRecorder
   const rec = new MediaRecorder(dest.stream);
   const chunks = [];
   rec.ondataavailable = e => { if(e.data.size) chunks.push(e.data); };
@@ -2413,7 +2370,7 @@ async function toolSong(prompt){
   toast('Song created', 'ok');
 }
 
-/* ---------- UNITY GAME (C# project as .zip) ---------- */
+/* ---------- UNITY GAME ---------- */
 async function toolGame(prompt){
   const type = $('#gameType').value;
   const genre = $('#gameGenre').value;
@@ -2426,7 +2383,6 @@ async function toolGame(prompt){
   try { await callAI(msg, d => code += d); } catch(e){}
   code = code.replace(/```[\s\S]*?\n?/g, '').trim();
 
-  // Build Unity project structure
   const projectName = `Nexus${genre.replace(/\s+/g,'')}${type}`;
   const files = {
     'README.md': `# ${projectName}
@@ -2622,22 +2578,18 @@ function toggleMic(){
    EVENT WIRING
    ============================================================ */
 function bindAll(){
-  // Auth tabs
   $$('.tab').forEach(t => t.addEventListener('click', () => setAuthMode(t.dataset.tab)));
 
-  // Sidebar
   $('#menuBtn').addEventListener('click', openSidebar);
   $('#sbClose').addEventListener('click', closeSidebar);
   $('#sbBackdrop').addEventListener('click', closeSidebar);
   $('#newChatBtn').addEventListener('click', newChat);
   $('#chatSearch').addEventListener('input', renderChatList);
 
-  // Plan & user
   $('#upgradeBtn').addEventListener('click', () => { renderPlans(); openModal('upgradeModal'); });
   $('#themeBtn').addEventListener('click', toggleTheme);
   $('#settingsBtn').addEventListener('click', openSettings);
 
-  // Top-right
   $('#toolsBtn').addEventListener('click', openTools);
   $('#libraryBtn').addEventListener('click', () => { renderLibrary(); openModal('libraryModal'); });
   $('#exportBtn').addEventListener('click', () => {
@@ -2647,13 +2599,11 @@ function bindAll(){
     downloadBlob(new Blob([text], {type:'text/plain'}), 'nexus-chat.txt');
   });
 
-  // Model
   $('#modelBtn').addEventListener('click', e => { e.stopPropagation(); toggleDropdown(); });
   document.addEventListener('click', e => {
     if(!e.target.closest('#modelDropdown') && !e.target.closest('#modelBtn')) closeDropdown();
   });
 
-  // Composer
   const input = $('#promptInput');
   input.addEventListener('input', () => {
     input.style.height = 'auto';
@@ -2666,7 +2616,6 @@ function bindAll(){
   });
   $('#sendBtn').addEventListener('click', () => { if(isGenerating) abortCtrl?.abort(); else handleSend(); });
 
-  // Tools
   $('#attachBtn').addEventListener('click', () => $('#fileInput').click());
   $('#fileInput').addEventListener('change', e => { if(e.target.files.length) handleFiles([...e.target.files]); e.target.value = ''; });
   $('#micBtn').addEventListener('click', toggleMic);
@@ -2679,13 +2628,10 @@ function bindAll(){
     renderCurrentChat();
   });
 
-  // Logout
   $('#logoutBtn')?.addEventListener('click', logout);
 
-  // Studio tool cards
   $$('.tool-card').forEach(c => c.addEventListener('click', () => setTool(c.dataset.tool)));
 
-  // Global shortcuts
   document.addEventListener('keydown', e => {
     if((e.ctrlKey || e.metaKey) && e.key === 'k'){ e.preventDefault(); newChat(); }
     if((e.ctrlKey || e.metaKey) && e.key === 'j'){ e.preventDefault(); toggleTheme(); }
