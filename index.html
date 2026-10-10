@@ -208,7 +208,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .welcome p{color:var(--g-text-2);font-size:.95rem;line-height:1.6;margin-bottom:24px}
 .sugg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .sugg{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:14px;text-align:left;cursor:pointer;transition:all .2s}
-.sugg:hover{background:var(--g-surface-3);border-color:var(--g-border-2)}
+.sugg:hover{background:var(--g-surface-3);border-color:var(--g-border-2);transform:translateY(-2px)}
 .sugg-t{font-weight:500;font-size:.88rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .sugg-d{font-size:.76rem;color:var(--g-text-3);line-height:1.4}
 
@@ -531,36 +531,20 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     </div>
     <div style="background:var(--g-surface-2);border-radius:var(--r-md);padding:16px;margin-bottom:18px">
       <div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:6px">
-        <span id="coPlanName">Nexus Pro</span><b id="coPlanPrice">₹100</b>
+        <span id="coPlanName">Nexus Pro</span><b id="coPlanPrice">₹500</b>
       </div>
       <div style="font-size:.78rem;color:var(--g-text-3)" id="coPlanSub">Billed monthly</div>
     </div>
 
     <div class="pay-tabs">
-      <button class="pay-tab active" data-pay="razorpay"><i class="fa-solid fa-shield-halved"></i> Razorpay</button>
-      <button class="pay-tab" data-pay="upi"><i class="fa-solid fa-mobile-screen"></i> UPI Direct</button>
+      <button class="pay-tab active" data-pay="upi"><i class="fa-solid fa-mobile-screen"></i> UPI + Email Verify</button>
+      <button class="pay-tab" data-pay="razorpay"><i class="fa-solid fa-shield-halved"></i> Razorpay</button>
     </div>
 
-    <div class="pay-pane active" data-pane="razorpay">
-      <div class="secure-badge">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span><b>Auto-verified & instant.</b> Pay via UPI, Card, Netbanking or Wallet. Subscription activates the moment Razorpay confirms your payment.</span>
-      </div>
-      <button class="btn-primary" id="payBtn" style="padding:15px;font-size:1rem">
-        <i class="fa-solid fa-lock"></i> <span id="payBtnText">Pay ₹100 securely</span>
-      </button>
-      <div class="pay-success" id="paySuccess">
-        <i class="fa-solid fa-circle-check"></i>
-        <h3>Payment successful!</h3>
-        <p id="paySuccessMsg">Your plan is now active.</p>
-        <button class="btn-primary" id="paySuccessClose"><i class="fa-solid fa-rocket"></i> Start using</button>
-      </div>
-    </div>
-
-    <div class="pay-pane" data-pane="upi">
+    <div class="pay-pane active" data-pane="upi">
       <div class="secure-badge" style="background:rgba(251,191,36,.1);border-color:#f59e0b">
         <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b"></i>
-        <span><b>Manual verification.</b> Pay via your UPI app → submit transaction ID → admin verifies → subscription activates.</span>
+        <span><b>Admin manual verification.</b> Pay via UPI app → submit transaction ID + screenshot → screenshot admin ke email pe automatically jayega → admin approve karega → tab subscription activate hoga.</span>
       </div>
       <div style="background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.04));border:1px solid rgba(16,185,129,.3);border-radius:var(--r-lg);padding:18px;text-align:center;margin-bottom:16px">
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
@@ -572,16 +556,10 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         </div>
         <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--g-border-2);border-radius:12px;padding:11px 13px;margin-top:8px">
           <i class="fa-solid fa-at" style="color:var(--g-blue)"></i>
-          <code style="flex:1;font-family:'Roboto Mono',monospace;font-size:.82rem;font-weight:500;word-break:break-all;text-align:left;color:#1f1f1f" id="upiIdText">mitpatel24112007@okhdfcbank</code>
+          <code style="flex:1;font-family:'Roboto Mono',monospace;font-size:.82rem;font-weight:500;word-break:break-all;text-align:left;color:#1f1f1f" id="upiIdText">7096660937@nyes</code>
           <button id="copyUpiBtn" style="background:var(--g-blue);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:500;cursor:pointer;white-space:nowrap">
             <i class="fa-solid fa-copy"></i> Copy
           </button>
-        </div>
-        <div style="display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap">
-          <a class="upi-app-btn" href="#" data-app="gpay" style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--g-text-2);text-decoration:none"><i class="fa-brands fa-google"></i></a>
-          <a class="upi-app-btn" href="#" data-app="phonepe" style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--g-text-2);text-decoration:none"><i class="fa-solid fa-mobile-screen"></i></a>
-          <a class="upi-app-btn" href="#" data-app="paytm" style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--g-text-2);text-decoration:none"><i class="fa-solid fa-wallet"></i></a>
-          <a class="upi-app-btn" href="#" data-app="bhim" style="background:var(--g-surface);border:1px solid var(--g-border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--g-text-2);text-decoration:none"><i class="fa-solid fa-indian-rupee-sign"></i></a>
         </div>
         <a id="upiDeepLink" href="#" class="btn-primary" style="text-decoration:none;margin-top:12px;padding:11px">
           <i class="fa-solid fa-up-right-from-square"></i> Open UPI App
@@ -593,9 +571,9 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <small>Ye UPI app ke "Payment Successful" screen pe milega.</small>
       </div>
       <div class="field">
-        <label>Payment Screenshot</label>
+        <label>Payment Screenshot <b style="color:var(--g-error)">*</b></label>
         <input type="file" id="paymentScreenshot" accept="image/png,image/jpeg,image/webp" style="padding:10px">
-        <small>Payment successful screen ka screenshot upload karein. Ye verification email ke saath admin ko bheja jayega.</small>
+        <small>Payment successful screen ka screenshot. Ye direct admin ke email pe jayega verification ke liye.</small>
         <div id="paymentScreenshotPreview" style="display:none;margin-top:10px"></div>
       </div>
       <label style="display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:var(--g-text-2);line-height:1.5;margin:12px 0 14px">
@@ -610,6 +588,22 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <h3>Submitted for verification</h3>
         <p id="upiSuccessMsg">Admin will verify and activate your plan.</p>
         <button class="btn-primary" id="upiSuccessClose"><i class="fa-solid fa-check"></i> Got it</button>
+      </div>
+    </div>
+
+    <div class="pay-pane" data-pane="razorpay">
+      <div class="secure-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span><b>Auto-verified & instant.</b> Pay via UPI, Card, Netbanking or Wallet. Subscription activates the moment Razorpay confirms your payment.</span>
+      </div>
+      <button class="btn-primary" id="payBtn" style="padding:15px;font-size:1rem">
+        <i class="fa-solid fa-lock"></i> <span id="payBtnText">Pay securely</span>
+      </button>
+      <div class="pay-success" id="paySuccess">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Payment successful!</h3>
+        <p id="paySuccessMsg">Your plan is now active.</p>
+        <button class="btn-primary" id="paySuccessClose"><i class="fa-solid fa-rocket"></i> Start using</button>
       </div>
     </div>
   </div>
@@ -635,7 +629,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-palette"></i> Theme</div><div class="set-desc">Light, dark, or follow system</div></div>
         <div class="seg-control" id="segTheme">
           <button class="seg-btn" data-val="light"><i class="fa-solid fa-sun"></i> Light</button>
-          <button class="seg-btn active" data-val="dark"><i class="fa-solid fa-moon"></i> Dark</button>
+          <button class="seg-btn" data-val="dark"><i class="fa-solid fa-moon"></i> Dark</button>
           <button class="seg-btn" data-val="auto"><i class="fa-solid fa-circle-half-stroke"></i> Auto</button>
         </div>
       </div>
@@ -701,14 +695,6 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-image"></i> Auto-detect image prompts</div><div class="set-desc">Auto-generate images from descriptions</div></div>
         <div class="switch on" id="swAutoImage"></div>
       </div>
-      <div class="set-row">
-        <div class="set-info"><div class="set-title"><i class="fa-solid fa-arrows-up-down"></i> Response length</div><div class="set-desc">Preferred answer size</div></div>
-        <div class="seg-control" id="segLength">
-          <button class="seg-btn" data-val="short">Short</button>
-          <button class="seg-btn active" data-val="medium">Medium</button>
-          <button class="seg-btn" data-val="long">Long</button>
-        </div>
-      </div>
     </div>
 
     <div class="settings-pane" data-spane="voice">
@@ -718,7 +704,6 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
           <option value="en-US">English (US)</option><option value="en-IN">English (India)</option><option value="hi-IN">हिन्दी</option>
           <option value="es-ES">Español</option><option value="fr-FR">Français</option><option value="de-DE">Deutsch</option>
           <option value="ja-JP">日本語</option><option value="ko-KR">한국어</option><option value="zh-CN">中文</option>
-          <option value="ar-SA">العربية</option>
         </select>
       </div>
       <div class="set-row">
@@ -728,10 +713,6 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-gauge-high"></i> Speech speed</div><div class="set-desc">Voice reading pace · <b id="ttsSpeedVal">1.0x</b></div></div>
         <input type="range" class="custom-range" id="ttsSpeed" min="0.5" max="2" step="0.1" value="1">
-      </div>
-      <div class="set-row">
-        <div class="set-info"><div class="set-title"><i class="fa-solid fa-wave-square"></i> Voice pitch</div><div class="set-desc">Tone · <b id="ttsPitchVal">1.0</b></div></div>
-        <input type="range" class="custom-range" id="ttsPitch" min="0.5" max="1.5" step="0.1" value="1">
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-play"></i> Test voice</div><div class="set-desc">Preview your voice settings</div></div>
@@ -751,6 +732,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row-full">
         <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-gem"></i> Google Gemini API key</div>
         <input type="password" id="keyGemini" placeholder="AIza..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;color:var(--g-text)">
+        <div class="set-desc" style="margin-top:6px">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--g-blue)">aistudio.google.com</a></div>
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-link"></i> Test connection</div><div class="set-desc">Verify your API keys work</div></div>
@@ -797,7 +779,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <div class="settings-pane" data-spane="about">
       <div class="about-card">
         <div class="about-logo">Nexus AI</div>
-        <div class="about-ver">Version 2.0.0 · Build 2024.10</div>
+        <div class="about-ver">Version 3.0.0 · Build 2025.01</div>
         <p style="font-size:.82rem;color:var(--g-text-2);margin-top:12px;line-height:1.6">Intelligence, creativity, and productivity — all in one powerful workspace.</p>
       </div>
       <div class="about-links">
@@ -806,9 +788,8 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <a class="about-link" id="aboutContact"><span><i class="fa-solid fa-headset"></i> Contact Support</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
         <a class="about-link" id="aboutReviews"><span><i class="fa-solid fa-star"></i> Reviews & Ratings</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
         <a class="about-link" id="aboutShortcuts"><span><i class="fa-solid fa-keyboard"></i> Keyboard Shortcuts</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
-        <a class="about-link" id="aboutWhatsNew"><span><i class="fa-solid fa-sparkles"></i> What's New</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
       </div>
-      <p style="text-align:center;font-size:.72rem;color:var(--g-text-3);margin-top:20px;line-height:1.6">Made with ❤️ in India<br>© 2024 Nexus AI. All rights reserved.</p>
+      <p style="text-align:center;font-size:.72rem;color:var(--g-text-3);margin-top:20px;line-height:1.6">Made with ❤️ in India<br>© 2025 Nexus AI. All rights reserved.</p>
     </div>
 
     <button class="btn-primary" id="saveSettings" style="margin-top:20px"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
@@ -835,17 +816,9 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ea4335,#d93025);display:flex;align-items:center;justify-content:center;color:#fff"><i class="fa-solid fa-envelope"></i></div>
         <div><div style="font-weight:500;font-size:.9rem">Email Support</div><div style="font-size:.75rem;color:var(--g-text-3)">support@nexusai.com</div></div>
       </a>
-      <a href="https://wa.me/919999999999" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);text-decoration:none;color:var(--g-text)">
+      <a href="https://wa.me/917096660937" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);text-decoration:none;color:var(--g-text)">
         <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;color:#fff"><i class="fa-brands fa-whatsapp"></i></div>
-        <div><div style="font-weight:500;font-size:.9rem">WhatsApp</div><div style="font-size:.75rem;color:var(--g-text-3)">+91 99999 99999</div></div>
-      </a>
-      <a href="https://t.me/nexusai" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);text-decoration:none;color:var(--g-text)">
-        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#229ED9,#0088cc);display:flex;align-items:center;justify-content:center;color:#fff"><i class="fa-brands fa-telegram"></i></div>
-        <div><div style="font-weight:500;font-size:.9rem">Telegram</div><div style="font-size:.75rem;color:var(--g-text-3)">@nexusai</div></div>
-      </a>
-      <a href="https://instagram.com/nexusai" target="_blank" style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);text-decoration:none;color:var(--g-text)">
-        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);display:flex;align-items:center;justify-content:center;color:#fff"><i class="fa-brands fa-instagram"></i></div>
-        <div><div style="font-weight:500;font-size:.9rem">Instagram</div><div style="font-size:.75rem;color:var(--g-text-3)">@nexusai</div></div>
+        <div><div style="font-weight:500;font-size:.9rem">WhatsApp</div><div style="font-size:.75rem;color:var(--g-text-3)">+91 70966 60937</div></div>
       </a>
     </div>
     <div class="field"><label>Or send us a message</label>
@@ -898,28 +871,25 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
 <script>
 /* ============================================================
-   CONFIGURATION
+   CONFIGURATION — ✅ FILLED BY YOU
    ============================================================ */
 const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
 const RAZORPAY_KEY_ID = '';
 const PAYMENT_VERIFY_ENDPOINT = '';
 
-// Manual UPI verification
-const UPI_ID = 'mitpatel24112007@okhdfcbank';
+// ============================================================
+// UPI + EMAILJS — YOUR LIVE CREDENTIALS
+// ============================================================
+const UPI_ID = '7096660937@nyes';
 const UPI_NAME = 'Nexus AI';
 
-// Admin access
+const EMAILJS_PUBLIC_KEY  = '1ECUaypsl2wAvyMhM';
+const EMAILJS_SERVICE_ID  = 'service_vn1mkqq';
+const EMAILJS_TEMPLATE_ID = 'template_9iv8vbe';
+
+const ADMIN_EMAIL = 'mitpatel24112007@gmail.com';
+
 const ADMIN_PASSWORD = 'nexus@admin2024';
-
-// EmailJS configuration.
-// Put your real EmailJS values here after creating a service/template.
-const EMAILJS_PUBLIC_KEY = '';
-const EMAILJS_SERVICE_ID = '';
-const EMAILJS_PAYMENT_TEMPLATE_ID = '';
-const ADMIN_EMAIL = 'admin@example.com';
-
-// This is a single-file/localStorage app. Email notification can be sent
-// through EmailJS, but true cross-device activation needs a shared backend/database.
 
 /* ============================================================
    HELPERS
@@ -933,8 +903,8 @@ const nowTime = () => new Date().toLocaleTimeString([], {hour:'2-digit',minute:'
 function toast(msg, type='info', ms=3200){
   const el = document.createElement('div');
   el.className = 'toast';
-  const icon = type==='ok'?'fa-circle-check':type==='err'?'fa-circle-exclamation':'fa-circle-info';
-  const color = type==='ok'?'#34a853':type==='err'?'#ea4335':'#4285f4';
+  const icon = type==='ok'?'fa-circle-check':type==='err'?'fa-circle-exclamation':type==='warn'?'fa-triangle-exclamation':'fa-circle-info';
+  const color = type==='ok'?'#34a853':type==='err'?'#ea4335':type==='warn'?'#f59e0b':'#4285f4';
   el.innerHTML = `<i class="fa-solid ${icon}" style="color:${color}"></i><span>${esc(msg)}</span>`;
   $('#toastWrap').appendChild(el);
   setTimeout(()=>{ el.style.transition='all .3s'; el.style.opacity='0'; el.style.transform='translateX(40px)'; setTimeout(()=>el.remove(),320); }, ms);
@@ -948,14 +918,15 @@ async function sha256(str){
 /* ============================================================
    STATE
    ============================================================ */
-const STORAGE_KEY = 'nexus_ai_v9';
+const STORAGE_KEY = 'nexus_ai_v10';
 const DEFAULT_SETTINGS = {
   theme:'light', accent:'blue', fontSize:'medium', language:'en',
   compact:false, animations:true,
-  systemPrompt:'', temperature:0.9, sendOnEnter:true, streaming:true,
-  autoSave:true, autoImage:true, responseLength:'medium',
-  voiceLang:'en-US', tts:false, ttsSpeed:1.0, ttsPitch:1.0,
-  provider:'pollinations', modelId:'openai',
+  systemPrompt:'You are Nexus AI, a helpful, friendly and accurate assistant. Give clear, well-formatted answers using markdown. Use headings and bullet points when helpful. Be concise but complete.',
+  temperature:0.9, sendOnEnter:true, streaming:true,
+  autoSave:true, autoImage:true,
+  voiceLang:'en-US', tts:false, ttsSpeed:1.0,
+  provider:'gemini', modelId:'gemini-2.0-flash',
   keys:{openai:'',gemini:''}
 };
 let S = {
@@ -974,35 +945,61 @@ let paymentScreenshotName = '';
 
 function initEmailJS(){
   try{
-    if(window.emailjs && EMAILJS_PUBLIC_KEY){
+    if(window.emailjs && EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID){
       emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+      console.log('✅ EmailJS initialized successfully');
+    } else {
+      console.warn('⚠️ EmailJS not configured');
     }
   }catch(e){ console.warn('EmailJS init failed:', e); }
 }
 
 async function sendPaymentVerificationEmail(record){
-  if(!window.emailjs || !EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_PAYMENT_TEMPLATE_ID){
-    return {sent:false, reason:'EmailJS is not configured.'};
+  if(!window.emailjs || !EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID){
+    return {sent:false, reason:'EmailJS is not configured. Add keys in code.'};
   }
   try{
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_PAYMENT_TEMPLATE_ID, {
-      admin_email: ADMIN_EMAIL,
+    const message = 
+`💳 NEW PAYMENT VERIFICATION REQUEST
+
+👤 User: ${record.userName}
+📧 Email: ${record.userEmail}
+📦 Plan: ${record.planName}
+💰 Amount: ₹${record.amount}
+🔢 Transaction ID: ${record.txnId}
+🆔 Reference ID: ${record.id}
+🕒 Submitted: ${new Date(record.submittedAt).toLocaleString('en-IN')}
+
+⚠️ ACTION REQUIRED:
+Please verify this payment in your bank/UPI app.
+- If confirmed → open admin panel → click Approve
+- If fake → click Reject
+
+Admin Panel: ${window.location.href.split('#')[0]}?admin=1
+Admin Password: ${ADMIN_PASSWORD}`;
+
+    const params = {
       to_email: ADMIN_EMAIL,
-      user_name: record.userName,
-      user_email: record.userEmail,
+      from_name: record.userName,
+      from_email: record.userEmail,
+      reply_to: record.userEmail,
+      subject: `💳 Payment Verification — ${record.planName} — ₹${record.amount} — ${record.txnId}`,
       plan_name: record.planName,
       amount: record.amount,
       txn_id: record.txnId,
       reference_id: record.id,
       submitted_at: new Date(record.submittedAt).toLocaleString('en-IN'),
-      screenshot_data: record.screenshotData || '',
-      screenshot_name: record.screenshotName || '',
-      approval_url: window.location.href.split('#')[0] + '?admin=1'
-    });
+      message: message,
+      screenshot: record.screenshotData || '',
+      screenshot_name: record.screenshotName || 'screenshot.png'
+    };
+
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+    console.log('✅ Payment email sent to admin');
     return {sent:true};
   }catch(err){
-    console.error('Payment verification email failed:', err);
-    return {sent:false, reason:err.message || 'Email send failed.'};
+    console.error('Payment email failed:', err);
+    return {sent:false, reason:err.text || err.message || 'Email send failed.'};
   }
 }
 
@@ -1132,6 +1129,7 @@ $('#authForm')?.addEventListener('submit', async (e) => {
     const user = { id: uid(), name, email, passHash, provider:'email', plan:'free', credits:50, creditDate: new Date().toISOString().slice(0,10), createdAt: Date.now() };
     S.users.push(user);
     S.sessionId = user.id;
+    if(!S.chats[user.id]) S.chats[user.id] = [];
     saveState();
     btn.disabled = false;
     enterApp();
@@ -1142,6 +1140,7 @@ $('#authForm')?.addEventListener('submit', async (e) => {
     const user = S.users.find(u => u.email === email);
     if(!user || user.passHash !== passHash){ btn.disabled = false; errEl.textContent = 'Incorrect email or password.'; return; }
     S.sessionId = user.id;
+    if(!S.chats[user.id]) S.chats[user.id] = [];
     saveState();
     btn.disabled = false;
     enterApp();
@@ -1182,6 +1181,7 @@ async function handleGoogleResponse(response){
         creditDate: new Date().toISOString().slice(0,10), createdAt: Date.now()
       };
       S.users.push(user);
+      if(!S.chats[user.id]) S.chats[user.id] = [];
       toast(`Welcome, ${user.name.split(' ')[0]}! 50 free credits added.`, 'ok', 4000);
     }
     S.sessionId = user.id;
@@ -1197,6 +1197,7 @@ function enterApp(){
   updateUserUI();
   updatePlanUI();
   renderChatList();
+  activeChatId = null;
   renderCurrentChat();
   applyTheme();
   applyAllSettings();
@@ -1242,7 +1243,6 @@ function darken(hex, amt){
   return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
 }
 function applyCompact(on){
-  document.documentElement.setAttribute('data-compact', on ? '1' : '0');
   let style = document.getElementById('compactStyle');
   if(!style){ style = document.createElement('style'); style.id = 'compactStyle'; document.head.appendChild(style); }
   style.textContent = on ? `
@@ -1310,18 +1310,19 @@ function updatePlanUI(){
    MODELS
    ============================================================ */
 const MODELS = [
+  { provider:'gemini', id:'gemini-2.0-flash', name:'Gemini 2.0 Flash', desc:'Fast & smart (needs key)' },
+  { provider:'gemini', id:'gemini-1.5-flash', name:'Gemini 1.5 Flash', desc:'Stable (needs key)' },
   { provider:'pollinations', id:'openai', name:'Nexus Ultra', desc:'Fast & smart (free)' },
   { provider:'pollinations', id:'mistral', name:'Mistral Nemo', desc:'Lightweight (free)' },
   { provider:'pollinations', id:'llama', name:'Llama 3.3', desc:'Open-source (free)' },
-  { provider:'pollinations', id:'openai-large', name:'Nexus Ultra Pro', desc:'Deep reasoning' },
-  { provider:'openai', id:'gpt-4o-mini', name:'GPT-4o mini', desc:'Requires OpenAI key' },
-  { provider:'gemini', id:'gemini-2.0-flash', name:'Gemini 2.0 Flash', desc:'Requires Gemini key' }
+  { provider:'pollinations', id:'openai-large', name:'Nexus Ultra Pro', desc:'Deep reasoning (free)' },
+  { provider:'openai', id:'gpt-4o-mini', name:'GPT-4o mini', desc:'Requires OpenAI key' }
 ];
 function currentModel(){ return MODELS.find(m => m.provider === S.settings.provider && m.id === S.settings.modelId) || MODELS[0]; }
 function applyModelUI(){ $('#modelName').textContent = currentModel().name; }
 function buildModelDropdown(){
   const dd = $('#modelDropdown'); dd.innerHTML = '';
-  const groups = { 'pollinations':'Nexus Cloud · Free', 'openai':'OpenAI · API key required', 'gemini':'Google Gemini · API key required' };
+  const groups = { 'gemini':'Google Gemini · API key required', 'pollinations':'Nexus Cloud · Free', 'openai':'OpenAI · API key required' };
   for(const [prov, label] of Object.entries(groups)){
     const h = document.createElement('div'); h.className = 'dd-label'; h.textContent = label; dd.appendChild(h);
     MODELS.filter(m => m.provider === prov).forEach(m => {
@@ -1336,7 +1337,7 @@ function buildModelDropdown(){
 }
 function selectModel(m){
   if(m.provider === 'openai' && !S.settings.keys.openai){ toast('Add OpenAI API key in Settings first.', 'err', 3500); return; }
-  if(m.provider === 'gemini' && !S.settings.keys.gemini){ toast('Add Gemini API key in Settings first.', 'err', 3500); return; }
+  if(m.provider === 'gemini' && !S.settings.keys.gemini){ toast('Add Gemini API key in Settings → API Keys tab.', 'err', 4000); return; }
   S.settings.provider = m.provider;
   S.settings.modelId = m.id;
   saveState();
@@ -1370,7 +1371,7 @@ function renderMarkdown(src){
   text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  text = text.replace(/(^|\s)\*(?!\s)(.+?)(?<!\s)\*(?=\s|$)/g, '$1<em>$2</em>');
   text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   text = text.replace(/^\s*[-*]\s+(.+)$/gm, '<li>$1</li>');
   text = text.replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g, '<ul>$1</ul>');
@@ -1438,7 +1439,7 @@ async function callOpenAICompat(messages, onDelta, signal){
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method:'POST',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer ' + key },
-    body: JSON.stringify({ model: S.settings.modelId, messages, stream:true }),
+    body: JSON.stringify({ model: S.settings.modelId, messages, stream:true, temperature: S.settings.temperature }),
     signal
   });
   if(!res.ok) throw new Error('OpenAI ' + res.status);
@@ -1448,16 +1449,33 @@ async function callOpenAICompat(messages, onDelta, signal){
 }
 async function callGemini(messages, onDelta, signal){
   const key = S.settings.keys.gemini;
+  if(!key) throw new Error('Gemini API key missing. Add in Settings → API Keys.');
   const model = S.settings.modelId || 'gemini-2.0-flash';
   const sys = messages.find(m => m.role === 'system');
   const contents = messages.filter(m => m.role !== 'system').map(m => ({
-    role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }]
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }]
   }));
-  const body = { contents, generationConfig:{ temperature: S.settings.temperature || 0.9 } };
+  const body = {
+    contents,
+    generationConfig: {
+      temperature: S.settings.temperature || 0.9,
+      maxOutputTokens: 8192
+    }
+  };
   if(sys) body.systemInstruction = { parts:[{ text: sys.content }] };
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`;
-  const res = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body), signal });
-  if(!res.ok) throw new Error('Gemini ' + res.status);
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body: JSON.stringify(body),
+    signal
+  });
+  if(!res.ok){
+    let errMsg = 'Gemini ' + res.status;
+    try{ const j = await res.json(); errMsg = j.error?.message || errMsg; }catch(e){}
+    throw new Error(errMsg);
+  }
   const reader = res.body.getReader();
   const dec = new TextDecoder();
   let buf = '', full = '';
@@ -1473,8 +1491,10 @@ async function callGemini(messages, onDelta, signal){
       if(!d || d === '[DONE]') continue;
       try{
         const j = JSON.parse(d);
-        const txt = j.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        if(txt){ full += txt; onDelta(txt); }
+        const parts = j.candidates?.[0]?.content?.parts || [];
+        for(const p of parts){
+          if(p.text){ full += p.text; onDelta(p.text); }
+        }
       }catch(e){}
     }
   }
@@ -1482,8 +1502,8 @@ async function callGemini(messages, onDelta, signal){
 }
 async function callAI(messages, onDelta, signal){
   const p = S.settings.provider;
-  if(p === 'openai' && S.settings.keys.openai) return callOpenAICompat(messages, onDelta, signal);
   if(p === 'gemini' && S.settings.keys.gemini) return callGemini(messages, onDelta, signal);
+  if(p === 'openai' && S.settings.keys.openai) return callOpenAICompat(messages, onDelta, signal);
   return callPollinations(messages, onDelta, signal);
 }
 
@@ -1533,16 +1553,17 @@ function renderCurrentChat(){
         <h1>Hi ${esc(name)}, how can I <em>help today</em>?</h1>
         <p>Ask anything, generate images, build games, create songs, or write full documents.</p>
         <div class="sugg-grid">
-          <div class="sugg" data-p="Explain quantum computing in simple terms"><div class="sugg-t"><i class="fa-solid fa-brain" style="color:#4285f4"></i> Explain concept</div><div class="sugg-d">Simple, clear answer</div></div>
-          <div class="sugg" data-p="Create a thumbnail image of a gaming setup with neon lights, 16:9"><div class="sugg-t"><i class="fa-solid fa-image" style="color:#9b72cb"></i> Make thumbnail</div><div class="sugg-d">YouTube-ready image</div></div>
-          <div class="sugg" data-p="Write a Python script to scrape news headlines"><div class="sugg-t"><i class="fa-solid fa-code" style="color:#d96570"></i> Write code</div><div class="sugg-d">Runnable + explained</div></div>
-          <div class="sugg" data-p="Draft a business proposal for a coffee shop"><div class="sugg-t"><i class="fa-solid fa-file-lines" style="color:#f2a600"></i> Draft document</div><div class="sugg-d">Professional tone</div></div>
+          <div class="sugg" data-p="Explain quantum computing in simple terms with examples"><div class="sugg-t"><i class="fa-solid fa-brain" style="color:#4285f4"></i> Explain concept</div><div class="sugg-d">Simple, clear answer</div></div>
+          <div class="sugg" data-p="Generate an image of a futuristic cyberpunk city at night with neon lights, cinematic, 16:9"><div class="sugg-t"><i class="fa-solid fa-image" style="color:#9b72cb"></i> Make image</div><div class="sugg-d">AI-generated artwork</div></div>
+          <div class="sugg" data-p="Write a Python script to scrape news headlines from a website and save to CSV"><div class="sugg-t"><i class="fa-solid fa-code" style="color:#d96570"></i> Write code</div><div class="sugg-d">Runnable + explained</div></div>
+          <div class="sugg" data-p="Draft a professional business proposal for a coffee shop in Mumbai"><div class="sugg-t"><i class="fa-solid fa-file-lines" style="color:#f2a600"></i> Draft document</div><div class="sugg-d">Professional tone</div></div>
         </div>
       </div>`;
     $$('#messages .sugg').forEach(el => el.addEventListener('click', () => {
       $('#promptInput').value = el.dataset.p;
       $('#promptInput').dispatchEvent(new Event('input'));
       $('#promptInput').focus();
+      setTimeout(() => { if(!isGenerating) handleSend(); }, 200);
     }));
     return;
   }
@@ -1574,7 +1595,7 @@ function renderMessage(m){
     m.imageUrls.forEach(url => {
       const card = document.createElement('div');
       card.className = 'img-card';
-      card.innerHTML = `<div class="img-loading"><div class="spinner"></div></div>`;
+      card.innerHTML = `<div class="img-loading"><div class="spinner"></div><span>Generating…</span></div>`;
       const img = new Image();
       img.onload = () => { card.innerHTML = `<img src="${url}" alt="generated">`; };
       img.onerror = () => { card.innerHTML = `<div class="img-loading"><i class="fa-solid fa-triangle-exclamation" style="color:#ea4335;font-size:1.5rem"></i><span>Failed</span></div>`; };
@@ -1639,7 +1660,7 @@ async function handleSend(){
 
   const lower = text.toLowerCase();
   const autoImage = S.settings.autoImage !== false;
-  const isImage = autoImage && (/\b(generate|create|draw|make|render|design|show)\b.*\b(image|picture|photo|thumbnail|art|poster|logo|banner)\b/.test(lower) || /\b(image|thumbnail)\s+(of|for|with)\b/.test(lower));
+  const isImage = autoImage && (/\b(generate|create|draw|make|render|design|show)\b.*\b(image|picture|photo|thumbnail|art|poster|logo|banner|wallpaper)\b/.test(lower) || /\b(image|thumbnail)\s+(of|for|with)\b/.test(lower));
   if(isImage && text.length < 500) await generateImageReply(text, time);
   else await generateTextReply(fullPrompt, time);
 }
@@ -1652,7 +1673,7 @@ async function generateTextReply(prompt, time){
   const messages = [];
   if(sys) messages.push({ role:'system', content: sys });
   const chat = myChats().find(c => c.id === activeChatId);
-  const hist = chat.messages.filter(m => !m.imageUrls && !m.error && m.text).slice(-8);
+  const hist = chat.messages.filter(m => !m.imageUrls && !m.error && m.text).slice(-10);
   hist.forEach(m => messages.push({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
   if(messages[messages.length-1]?.content !== prompt) messages.push({ role:'user', content: prompt });
   const placeholder = { sender:'ai', text:'', time };
@@ -1675,7 +1696,7 @@ async function generateTextReply(prompt, time){
     if(err.name === 'AbortError') placeholder.text = full + '\n\n*[stopped]*';
     else {
       placeholder.error = true;
-      placeholder.text = `⚠️ **Request failed:** ${err.message}\n\nTry a free model or add your API key in Settings.`;
+      placeholder.text = `⚠️ **Request failed:** ${err.message}\n\n**Solutions:**\n- Add your Gemini API key in Settings → API Keys (recommended)\n- Or switch to a free model from the model dropdown`;
       bubble.parentElement.classList.add('error');
       toast('Request failed', 'err');
     }
@@ -1695,7 +1716,6 @@ function speakText(text){
   const u = new SpeechSynthesisUtterance(clean);
   u.lang = S.settings.voiceLang || 'en-US';
   u.rate = parseFloat(S.settings.ttsSpeed) || 1.0;
-  u.pitch = parseFloat(S.settings.ttsPitch) || 1.0;
   speechSynthesis.speak(u);
 }
 
@@ -1704,10 +1724,18 @@ async function generateImageReply(prompt, time){
   setSendState('stop');
   const chat = myChats().find(c => c.id === activeChatId);
   const seed = Math.floor(Math.random() * 1e9);
-  const styleMap = { 'thumbnail': ', YouTube thumbnail style, bold text space, high contrast, vibrant, 16:9', 'logo': ', logo design, minimal, vector, clean', 'poster': ', movie poster style, dramatic, cinematic' };
-  let extra = '';
-  for(const [k,v] of Object.entries(styleMap)) if(prompt.toLowerCase().includes(k)) { extra = v; break; }
-  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + extra)}?width=1280&height=720&seed=${seed}&nologo=true&model=flux`;
+
+  let enhance = ', ultra detailed, high quality, professional composition, sharp focus, beautiful lighting, 4k';
+  const lowerPrompt = prompt.toLowerCase();
+  if(lowerPrompt.includes('thumbnail')) enhance = ', youtube thumbnail style, vibrant colors, high contrast, cinematic, 16:9, bold visual impact';
+  else if(lowerPrompt.includes('logo')) enhance = ', minimal logo design, clean vector style, professional branding, flat design';
+  else if(lowerPrompt.includes('poster')) enhance = ', movie poster style, dramatic cinematic composition, epic lighting, detailed';
+  else if(lowerPrompt.includes('anime')) enhance = ', anime style, studio ghibli inspired, cel shaded, beautiful detailed background';
+  else if(lowerPrompt.includes('realistic') || lowerPrompt.includes('photo')) enhance = ', photorealistic, dslr photography, natural lighting, 8k, extremely detailed';
+
+  const finalPrompt = prompt + enhance;
+  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1280&height=720&seed=${seed}&nologo=true&model=flux&enhance=true`;
+
   const msg = { sender:'ai', text: `Here's your image for:\n\n> ${prompt}`, time, imageUrls:[url] };
   chat.messages.push(msg);
   renderMessage(msg);
@@ -1815,7 +1843,7 @@ function startCheckout(planId){
   resetPaymentVerificationForm();
   $('#upiAmt').textContent = plan.price.toLocaleString('en-IN');
   $('#payBtn').disabled = false;
-  switchPayMethod('razorpay');
+  switchPayMethod('upi');
   renderUPIQR(plan.price);
   closeModal('upgradeModal');
   openModal('checkoutModal');
@@ -1826,7 +1854,7 @@ function switchPayMethod(method){
   $$('.pay-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === method));
 }
 function renderUPIQR(amountINR){
-  const params = new URLSearchParams({ pa: UPI_ID, pn: UPI_NAME, am: String(amountINR), cu: 'INR', tn: `Nexus AI Subscription - ₹${amountINR}` });
+  const params = new URLSearchParams({ pa: UPI_ID, pn: UPI_NAME, am: String(amountINR), cu: 'INR', tn: `Nexus AI Subscription` });
   const upiLink = 'upi://pay?' + params.toString();
   const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=' + encodeURIComponent(upiLink);
   $('#upiQrImg').src = qrUrl;
@@ -1856,7 +1884,7 @@ $('#paymentScreenshot')?.addEventListener('change', e => {
         <img src="${paymentScreenshotData}" alt="Payment screenshot" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--g-border)">
         <div style="font-size:.76rem;color:var(--g-text-2);min-width:0">
           <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(file.name)}</b>
-          <span>Screenshot ready for admin verification.</span>
+          <span>✅ Ready — will be emailed to admin with your submission.</span>
         </div>
       </div>`;
     }
@@ -1866,12 +1894,12 @@ $('#paymentScreenshot')?.addEventListener('change', e => {
 
 $('#checkoutTermsLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Terms & Conditions', `Subscription payments are reviewed before activation for manual UPI payments. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after the administrator confirms receipt of the payment. Fake, altered, duplicated, or misleading payment proof may be rejected. Plans, credits, duration and features are those displayed at checkout. Service availability is not guaranteed and generated content remains the user's responsibility.`);
+  showAboutDoc('Terms & Conditions', `Subscription payments are reviewed before activation for manual UPI payments. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after the administrator confirms receipt of the payment.`);
 });
 
 $('#checkoutPrivacyLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Privacy Policy', `For manual payment verification, Nexus AI stores the submitted transaction ID, plan, amount, account email and payment screenshot in the app's local state and may send those details to the configured administrator email through EmailJS for verification. Do not upload unrelated or sensitive documents. The payment screenshot is used only for payment verification and support. This single-file demo does not provide a secure server-side database.`);
+  showAboutDoc('Privacy Policy', `For manual payment verification, Nexus AI sends your submitted transaction ID, plan, amount, account email and payment screenshot to the configured administrator email for verification.`);
 });
 
 $('#copyUpiBtn')?.addEventListener('click', () => {
@@ -1881,14 +1909,7 @@ $('#copyUpiBtn')?.addEventListener('click', () => {
     setTimeout(() => $('#copyUpiBtn').innerHTML = '<i class="fa-solid fa-copy"></i> Copy', 2000);
   });
 });
-$$('.upi-app-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if(!pendingPlan) return;
-    window.location.href = $('#upiDeepLink').href;
-    toast('Opening UPI app...', 'info', 2200);
-  });
-});
+
 $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const txnId = $('#upiTxnId').value.trim();
   const terms = $('#paymentTerms')?.checked;
@@ -1911,14 +1932,10 @@ $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const btn = $('#upiSubmitBtn');
   btn.disabled = true;
   const original = btn.innerHTML;
-  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Sending for review...';
+  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Sending to admin email...';
 
   const u = currentUser();
-  if(!u){
-    btn.disabled = false;
-    btn.innerHTML = original;
-    return;
-  }
+  if(!u){ btn.disabled = false; btn.innerHTML = original; return; }
 
   S.pendingPayments = S.pendingPayments || [];
   const record = {
@@ -1951,10 +1968,10 @@ $('#upiSubmitBtn')?.addEventListener('click', async () => {
     `<b>Status:</b> <span style="color:#f59e0b">Pending admin verification</span><br>` +
     `<b>Reference ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px">${record.id}</code><br><br>` +
     (mail.sent
-      ? `The verification email with your screenshot has been sent to the administrator.<br><br><b>Subscription will NOT activate until the administrator approves it.</b>`
-      : `<span style="color:#d93025">Email notification could not be sent because EmailJS is not configured.</span><br><br><b>Use the admin panel to review this pending payment.</b>`);
+      ? `✅ Payment proof (screenshot + details) admin ke email pe bhej diya gaya hai.<br><br><b>Subscription tab activate hoga jab admin verify karke approve karega.</b>`
+      : `<span style="color:#d93025">⚠️ Email notification nahi bhej saka kyunki EmailJS config nahi hai.</span><br><br><b>Please admin panel se manually verify karo.</b>`);
 
-  toast(mail.sent ? 'Payment sent for manual verification' : 'Payment saved as pending; email is not configured', mail.sent ? 'ok' : 'warn', 5000);
+  toast(mail.sent ? '✅ Sent to admin email' : '⚠️ EmailJS send failed — check config', mail.sent ? 'ok' : 'warn', 5000);
   btn.disabled = false;
   btn.innerHTML = original;
 });
@@ -1980,15 +1997,13 @@ $('#payBtn')?.addEventListener('click', async () => {
     prefill: { name: currentUser()?.name || '', email: currentUser()?.email || '', contact: '' },
     theme: { color: '#1a73e8' },
     handler: async function(response){
-      btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Verifying...';
+      btn.innerHTML = 'Verifying...';
       try{
         let verified = false;
         if(PAYMENT_VERIFY_ENDPOINT){
           const res = await fetch(PAYMENT_VERIFY_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(response) });
           const data = await res.json();
           verified = data.verified === true;
-        } else {
-          verified = false;
         }
         if(verified){
           activateSubscription(pendingPlan, response.razorpay_payment_id);
@@ -2012,11 +2027,6 @@ $('#payBtn')?.addEventListener('click', async () => {
   };
   try{
     const rzp = new Razorpay(options);
-    rzp.on('payment.failed', function(resp){
-      toast('Payment failed: ' + (resp.error?.description || 'Unknown'), 'err', 5000);
-      btn.disabled = false;
-      btn.innerHTML = original;
-    });
     rzp.open();
   }catch(e){
     console.error(e);
@@ -2046,7 +2056,7 @@ function activateSubscription(plan, paymentId){
 }
 
 /* ============================================================
-   ADMIN
+   ADMIN PANEL
    ============================================================ */
 function checkAdminRoute(){
   const params = new URLSearchParams(window.location.search);
@@ -2062,7 +2072,7 @@ function showAdminPanel(){
   overlay.innerHTML = `
     <div class="modal wide" style="max-width:860px">
       <button class="modal-x" id="adminClose"><i class="fa-solid fa-xmark"></i></button>
-      <div class="modal-head"><h2>🛡️ Admin — Pending Verifications</h2><p>Open the payment screenshot, compare the UTR/transaction ID and amount with your bank/UPI statement, then click Approve only after you personally confirm receipt. <b>Approval is the only point that activates the plan.</b></p></div>
+      <div class="modal-head"><h2>🛡️ Admin — Pending Verifications</h2><p>Open the payment screenshot, compare the UTR/transaction ID and amount with your bank/UPI statement. Approve only after you personally confirm receipt.</p></div>
       <div id="adminList"></div>
     </div>`;
   document.body.appendChild(overlay);
@@ -2084,7 +2094,6 @@ function renderAdminList(){
             <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
               <b>Email:</b> ${esc(p.userEmail)}<br>
               <b>Transaction ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
-              <b>Terms accepted:</b> ${p.termsAccepted ? 'Yes' : 'No'}<br>
               <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}
               ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" alt="Payment screenshot" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
             </div>
@@ -2106,7 +2115,7 @@ function renderAdminList(){
 window.adminApprove = function(id){
   const rec = (S.pendingPayments || []).find(p => p.id === id);
   if(!rec) return;
-  if(!confirm(`Approve ₹${rec.amount} from ${rec.userEmail}?\n\nVerify in your bank/UPI app that you received this payment.`)) return;
+  if(!confirm(`Approve ₹${rec.amount} from ${rec.userEmail}?\n\n⚠️ Verify in your bank/UPI app that you received this payment.`)) return;
   rec.status = 'approved';
   rec.approvedAt = Date.now();
   const user = S.users.find(u => u.id === rec.userId);
@@ -2122,25 +2131,7 @@ window.adminApprove = function(id){
   }
   saveState();
   renderAdminList();
-
-  if(window.emailjs && EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_PAYMENT_TEMPLATE_ID){
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_PAYMENT_TEMPLATE_ID, {
-      admin_email: ADMIN_EMAIL,
-      to_email: rec.userEmail,
-      user_name: rec.userName,
-      user_email: rec.userEmail,
-      plan_name: rec.planName,
-      amount: rec.amount,
-      txn_id: rec.txnId,
-      reference_id: rec.id,
-      submitted_at: new Date(rec.submittedAt).toLocaleString('en-IN'),
-      screenshot_data: rec.screenshotData || '',
-      screenshot_name: rec.screenshotName || '',
-      approval_url: window.location.href.split('#')[0]
-    }).catch(err => console.warn('Approval email failed:', err));
-  }
-
-  alert('Approved. User plan activated in this browser.');
+  alert('✅ Approved! User plan activated.');
 };
 window.adminReject = function(id){
   const rec = (S.pendingPayments || []).find(p => p.id === id);
@@ -2153,7 +2144,7 @@ window.adminReject = function(id){
 };
 
 /* ============================================================
-   CREATOR STUDIO
+   STUDIO TOOLS
    ============================================================ */
 let activeTool = 'image';
 function openTools(){ openModal('toolsModal'); setTool('image'); }
@@ -2170,22 +2161,17 @@ function renderToolConfig(){
       <div class="field"><label>Describe your image</label><textarea id="toolPrompt" rows="3" placeholder="e.g. A futuristic city at sunset, cinematic lighting"></textarea></div>
       <div class="field"><label>Style</label><select id="toolStyle">
         <option value="">Auto</option>
-        <option value="anime, studio ghibli, cel shaded">Anime</option>
-        <option value="photorealistic, 8k, dslr, natural light">Photorealistic</option>
-        <option value="cartoon, pixar, 3d animated">Cartoon / Pixar</option>
-        <option value="cyberpunk, neon, blade runner">Cyberpunk</option>
-        <option value="minimalist, flat design, pastel">Minimalist</option>
-        <option value="3d render, octane, ray tracing">3D Render</option>
+        <option value="anime, studio ghibli, cel shaded, beautiful detailed">Anime</option>
+        <option value="photorealistic, 8k, dslr, natural light, ultra detailed">Photorealistic</option>
+        <option value="cartoon, pixar, 3d animated, vibrant colors">Cartoon / Pixar</option>
+        <option value="cyberpunk, neon, blade runner, cinematic">Cyberpunk</option>
+        <option value="minimalist, flat design, pastel colors">Minimalist</option>
+        <option value="3d render, octane, ray tracing, ultra detailed">3D Render</option>
       </select></div>
       <div class="field"><label>Aspect</label><select id="toolRatio">
         <option value="1:1">1:1</option><option value="16:9" selected>16:9 (YouTube)</option><option value="9:16">9:16 (Reels)</option>
       </select></div>
       <button class="btn-primary" id="toolRun"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate image</button>`,
-    video: `
-      <div class="field"><label>Video topic / script</label><textarea id="toolPrompt" rows="4" placeholder="e.g. A 15-second intro about space exploration"></textarea></div>
-      <div class="field"><label>Duration</label><select id="toolDuration"><option value="8">8 seconds</option><option value="15" selected>15 seconds</option><option value="30">30 seconds</option></select></div>
-      <button class="btn-primary" id="toolRun"><i class="fa-solid fa-film"></i> Create video</button>
-      <p style="font-size:.78rem;color:var(--g-text-3);margin-top:10px">Records a WebM video using canvas. Best with modern browser.</p>`,
     ppt: `
       <div class="field"><label>Presentation topic</label><textarea id="toolPrompt" rows="3" placeholder="e.g. Digital Marketing Strategy for 2025"></textarea></div>
       <div class="field"><label>Number of slides</label><select id="toolSlides"><option>6</option><option selected>8</option><option>10</option></select></div>
@@ -2197,47 +2183,9 @@ function renderToolConfig(){
     word: `
       <div class="field"><label>Document content</label><textarea id="toolPrompt" rows="5" placeholder="Content for your Word document"></textarea></div>
       <div class="field"><label>Title</label><input id="toolTitle" placeholder="Document title"></div>
-      <button class="btn-primary" id="toolRun"><i class="fa-solid fa-file-word"></i> Generate Word</button>`,
-    song: `
-      <div class="field"><label>Song idea / lyrics / mood</label><textarea id="toolPrompt" rows="3" placeholder="e.g. A happy birthday song in Hindi with guitar"></textarea></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-        <div class="field" style="margin:0"><label>Language</label><select id="songLang">
-          <option value="en-US">English</option><option value="hi-IN">Hindi</option><option value="es-ES">Spanish</option>
-          <option value="fr-FR">French</option><option value="de-DE">German</option><option value="ja-JP">Japanese</option>
-          <option value="ko-KR">Korean</option><option value="zh-CN">Chinese</option><option value="ar-SA">Arabic</option>
-        </select></div>
-        <div class="field" style="margin:0"><label>Duration</label><select id="songDur"><option value="8">8s</option><option value="15" selected>15s</option><option value="30">30s</option></select></div>
-      </div>
-      <div class="field"><label>Instruments</label>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px" id="instrumentPills">
-          <div class="instrument-pill active" data-inst="piano" style="padding:6px 12px;border:1px solid var(--g-border);border-radius:999px;background:var(--g-blue);color:#fff;font-size:.78rem;cursor:pointer">🎹 Piano</div>
-          <div class="instrument-pill" data-inst="guitar" style="padding:6px 12px;border:1px solid var(--g-border);border-radius:999px;background:var(--g-surface);font-size:.78rem;cursor:pointer">🎸 Guitar</div>
-          <div class="instrument-pill active" data-inst="bass" style="padding:6px 12px;border:1px solid var(--g-border);border-radius:999px;background:var(--g-blue);color:#fff;font-size:.78rem;cursor:pointer">🎵 Bass</div>
-          <div class="instrument-pill" data-inst="drums" style="padding:6px 12px;border:1px solid var(--g-border);border-radius:999px;background:var(--g-surface);font-size:.78rem;cursor:pointer">🥁 Drums</div>
-          <div class="instrument-pill active" data-inst="strings" style="padding:6px 12px;border:1px solid var(--g-border);border-radius:999px;background:var(--g-blue);color:#fff;font-size:.78rem;cursor:pointer">🎻 Strings</div>
-        </div>
-      </div>
-      <button class="btn-primary" id="toolRun"><i class="fa-solid fa-music"></i> Create song</button>
-      <p style="font-size:.78rem;color:var(--g-text-3);margin-top:10px">Web Audio API + Web Speech API. Voice quality depends on browser/OS.</p>`,
-    game: `
-      <div class="field"><label>Game concept</label><textarea id="toolPrompt" rows="3" placeholder="e.g. A 2D platformer where a cat collects fish"></textarea></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-        <div class="field" style="margin:0"><label>Type</label><select id="gameType"><option value="2D">2D</option><option value="3D">3D</option></select></div>
-        <div class="field" style="margin:0"><label>Genre</label><select id="gameGenre"><option>Platformer</option><option>Top-down shooter</option><option>Puzzle</option><option>Endless runner</option><option>RPG</option></select></div>
-      </div>
-      <button class="btn-primary" id="toolRun"><i class="fa-solid fa-gamepad"></i> Generate Unity project</button>
-      <p style="font-size:.78rem;color:var(--g-text-3);margin-top:10px">You'll receive a .zip with complete Unity project (C# scripts + scene).</p>`
+      <button class="btn-primary" id="toolRun"><i class="fa-solid fa-file-word"></i> Generate Word</button>`
   };
-  c.innerHTML = configs[activeTool] || '';
-  if(activeTool === 'song'){
-    $$('#instrumentPills .instrument-pill').forEach(p => {
-      p.addEventListener('click', () => {
-        p.classList.toggle('active');
-        p.style.background = p.classList.contains('active') ? 'var(--g-blue)' : 'var(--g-surface)';
-        p.style.color = p.classList.contains('active') ? '#fff' : 'inherit';
-      });
-    });
-  }
+  c.innerHTML = configs[activeTool] || `<p style="padding:20px;color:var(--g-text-3);text-align:center">This tool is coming soon. Use Image, PPT, PDF or Word generators.</p>`;
   $('#toolRun')?.addEventListener('click', runTool);
 }
 
@@ -2248,19 +2196,15 @@ async function runTool(){
   const costs = { image:2, video:5, ppt:3, pdf:2, word:2, song:5, game:10 };
   const cost = costs[activeTool] || 2;
   if(!spend(cost)){ toast('Not enough credits. Upgrade to continue.', 'warn', 4000); openModal('upgradeModal'); return; }
-  if((activeTool === 'video' || activeTool === 'song') && !info.video){ toast('This tool requires Basic plan or higher.', 'warn', 4000); openModal('upgradeModal'); return; }
-  if(activeTool === 'game' && !info.unity){ toast('Unity game generation requires Pro or Ultimate plan.', 'warn', 4000); openModal('upgradeModal'); return; }
   const out = $('#toolOutput');
   out.classList.remove('hide');
   out.innerHTML = `<div style="text-align:center;padding:30px"><div class="spinner" style="margin:0 auto 14px"></div><p style="color:var(--g-text-2)">Generating…</p></div>`;
   try{
     if(activeTool === 'image') await toolImage(prompt);
-    else if(activeTool === 'video') await toolVideo(prompt);
     else if(activeTool === 'ppt') await toolPPT(prompt);
     else if(activeTool === 'pdf') await toolPDF(prompt);
     else if(activeTool === 'word') await toolWord(prompt);
-    else if(activeTool === 'song') await toolSong(prompt);
-    else if(activeTool === 'game') await toolGame(prompt);
+    else throw new Error('Tool not available in this version.');
   }catch(e){
     console.error(e);
     out.innerHTML = `<div style="text-align:center;padding:20px;color:var(--g-error)">Error: ${esc(e.message)}</div>`;
@@ -2273,8 +2217,8 @@ async function toolImage(prompt){
   const ratio = $('#toolRatio').value;
   const dims = { '1:1':[1024,1024], '16:9':[1280,720], '9:16':[720,1280] }[ratio] || [1024,1024];
   const seed = Math.floor(Math.random() * 1e9);
-  const finalPrompt = prompt + (style ? ', ' + style : '');
-  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=${dims[0]}&height=${dims[1]}&seed=${seed}&nologo=true&model=flux`;
+  const finalPrompt = prompt + (style ? ', ' + style : '') + ', ultra detailed, high quality, professional';
+  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=${dims[0]}&height=${dims[1]}&seed=${seed}&nologo=true&model=flux&enhance=true`;
   const img = new Image();
   img.crossOrigin = 'anonymous';
   await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('Image load failed')); img.src = url; });
@@ -2282,88 +2226,6 @@ async function toolImage(prompt){
   myLibrary().unshift({ url, prompt, type:'image', time:Date.now() });
   saveState();
   toast('Image generated', 'ok');
-}
-
-async function toolVideo(prompt){
-  const dur = parseInt($('#toolDuration').value, 10);
-  const canvas = document.createElement('canvas');
-  canvas.width = 1280; canvas.height = 720;
-  const ctx = canvas.getContext('2d');
-  const lines = await fetchAIVideoScript(prompt, dur);
-  const stream = canvas.captureStream(30);
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const dest = audioCtx.createMediaStreamDestination();
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  gain.gain.value = 0.02;
-  osc.connect(gain).connect(dest);
-  osc.start();
-  dest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
-  const chunks = [];
-  const rec = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9,opus' });
-  rec.ondataavailable = e => { if(e.data.size) chunks.push(e.data); };
-  const stopped = new Promise(res => rec.onstop = res);
-  rec.start();
-  const start = Date.now();
-  const totalMs = dur * 1000;
-  const palette = ['#4285f4','#9b72cb','#d96570','#f2a600','#34a853'];
-  await new Promise(resolve => {
-    function frame(){
-      const t = (Date.now() - start) / totalMs;
-      if(t >= 1){ resolve(); return; }
-      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      const i1 = Math.floor(t * palette.length) % palette.length;
-      const i2 = (i1 + 1) % palette.length;
-      grad.addColorStop(0, palette[i1]); grad.addColorStop(1, palette[i2]);
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      for(let i = 0; i < 8; i++){
-        const angle = t * Math.PI * 2 + i * 0.8;
-        const r = 200 + Math.sin(t * 3 + i) * 80;
-        const x = canvas.width / 2 + Math.cos(angle) * r;
-        const y = canvas.height / 2 + Math.sin(angle) * r * 0.6;
-        ctx.beginPath(); ctx.arc(x, y, 40 + Math.sin(t * 4 + i) * 20, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${0.15 + Math.sin(t * 3 + i) * 0.1})`; ctx.fill();
-      }
-      const lineIdx = Math.min(lines.length - 1, Math.floor(t * lines.length));
-      const line = lines[lineIdx];
-      const localT = (t * lines.length) % 1;
-      const alpha = localT < 0.15 ? localT / 0.15 : localT > 0.85 ? (1 - localT) / 0.15 : 1;
-      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-      ctx.font = 'bold 62px "Google Sans", Roboto, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff';
-      ctx.shadowColor = 'rgba(0,0,0,0.4)'; ctx.shadowBlur = 20;
-      const maxWidth = canvas.width - 160;
-      const words = line.split(' '); const rows = []; let cur = '';
-      words.forEach(w => { const test = cur ? cur + ' ' + w : w; if(ctx.measureText(test).width > maxWidth && cur){ rows.push(cur); cur = w; } else cur = test; });
-      if(cur) rows.push(cur);
-      rows.forEach((row, i) => ctx.fillText(row, canvas.width/2, canvas.height/2 + (i - (rows.length-1)/2) * 80));
-      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
-      requestAnimationFrame(frame);
-    }
-    frame();
-  });
-  rec.stop(); osc.stop(); audioCtx.close();
-  await stopped;
-  const blob = new Blob(chunks, { type: 'video/webm' });
-  const url = URL.createObjectURL(blob);
-  const name = `nexus-video-${Date.now()}.webm`;
-  $('#toolOutput').innerHTML = `<div style="margin-top:16px"><video src="${url}" controls style="width:100%;border-radius:12px;background:#000"></video><div style="margin-top:12px;text-align:center"><button class="btn-primary" style="width:auto;padding:10px 20px" id="dlVid"><i class="fa-solid fa-download"></i> Download video</button></div></div>`;
-  $('#dlVid').addEventListener('click', () => downloadBlob(blob, name));
-  myLibrary().unshift({ url, prompt, type:'video', time:Date.now() });
-  saveState();
-  toast('Video created', 'ok');
-}
-
-async function fetchAIVideoScript(prompt, duration){
-  const msg = [
-    { role:'system', content: `You write short video scripts. Output ONLY ${Math.max(3, Math.ceil(duration/2))} short lines, one per line, no numbering, no extra text. Each line max 8 words.` },
-    { role:'user', content: `Video topic: ${prompt}. Duration: ${duration}s.` }
-  ];
-  let out = '';
-  try { await callAI(msg, d => out += d); } catch(e){}
-  const lines = out.split('\n').map(l => l.replace(/^[\d\.\-\*\s]+/, '').trim()).filter(Boolean).slice(0, Math.max(3, Math.ceil(duration/2)));
-  if(!lines.length) return [prompt, 'Made with Nexus AI', 'Subscribe for more'];
-  return lines;
 }
 
 async function toolPPT(prompt){
@@ -2447,103 +2309,6 @@ async function toolWord(prompt){
   toast('Word document generated', 'ok');
 }
 
-async function toolSong(prompt){
-  const lang = $('#songLang').value;
-  const dur = parseInt($('#songDur').value, 10);
-  const instruments = $$('#instrumentPills .instrument-pill.active').map(p => p.dataset.inst);
-  const lyricMsg = [
-    { role:'system', content: `You write song lyrics. Output ONLY lyrics text, ${dur <= 8 ? 3 : dur <= 15 ? 5 : 8} short lines, no headers, no tags. Language: ${lang.split('-')[0]}.` },
-    { role:'user', content: `Write a short song about: ${prompt}` }
-  ];
-  let lyrics = '';
-  try { await callAI(lyricMsg, d => lyrics += d); } catch(e){}
-  lyrics = lyrics.replace(/\[.*?\]/g, '').split('\n').map(l => l.trim()).filter(Boolean);
-  if(!lyrics.length) lyrics = [prompt];
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const dest = audioCtx.createMediaStreamDestination();
-  const masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.7;
-  masterGain.connect(dest); masterGain.connect(audioCtx.destination);
-  const chords = [[261.63, 329.63, 392.00], [392.00, 493.88, 587.33], [440.00, 523.25, 659.25], [349.23, 440.00, 523.25]];
-  const beat = dur / 4;
-  const notes = [];
-  chords.forEach((chord, ci) => chord.forEach(freq => notes.push({ freq, start: ci * beat, duration: beat, type: 'chord' })));
-  const melScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33];
-  for(let i = 0; i < dur * 2; i++){
-    const f = melScale[Math.floor(Math.random() * melScale.length)];
-    notes.push({ freq: f, start: i * 0.5, duration: 0.4, type: 'melody' });
-  }
-  const start = audioCtx.currentTime + 0.1;
-  function playInstrument(freq, t, dur, inst){
-    const osc = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    osc.connect(g).connect(masterGain);
-    if(inst === 'piano'){ osc.type = 'triangle'; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.2, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + dur); }
-    else if(inst === 'guitar'){ osc.type = 'sawtooth'; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.12, t + 0.005); g.gain.exponentialRampToValueAtTime(0.001, t + dur * 0.8); }
-    else if(inst === 'bass'){ osc.type = 'square'; osc.frequency.setValueAtTime(freq / 2, t); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.18, t + 0.01); g.gain.exponentialRampToValueAtTime(0.001, t + dur); }
-    else if(inst === 'strings'){ osc.type = 'sine'; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.1, t + 0.15); g.gain.linearRampToValueAtTime(0, t + dur); }
-    else if(inst === 'drums'){ osc.type = 'square'; osc.frequency.setValueAtTime(60, t); g.gain.setValueAtTime(0.3, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.15); }
-    osc.frequency.setValueAtTime(freq, t);
-    osc.start(t); osc.stop(t + dur + 0.1);
-  }
-  instruments.forEach(inst => {
-    if(inst === 'drums'){
-      for(let i = 0; i < dur * 2; i++) playInstrument(80, start + i * 0.5, 0.15, 'drums');
-    } else {
-      notes.filter(n => inst === 'piano' ? n.type === 'chord' : (inst === 'bass' ? true : n.type === 'melody' || n.type === 'chord')).forEach(n => playInstrument(n.freq, start + n.start, n.duration, inst));
-    }
-  });
-  const utterance = new SpeechSynthesisUtterance(lyrics.join('. '));
-  utterance.lang = lang; utterance.rate = 0.9;
-  const voices = speechSynthesis.getVoices();
-  const voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
-  if(voice) utterance.voice = voice;
-  const rec = new MediaRecorder(dest.stream);
-  const chunks = [];
-  rec.ondataavailable = e => { if(e.data.size) chunks.push(e.data); };
-  const stopped = new Promise(r => rec.onstop = r);
-  rec.start();
-  setTimeout(() => speechSynthesis.speak(utterance), 200);
-  await new Promise(r => setTimeout(r, dur * 1000 + 500));
-  rec.stop();
-  await stopped;
-  audioCtx.close();
-  const blob = new Blob(chunks, { type: 'audio/webm' });
-  const url = URL.createObjectURL(blob);
-  const name = `nexus-song-${Date.now()}.webm`;
-  $('#toolOutput').innerHTML = `<div style="margin-top:16px"><div style="background:var(--g-surface-2);border-radius:12px;padding:16px;margin-bottom:12px"><div style="font-weight:500;margin-bottom:8px"><i class="fa-solid fa-music" style="color:#9b72cb"></i> Lyrics</div><div style="font-size:.85rem;line-height:1.7;color:var(--g-text-2)">${lyrics.map(esc).join('<br>')}</div></div><audio src="${url}" controls style="width:100%"></audio><div style="margin-top:12px;text-align:center"><button class="btn-primary" style="width:auto;padding:10px 20px" id="dlSong"><i class="fa-solid fa-download"></i> Download song</button></div></div>`;
-  $('#dlSong').addEventListener('click', () => downloadBlob(blob, name));
-  toast('Song created', 'ok');
-}
-
-async function toolGame(prompt){
-  const type = $('#gameType').value;
-  const genre = $('#gameGenre').value;
-  const msg = [
-    { role:'system', content: `You write Unity ${type} ${genre} game scripts in C#. Output clean, complete C# code. Include comments.` },
-    { role:'user', content: `Write a main C# MonoBehaviour script (PlayerController) and a GameManager for: ${prompt}\n\nOutput ONLY code, no markdown.` }
-  ];
-  let code = '';
-  try { await callAI(msg, d => code += d); } catch(e){}
-  code = code.replace(/```[\s\S]*?\n?/g, '').trim();
-  const projectName = `Nexus${genre.replace(/\s+/g,'')}${type}`;
-  const files = {
-    'README.md': `# ${projectName}\n\nGenerated by Nexus AI\n\n## How to open:\n1. Install Unity Hub & Unity 2022 LTS\n2. Add project → select this folder\n3. Add PlayerController + GameManager to GameObjects\n4. Press Play\n\nGame: ${prompt}\nGenre: ${genre} · Type: ${type}\n`,
-    'Assets/Scripts/PlayerController.cs': code || `using UnityEngine;\npublic class PlayerController : MonoBehaviour {\n  public float speed = 5f;\n  void Update() {\n    float h = Input.GetAxis("Horizontal");\n    transform.Translate(h * speed * Time.deltaTime, 0, 0);\n  }\n}`,
-    'Assets/Scripts/GameManager.cs': `using UnityEngine;\nusing UnityEngine.UI;\npublic class GameManager : MonoBehaviour {\n  public static GameManager Instance;\n  public Text scoreText;\n  private int score = 0;\n  void Awake() { Instance = this; }\n  public void AddScore(int n) {\n    score += n;\n    if(scoreText) scoreText.text = "Score: " + score;\n  }\n}`,
-    'ProjectSettings/ProjectVersion.txt': `m_EditorVersion: 2022.3.0f1\n`,
-    '.gitignore': `[Ll]ibrary/\n[Tt]emp/\n[Oo]bj/\n[Bb]uild/\n*.csproj\n*.sln\n`
-  };
-  const zip = new JSZip();
-  const root = zip.folder(projectName);
-  for(const [path, content] of Object.entries(files)) root.file(path, content);
-  const blob = await zip.generateAsync({ type:'blob' });
-  const name = `${projectName}.zip`;
-  $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><i class="fa-solid fa-gamepad" style="font-size:3.5rem;color:#188038"></i><h3 style="margin:14px 0 8px;font-weight:500">Unity project ready</h3><p style="color:var(--g-text-2);margin-bottom:8px">${esc(projectName)} · ${type} ${genre}</p><p style="font-size:.82rem;color:var(--g-text-3);margin-bottom:16px">Extract → Open with Unity Hub</p><button class="btn-primary" style="width:auto;padding:12px 24px" id="dlGame"><i class="fa-solid fa-download"></i> Download .zip</button></div>`;
-  $('#dlGame').addEventListener('click', () => downloadBlob(blob, name));
-  toast('Unity project generated', 'ok');
-}
-
 function downloadBlob(blob, name){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2557,7 +2322,7 @@ function renderLibrary(){
   const lib = myLibrary();
   const c = $('#libContent');
   if(!lib.length){ c.innerHTML = `<p style="text-align:center;color:var(--g-text-3);padding:40px 20px">Nothing here yet. Create something from the Studio.</p>`; return; }
-  c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:60vh;overflow-y:auto">${lib.map(item => `<div style="border-radius:12px;overflow:hidden;border:1px solid var(--g-border);cursor:pointer;background:var(--g-surface-2)" onclick="window.open('${item.url}','_blank')">${item.type === 'video' ? `<video src="${item.url}" style="width:100%;aspect-ratio:1;object-fit:cover"></video>` : `<img src="${item.url}" style="width:100%;aspect-ratio:1;object-fit:cover">`}<div style="padding:8px;font-size:.72rem;color:var(--g-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(item.prompt)}</div></div>`).join('')}</div>`;
+  c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;max-height:60vh;overflow-y:auto">${lib.map(item => `<div style="border-radius:12px;overflow:hidden;border:1px solid var(--g-border);cursor:pointer;background:var(--g-surface-2)" onclick="window.open('${item.url}','_blank')"><img src="${item.url}" style="width:100%;aspect-ratio:1;object-fit:cover" onerror="this.style.display='none'"><div style="padding:8px;font-size:.72rem;color:var(--g-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(item.prompt)}</div></div>`).join('')}</div>`;
 }
 
 /* ============================================================
@@ -2629,9 +2394,7 @@ $('#submitReview')?.addEventListener('click', () => {
 /* ============================================================
    SETTINGS
    ============================================================ */
-function segSet(id, val){
-  $$(`#${id} .seg-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === val));
-}
+function segSet(id, val){ $$(`#${id} .seg-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === val)); }
 function segGet(id){
   const active = $(`#${id} .seg-btn.active`);
   return active ? active.dataset.val : null;
@@ -2640,7 +2403,6 @@ function openSettings(){
   const s = S.settings;
   segSet('segTheme', s.theme === 'auto' ? 'auto' : (s.theme === 'dark' ? 'dark' : 'light'));
   segSet('segFont', s.fontSize);
-  segSet('segLength', s.responseLength);
   $('#setLanguage').value = s.language || 'en';
   $('#swCompact').classList.toggle('on', s.compact);
   $('#swAnimations').classList.toggle('on', s.animations !== false);
@@ -2656,12 +2418,9 @@ function openSettings(){
   $('#swTTS').classList.toggle('on', s.tts);
   $('#ttsSpeed').value = s.ttsSpeed || 1;
   $('#ttsSpeedVal').textContent = parseFloat(s.ttsSpeed || 1).toFixed(1) + 'x';
-  $('#ttsPitch').value = s.ttsPitch || 1;
-  $('#ttsPitchVal').textContent = parseFloat(s.ttsPitch || 1).toFixed(1);
   $('#keyOpenAI').value = s.keys.openai || '';
   $('#keyGemini').value = s.keys.gemini || '';
   updateStorageUsage();
-  // Reset tabs to General
   $$('.settings-tab').forEach(t => t.classList.remove('active'));
   $$('.settings-pane').forEach(p => p.classList.remove('active'));
   $('.settings-tab[data-stab="general"]').classList.add('active');
@@ -2682,11 +2441,9 @@ function saveSettingsUI(){
     streaming: $('#swStreaming').classList.contains('on'),
     autoSave: $('#swAutoSave').classList.contains('on'),
     autoImage: $('#swAutoImage').classList.contains('on'),
-    responseLength: segGet('segLength') || 'medium',
     voiceLang: $('#voiceLang').value,
     tts: $('#swTTS').classList.contains('on'),
     ttsSpeed: parseFloat($('#ttsSpeed').value) || 1.0,
-    ttsPitch: parseFloat($('#ttsPitch').value) || 1.0,
     keys: {
       openai: $('#keyOpenAI').value.trim(),
       gemini: $('#keyGemini').value.trim()
@@ -2727,7 +2484,7 @@ function bindSettings(){
       if(tab.dataset.stab === 'data') updateStorageUsage();
     });
   });
-  ['segTheme','segFont','segLength'].forEach(id => {
+  ['segTheme','segFont'].forEach(id => {
     $$(`#${id} .seg-btn`).forEach(btn => {
       btn.addEventListener('click', () => {
         $$(`#${id} .seg-btn`).forEach(b => b.classList.remove('active'));
@@ -2761,14 +2518,12 @@ function bindSettings(){
   });
   $('#tempRange')?.addEventListener('input', e => { $('#tempVal').textContent = parseFloat(e.target.value).toFixed(1); });
   $('#ttsSpeed')?.addEventListener('input', e => { $('#ttsSpeedVal').textContent = parseFloat(e.target.value).toFixed(1) + 'x'; });
-  $('#ttsPitch')?.addEventListener('input', e => { $('#ttsPitchVal').textContent = parseFloat(e.target.value).toFixed(1); });
   $('#testVoice')?.addEventListener('click', () => {
     if(!('speechSynthesis' in window)){ toast('TTS not supported', 'err'); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance('Hello! This is Nexus AI speaking. Your voice settings are working perfectly.');
     u.lang = $('#voiceLang').value;
     u.rate = parseFloat($('#ttsSpeed').value);
-    u.pitch = parseFloat($('#ttsPitch').value);
     speechSynthesis.speak(u);
     toast('Speaking...', 'info', 1500);
   });
@@ -2780,17 +2535,17 @@ function bindSettings(){
     try{
       if(oKey){
         const r = await fetch('https://api.openai.com/v1/models', { headers:{ 'Authorization':'Bearer ' + oKey } });
-        if(r.ok) toast('✓ OpenAI key valid', 'ok'); else toast('✗ OpenAI key invalid', 'err');
+        toast(r.ok ? '✓ OpenAI key valid' : '✗ OpenAI key invalid', r.ok ? 'ok' : 'err');
       }
       if(gKey){
         const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${gKey}`);
-        if(r.ok) toast('✓ Gemini key valid', 'ok'); else toast('✗ Gemini key invalid', 'err');
+        toast(r.ok ? '✓ Gemini key valid' : '✗ Gemini key invalid', r.ok ? 'ok' : 'err');
       }
     }catch(e){ toast('Network error', 'err'); }
   });
   $('#saveSettings')?.addEventListener('click', saveSettingsUI);
   $('#exportAllBtn')?.addEventListener('click', () => {
-    const data = { version:'2.0', exportedAt: Date.now(), users: S.users.map(u => ({ ...u, passHash: 'REDACTED' })), chats: S.chats, library: S.library, reviews: S.reviews, settings: S.settings, pendingPayments: S.pendingPayments };
+    const data = { version:'3.0', exportedAt: Date.now(), users: S.users.map(u => ({ ...u, passHash: 'REDACTED' })), chats: S.chats, library: S.library, reviews: S.reviews, settings: S.settings };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -2852,22 +2607,20 @@ function bindSettings(){
   });
   $('#aboutContact')?.addEventListener('click', () => { closeModal('settingsModal'); openModal('contactModal'); });
   $('#aboutReviews')?.addEventListener('click', () => { closeModal('settingsModal'); renderReviews(); openModal('reviewsModal'); });
-  $('#aboutTerms')?.addEventListener('click', () => showAboutDoc('Terms of Service', `By using Nexus AI you agree to use it responsibly and legally. All content you generate is your responsibility. We provide the service "as is" without warranties. Do not use it to create harmful, illegal, or misleading content.`));
-  $('#aboutPrivacy')?.addEventListener('click', () => showAboutDoc('Privacy Policy', `Your data never leaves your device. All chats, images, and settings are stored locally in your browser's localStorage. We do not collect, transmit, or sell any personal data. API keys you enter are used only to call their respective services directly from your browser.`));
-  $('#aboutShortcuts')?.addEventListener('click', () => showAboutDoc('Keyboard Shortcuts', `Ctrl + K — New chat\nCtrl + J — Toggle theme\nCtrl + , — Open settings\nCtrl + / — Focus input\nEnter — Send message\nShift + Enter — New line\nEsc — Close modals`));
-  $('#aboutWhatsNew')?.addEventListener('click', () => showAboutDoc("What's New in v2.0", `✨ Creator Studio with 7 tools\n✨ Unity 2D/3D game projects\n✨ AI Song generation (9 languages)\n✨ Real Razorpay + UPI Direct payments\n✨ Reviews & Ratings system\n✨ Contact Us support\n✨ Extended Settings panel (6 tabs)\n✨ Pinned chats\n✨ Storage usage tracker\n✨ Export/Import backup\n✨ Voice pitch & speed controls\n✨ Compact & animation modes`));
+  $('#aboutTerms')?.addEventListener('click', () => showAboutDoc('Terms of Service', `By using Nexus AI you agree to use it responsibly and legally. All content you generate is your responsibility.`));
+  $('#aboutPrivacy')?.addEventListener('click', () => showAboutDoc('Privacy Policy', `Your data stays in your browser. Payment verification data is sent to the admin email for approval.`));
+  $('#aboutShortcuts')?.addEventListener('click', () => showAboutDoc('Keyboard Shortcuts', `Ctrl + K — New chat\nCtrl + J — Toggle theme\nCtrl + , — Open settings\nEnter — Send message\nShift + Enter — New line\nEsc — Close modals`));
 }
 function showAboutDoc(title, text){ alert(`📄 ${title}\n\n${text}`); }
 
 $('#authTermsLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated only according to the payment verification flow shown at checkout. Manual UPI payments require truthful transaction information and genuine payment proof. Fake, altered, duplicated, or misleading payment proof may be rejected. You are responsible for content generated or used through the service.`);
+  showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated only according to the payment verification flow shown at checkout.`);
 });
-
 $('#authPrivacyLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, settings and payment-verification information in browser localStorage in this single-file version. For manual payment verification, transaction details and the uploaded payment screenshot may be sent to the configured administrator email through EmailJS. Do not upload unrelated sensitive documents. This version does not provide secure server-side storage.`);
-} )
+  showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, and settings information in browser localStorage. For manual payment verification, transaction details and payment screenshot are sent to the administrator email.`);
+});
 
 /* ============================================================
    VOICE INPUT
