@@ -18,14 +18,13 @@
 
 <style>
 :root{
-  --g-blue:#4285f4;--g-blue-d:#1a73e8;
-  --g-purple:#9b72cb;--g-pink:#d96570;
+  --g-blue:#1a73e8;--g-blue-d:#1557b0;
   --g-surface:#fff;--g-surface-2:#f0f4f9;--g-surface-3:#e9eef6;--g-sidebar:#f0f4f9;
   --g-text:#1f1f1f;--g-text-2:#444746;--g-text-3:#5f6368;
   --g-border:#dadce0;--g-border-2:#c4c7c5;--g-hover:#e8f0fe;
   --g-error:#d93025;--g-success:#188038;--g-warn:#f59e0b;
-  --g-grad:linear-gradient(90deg,#4285f4 0%,#9b72cb 40%,#d96570 75%,#f2a600 100%);
-  --g-grad-gem:linear-gradient(135deg,#4285f4 0%,#9b72cb 50%,#d96570 100%);
+  --g-grad:linear-gradient(90deg,#4285f4 0%,#9b72cb 35%,#d96570 70%,#f2a600 100%);
+  --g-grad-nexus:linear-gradient(135deg,#1a73e8 0%,#9b72cb 50%,#d96570 100%);
   --g-grad-soft:linear-gradient(135deg,#e8f0fe,#f3e8fd,#fde8ec);
   --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-2xl:28px;
   --shadow-1:0 1px 3px rgba(60,64,67,.15);
@@ -48,8 +47,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 ::-webkit-scrollbar-thumb:hover{background:var(--g-border-2)}
 .hide{display:none!important}
 
-.gem-logo{display:inline-block;line-height:0}
-.gem-logo svg{display:block}
+.nx-logo{display:inline-block;line-height:0}
+.nx-logo svg{display:block}
 
 /* AUTH */
 .auth-screen{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--g-surface);overflow-y:auto}
@@ -66,12 +65,12 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--g-border)}
 .tabs{display:flex;border-bottom:1px solid var(--g-border);margin-bottom:22px}
 .tab{flex:1;padding:12px;background:transparent;border:none;color:var(--g-text-3);font-weight:500;font-size:.92rem;cursor:pointer;position:relative}
-.tab.active{color:var(--g-blue-d)}
-.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--g-blue-d);border-radius:2px 2px 0 0}
+.tab.active{color:var(--g-blue)}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--g-blue);border-radius:2px 2px 0 0}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:.8rem;font-weight:500;color:var(--g-text-2);margin-bottom:6px}
 .field input,.field textarea,.field select{width:100%;padding:13px 15px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);color:var(--g-text);font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--g-blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--g-blue);box-shadow:0 0 0 3px rgba(26,115,232,.12)}
 .field small{display:block;font-size:.72rem;color:var(--g-text-3);margin-top:5px}
 .pass-wrap{position:relative}
 .pass-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--g-text-3);cursor:pointer;padding:8px;font-size:.9rem}
@@ -81,20 +80,20 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .pass-strength-fill.medium{background:#f9ab00;width:66%}
 .pass-strength-fill.strong{background:#188038;width:100%}
 .auth-error{color:var(--g-error);font-size:.82rem;min-height:20px;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px}
-.btn-primary{width:100%;padding:13px;border:none;border-radius:var(--r-sm);background:var(--g-grad-gem);color:#fff;font-weight:500;font-size:.95rem;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-1);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary:hover{filter:brightness(.94);box-shadow:var(--shadow-2)}
+.btn-primary{width:100%;padding:13px;border:none;border-radius:var(--r-sm);background:var(--g-blue);color:#fff;font-weight:500;font-size:.95rem;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-1);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:var(--g-blue-d);box-shadow:var(--shadow-2)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-ghost{width:100%;padding:12px;margin-top:10px;background:transparent;border:1px solid var(--g-border);border-radius:var(--r-sm);color:var(--g-text-2);font-weight:500;font-size:.9rem;cursor:pointer;transition:all .2s}
 .btn-ghost:hover{background:var(--g-surface-2);border-color:var(--g-border-2)}
 .auth-foot{margin-top:22px;text-align:center;font-size:.75rem;color:var(--g-text-3);line-height:1.6}
-.auth-foot a{color:var(--g-blue-d);text-decoration:none}
+.auth-foot a{color:var(--g-blue);text-decoration:none}
 
 /* APP */
 .app{display:flex;height:100vh;width:100%;background:var(--g-surface)}
 .sidebar{width:280px;flex-shrink:0;background:var(--g-sidebar);display:flex;flex-direction:column;transition:transform .3s}
 .sb-head{padding:16px 14px 10px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:1.1rem;color:var(--g-text-2)}
-.brand-mark{width:28px;height:28px;border-radius:8px;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem}
+.brand-mark{width:28px;height:28px;border-radius:8px;background:var(--g-grad-nexus);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem}
 .sb-new{padding:0 12px 12px}
 .new-chat{width:100%;padding:11px 16px;border:none;border-radius:999px;background:var(--g-surface);color:var(--g-text);font-weight:500;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;box-shadow:var(--shadow-1)}
 .new-chat:hover{background:var(--g-hover);box-shadow:var(--shadow-2)}
@@ -125,7 +124,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .plan-btn{width:100%;padding:9px;margin-top:10px;border-radius:var(--r-sm);background:var(--g-blue);color:#fff;border:none;font-size:.82rem;font-weight:500;cursor:pointer}
 .user-bar{display:flex;align-items:center;gap:8px;padding:6px;border-radius:var(--r-sm)}
 .user-bar:hover{background:var(--g-hover)}
-.avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500;font-size:.85rem;overflow:hidden}
+.avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--g-grad-nexus);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500;font-size:.85rem;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .user-meta{flex:1;min-width:0}
 .user-name{font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -137,27 +136,28 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .topbar{height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:12px}
 .top-left{display:flex;align-items:center;gap:10px;min-width:0}
 #menuBtn{display:none}
-.model-chip{display:flex;align-items:center;gap:8px;background:var(--g-surface-2);border:1px solid var(--g-border);padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;max-width:240px}
+.model-chip{display:flex;align-items:center;gap:8px;background:var(--g-surface-2);border:1px solid var(--g-border);padding:8px 14px;border-radius:999px;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;max-width:280px}
 .model-chip:hover{background:var(--g-surface-3)}
 .model-chip .mb-name{overflow:hidden;text-overflow:ellipsis}
 .model-chip .fa-chevron-down{font-size:.65rem;color:var(--g-text-3);transition:transform .25s}
 .model-chip.open .fa-chevron-down{transform:rotate(180deg)}
-.dropdown{position:absolute;top:58px;left:16px;width:340px;max-height:70vh;overflow-y:auto;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-lg);box-shadow:var(--shadow-3);padding:8px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s}
+.dropdown{position:absolute;top:58px;left:16px;width:380px;max-height:70vh;overflow-y:auto;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-lg);box-shadow:var(--shadow-3);padding:8px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s}
 .dropdown.show{opacity:1;visibility:visible;transform:translateY(0)}
 .dd-label{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--g-text-3);font-weight:500;padding:10px 10px 6px}
 .dd-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--r-sm);cursor:pointer;transition:background .15s}
 .dd-item:hover{background:var(--g-surface-2)}
 .dd-item.sel{background:var(--g-hover)}
-.dd-ic{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:var(--g-surface-2);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--g-blue-d)}
-.dd-item.sel .dd-ic{background:var(--g-grad-gem);color:#fff}
+.dd-ic{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:var(--g-surface-2);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--g-blue)}
+.dd-item.sel .dd-ic{background:var(--g-blue);color:#fff}
 .dd-txt{flex:1;min-width:0}
-.dd-name{font-size:.87rem;font-weight:500}
-.dd-desc{font-size:.72rem;color:var(--g-text-3)}
+.dd-name{font-size:.87rem;font-weight:500;display:flex;align-items:center;gap:6px}
+.dd-badge{font-size:.6rem;font-weight:500;padding:2px 6px;border-radius:4px;background:var(--g-grad-nexus);color:#fff}
+.dd-desc{font-size:.72rem;color:var(--g-text-3);margin-top:2px}
 .top-right{display:flex;align-items:center;gap:6px}
 .btn-sm{display:flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--g-border);padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .15s;color:var(--g-text-2);white-space:nowrap}
 .btn-sm:hover{background:var(--g-surface-2);color:var(--g-text)}
-.btn-sm.primary{background:var(--g-grad-gem);color:#fff;border-color:transparent}
-.btn-sm.primary:hover{filter:brightness(.94)}
+.btn-sm.primary{background:var(--g-blue);color:#fff;border-color:var(--g-blue)}
+.btn-sm.primary:hover{background:var(--g-blue-d)}
 .btn-sm.icon-only{padding:8px 10px}
 
 .messages{flex:1;overflow-y:auto;padding:20px 0;display:flex;flex-direction:column;gap:16px}
@@ -172,19 +172,19 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .msg-body{max-width:min(80%,740px);display:flex;flex-direction:column;gap:6px;min-width:0}
 .msg-row.user .msg-body{align-items:flex-end}
 .bubble{padding:12px 16px;border-radius:var(--r-lg);font-size:.95rem;line-height:1.65;word-wrap:break-word;overflow-wrap:anywhere}
-.msg-row.ai .bubble{background:transparent;color:var(--g-text);padding-left:0;padding-right:0}
-.msg-row.user .bubble{background:var(--g-surface-2);color:var(--g-text);border-top-right-radius:4px}
-.msg-row.error .bubble{background:rgba(217,48,37,.1);border:1px solid rgba(217,48,37,.3);padding:12px 16px;border-radius:var(--r-lg)}
+.msg-row.ai .bubble{background:var(--g-surface-2);color:var(--g-text);border-top-left-radius:4px}
+.msg-row.user .bubble{background:var(--g-blue);color:#fff;border-top-right-radius:4px}
+.msg-row.error .bubble{background:rgba(217,48,37,.1);border:1px solid rgba(217,48,37,.3)}
 .msg-meta{display:flex;gap:8px;font-size:.7rem;color:var(--g-text-3);padding:0 6px;flex-wrap:wrap;align-items:center}
 .msg-act{background:transparent;border:none;color:var(--g-text-3);cursor:pointer;padding:3px 6px;border-radius:5px;font-size:.72rem}
-.msg-act:hover{color:var(--g-blue-d);background:var(--g-surface-2)}
+.msg-act:hover{color:var(--g-blue);background:var(--g-surface-2)}
 .bubble p{margin:0 0 8px}
 .bubble p:last-child{margin:0}
 .bubble h1,.bubble h2,.bubble h3,.bubble h4{margin:12px 0 6px;font-weight:500;line-height:1.3}
 .bubble h1{font-size:1.3rem}.bubble h2{font-size:1.1rem}.bubble h3{font-size:1rem}
 .bubble ul,.bubble ol{margin:6px 0 10px;padding-left:22px}
 .bubble li{margin-bottom:4px}
-.bubble a{color:var(--g-blue-d);text-decoration:underline}
+.bubble a{color:var(--g-blue);text-decoration:underline}
 .bubble code:not(pre code){font-family:'Roboto Mono',monospace;font-size:.85em;background:var(--g-surface-3);padding:2px 6px;border-radius:4px}
 .msg-row.user .bubble code:not(pre code){background:rgba(255,255,255,.2)}
 .code-block{background:#202124;border-radius:var(--r-md);margin:10px 0;overflow:hidden;border:1px solid #3c4043}
@@ -209,7 +209,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 
 .welcome{margin:auto;max-width:760px;padding:24px;text-align:center;animation:msgIn .4s}
 .welcome-logo{margin-bottom:18px;display:inline-block}
-.welcome h1{font-size:2.2rem;font-weight:500;letter-spacing:-1px;margin-bottom:12px;line-height:1.25;background:var(--g-grad-gem);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.welcome h1{font-size:2rem;font-weight:500;letter-spacing:-1px;margin-bottom:12px;line-height:1.25}
+.welcome h1 em{font-style:normal;background:var(--g-grad-nexus);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .welcome p{color:var(--g-text-2);font-size:.95rem;line-height:1.6;margin-bottom:24px}
 .sugg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .sugg{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:14px;text-align:left;cursor:pointer;transition:all .2s}
@@ -226,15 +227,18 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .composer textarea{width:100%;background:transparent;border:none;outline:none;color:var(--g-text);font-size:.98rem;resize:none;min-height:26px;max-height:180px;line-height:1.55}
 .composer textarea::placeholder{color:var(--g-text-3)}
 .comp-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
-.comp-left{display:flex;gap:4px;flex-wrap:wrap}
+.comp-left{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 .tool-btn{background:transparent;border:none;color:var(--g-text-2);cursor:pointer;padding:8px;border-radius:50%;font-size:1rem;transition:background .15s;display:flex;align-items:center;justify-content:center}
 .tool-btn:hover{background:var(--g-surface-3)}
 .tool-btn.rec{color:var(--g-error);animation:pulse 1.2s infinite}
 @keyframes pulse{50%{opacity:.5}}
+.mode-chip{display:inline-flex;align-items:center;gap:5px;background:var(--g-surface-3);border:1px solid var(--g-border);padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:500;cursor:pointer;transition:all .15s;color:var(--g-text-2)}
+.mode-chip:hover{background:var(--g-hover)}
+.mode-chip.active{background:var(--g-blue);color:#fff;border-color:var(--g-blue)}
 .comp-right{display:flex;align-items:center;gap:10px}
 .char-count{font-size:.7rem;color:var(--g-text-3)}
-.send-btn{width:38px;height:38px;border-radius:50%;background:var(--g-grad-gem);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
-.send-btn:hover:not(:disabled){filter:brightness(.94);transform:scale(1.05)}
+.send-btn{width:38px;height:38px;border-radius:50%;background:var(--g-blue);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
+.send-btn:hover:not(:disabled){background:var(--g-blue-d);transform:scale(1.05)}
 .send-btn:disabled{background:var(--g-surface-3);color:var(--g-text-3);cursor:not-allowed}
 .send-btn.stop{background:var(--g-error)}
 .disclaimer{text-align:center;font-size:.7rem;color:var(--g-text-3);margin-top:10px}
@@ -243,7 +247,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .tool-card{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s}
 .tool-card:hover{border-color:var(--g-blue);transform:translateY(-2px)}
 .tool-card.active{border-color:var(--g-blue);background:var(--g-hover)}
-.tool-card .tc-icon{width:44px;height:44px;border-radius:12px;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;margin:0 auto 10px}
+.tool-card .tc-icon{width:44px;height:44px;border-radius:12px;background:var(--g-grad-nexus);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;margin:0 auto 10px}
 .tool-card .tc-name{font-weight:500;font-size:.86rem;margin-bottom:3px}
 .tool-card .tc-desc{font-size:.7rem;color:var(--g-text-3)}
 
@@ -259,21 +263,31 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .modal-head h2{font-size:1.4rem;font-weight:500;letter-spacing:-.3px;margin-bottom:6px}
 .modal-head p{color:var(--g-text-2);font-size:.9rem;line-height:1.55}
 
-.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px}
 @media (min-width:900px){.plans{grid-template-columns:repeat(4,1fr)}}
-.plan{border:1px solid var(--g-border);border-radius:var(--r-lg);padding:20px 16px;background:var(--g-surface-2);position:relative;transition:all .2s;display:flex;flex-direction:column;gap:12px}
+.plan{border:1px solid var(--g-border);border-radius:var(--r-lg);padding:22px 18px;background:var(--g-surface-2);position:relative;transition:all .2s;display:flex;flex-direction:column;gap:14px}
 .plan:hover{border-color:var(--g-border-2);transform:translateY(-2px)}
 .plan.featured{border-color:var(--g-blue);background:var(--g-hover);box-shadow:0 0 0 2px var(--g-blue)}
-.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g-grad-gem);color:#fff;font-size:.65rem;font-weight:500;padding:4px 12px;border-radius:999px;white-space:nowrap}
-.plan h3{font-size:1rem;font-weight:500;display:flex;align-items:center;gap:6px}
-.plan .price{font-size:1.9rem;font-weight:500;letter-spacing:-1px;line-height:1}
+.plan.ultra{border-color:#9b72cb;background:linear-gradient(135deg,rgba(155,114,203,.08),rgba(217,101,112,.06))}
+.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g-blue);color:#fff;font-size:.65rem;font-weight:500;padding:4px 12px;border-radius:999px;white-space:nowrap}
+.plan.ultra .plan-badge{background:var(--g-grad-nexus)}
+.plan h3{font-size:1.05rem;font-weight:500;display:flex;align-items:center;gap:6px}
+.plan .price{font-size:2rem;font-weight:500;letter-spacing:-1px;line-height:1}
 .plan .price small{font-size:.75rem;font-weight:400;color:var(--g-text-3)}
-.plan .price-inr{font-size:.78rem;color:var(--g-text-3)}
+.plan .price-inr{font-size:.78rem;color:var(--g-text-3);line-height:1.4}
 .plan ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:.78rem;color:var(--g-text-2);flex:1}
 .plan ul li{display:flex;gap:8px;align-items:flex-start;line-height:1.4}
 .plan ul li i{color:var(--g-success);font-size:.72rem;margin-top:4px;flex-shrink:0}
 .plan ul li.off{opacity:.4}
 .plan ul li.off i{color:var(--g-text-3)}
+.plan .divider-line{height:1px;background:var(--g-border);margin:4px 0}
+
+.compare-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
+.compare-table th,.compare-table td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--g-border)}
+.compare-table th{font-weight:500;color:var(--g-text-2);font-size:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.compare-table td:not(:first-child){text-align:center}
+.compare-table .yes{color:var(--g-success);font-weight:500}
+.compare-table .no{color:var(--g-text-3)}
 
 .pay-tabs{display:flex;gap:6px;background:var(--g-surface-2);padding:4px;border-radius:var(--r-sm);margin-bottom:18px}
 .pay-tab{flex:1;padding:10px;border:none;background:transparent;color:var(--g-text-2);font-weight:500;font-size:.85rem;border-radius:6px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
@@ -281,7 +295,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .pay-pane{display:none}
 .pay-pane.active{display:block}
 .secure-badge{background:var(--g-hover);border:1px solid var(--g-blue);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;color:var(--g-text);margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
-.secure-badge i{color:var(--g-blue-d);margin-top:2px}
+.secure-badge i{color:var(--g-blue);margin-top:2px}
 .pay-success{text-align:center;padding:20px 12px;display:none}
 .pay-success.show{display:block;animation:msgIn .4s}
 .pay-success i{font-size:3.5rem;color:var(--g-success);margin-bottom:14px}
@@ -290,7 +304,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 
 .review-card{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:14px;margin-bottom:10px}
 .review-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.review-av{width:36px;height:36px;border-radius:50%;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500}
+.review-av{width:36px;height:36px;border-radius:50%;background:var(--g-grad-nexus);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500}
 .review-name{font-weight:500;font-size:.88rem}
 .review-date{font-size:.72rem;color:var(--g-text-3)}
 .review-stars{color:#f59e0b;font-size:.85rem;margin-left:auto}
@@ -310,8 +324,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .settings-tabs{display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;border-bottom:1px solid var(--g-border)}
 .settings-tab{padding:10px 16px;background:transparent;border:none;color:var(--g-text-3);font-size:.85rem;font-weight:500;cursor:pointer;border-radius:var(--r-sm) var(--r-sm) 0 0;white-space:nowrap;transition:all .15s;position:relative;display:flex;align-items:center;gap:6px}
 .settings-tab:hover{background:var(--g-surface-2);color:var(--g-text)}
-.settings-tab.active{color:var(--g-blue-d)}
-.settings-tab.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:2px;background:var(--g-blue-d);border-radius:2px 2px 0 0}
+.settings-tab.active{color:var(--g-blue)}
+.settings-tab.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:2px;background:var(--g-blue);border-radius:2px 2px 0 0}
 .settings-pane{display:none;animation:msgIn .25s}
 .settings-pane.active{display:block}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--g-border)}
@@ -319,7 +333,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .set-row-full{display:block;padding:14px 0;border-bottom:1px solid var(--g-border)}
 .set-info{flex:1;min-width:0}
 .set-title{font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px;color:var(--g-text)}
-.set-title i{color:var(--g-blue-d);font-size:.85rem}
+.set-title i{color:var(--g-blue);font-size:.85rem}
 .set-desc{font-size:.75rem;color:var(--g-text-3);margin-top:3px;line-height:1.45}
 .switch{width:46px;height:26px;border-radius:20px;flex-shrink:0;background:var(--g-surface-3);border:1px solid var(--g-border);position:relative;cursor:pointer;transition:all .25s}
 .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--g-text-3);transition:all .25s}
@@ -333,7 +347,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .accent-dot:hover{transform:scale(1.12)}
 .accent-dot.sel{border-color:var(--g-text);transform:scale(1.12)}
 input[type="range"].custom-range{-webkit-appearance:none;width:130px;height:5px;border-radius:20px;background:var(--g-surface-3);outline:none;cursor:pointer}
-input[type="range"].custom-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g-blue);cursor:pointer;box-shadow:0 0 8px rgba(66,133,244,.4)}
+input[type="range"].custom-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g-blue);cursor:pointer;box-shadow:0 0 8px rgba(26,115,232,.4)}
 input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--g-blue);cursor:pointer}
 .storage-bar{height:8px;background:var(--g-surface-3);border-radius:4px;overflow:hidden;margin:8px 0;display:flex}
 .storage-seg{height:100%;transition:width .3s}
@@ -350,7 +364,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 .about-links{display:grid;gap:6px;margin-top:14px}
 .about-link{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.85rem;color:var(--g-text);text-decoration:none;transition:all .15s;cursor:pointer}
 .about-link:hover{background:var(--g-surface-3);border-color:var(--g-blue)}
-.about-link i:first-child{color:var(--g-blue-d);margin-right:10px}
+.about-link i:first-child{color:var(--g-blue);margin-right:10px}
 .danger-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--g-error);border-radius:var(--r-sm);color:var(--g-error);font-weight:500;font-size:.85rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
 .danger-btn:hover{background:rgba(217,48,37,.08)}
 
@@ -365,6 +379,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
   .top-right .btn-sm{padding:8px 10px}
   .set-row{flex-direction:column;align-items:flex-start;gap:10px}
   .set-row > *:last-child{align-self:flex-end}
+  .compare-table{font-size:.72rem}
 }
 </style>
 </head>
@@ -375,12 +390,25 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
   <div class="auth-card">
     <div class="auth-brand">
       <div class="auth-logo">
-        <span class="gem-logo" style="width:36px;height:36px">
-          <svg viewBox="0 0 28 28" width="36" height="36">
-            <defs><linearGradient id="gemGrad1" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+        <span class="nx-logo" style="width:40px;height:40px">
+          <svg viewBox="0 0 40 40" width="40" height="40">
+            <defs><linearGradient id="nxGradA" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
             </linearGradient></defs>
-            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad1)"/>
+            <path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#nxGradA)" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="20" cy="2" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="36" cy="11" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="36" cy="29" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="20" cy="38" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="4" cy="29" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="4" cy="11" r="3.2" fill="url(#nxGradA)"/>
+            <circle cx="20" cy="20" r="5" fill="url(#nxGradA)"/>
+            <line x1="20" y1="2" x2="20" y2="15" stroke="url(#nxGradA)" stroke-width="2"/>
+            <line x1="36" y1="11" x2="24" y2="17" stroke="url(#nxGradA)" stroke-width="2"/>
+            <line x1="36" y1="29" x2="24" y2="23" stroke="url(#nxGradA)" stroke-width="2"/>
+            <line x1="20" y1="38" x2="20" y2="25" stroke="url(#nxGradA)" stroke-width="2"/>
+            <line x1="4" y1="29" x2="16" y2="23" stroke="url(#nxGradA)" stroke-width="2"/>
+            <line x1="4" y1="11" x2="16" y2="17" stroke="url(#nxGradA)" stroke-width="2"/>
           </svg>
         </span>
         Nexus AI
@@ -426,12 +454,25 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
   <aside class="sidebar" id="sidebar">
     <div class="sb-head">
       <div class="brand">
-        <span class="gem-logo" style="width:24px;height:24px">
-          <svg viewBox="0 0 28 28" width="24" height="24">
-            <defs><linearGradient id="gemGrad2" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+        <span class="nx-logo" style="width:26px;height:26px">
+          <svg viewBox="0 0 40 40" width="26" height="26">
+            <defs><linearGradient id="nxGradB" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
             </linearGradient></defs>
-            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad2)"/>
+            <path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#nxGradB)" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="20" cy="2" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="36" cy="11" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="36" cy="29" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="20" cy="38" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="4" cy="29" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="4" cy="11" r="3.2" fill="url(#nxGradB)"/>
+            <circle cx="20" cy="20" r="5" fill="url(#nxGradB)"/>
+            <line x1="20" y1="2" x2="20" y2="15" stroke="url(#nxGradB)" stroke-width="2"/>
+            <line x1="36" y1="11" x2="24" y2="17" stroke="url(#nxGradB)" stroke-width="2"/>
+            <line x1="36" y1="29" x2="24" y2="23" stroke="url(#nxGradB)" stroke-width="2"/>
+            <line x1="20" y1="38" x2="20" y2="25" stroke="url(#nxGradB)" stroke-width="2"/>
+            <line x1="4" y1="29" x2="16" y2="23" stroke="url(#nxGradB)" stroke-width="2"/>
+            <line x1="4" y1="11" x2="16" y2="17" stroke="url(#nxGradB)" stroke-width="2"/>
           </svg>
         </span>
         <span>Nexus AI</span>
@@ -453,7 +494,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
           <span class="plan-credits" id="planCredits">50 / 50</span>
         </div>
         <div class="credit-bar"><div class="credit-fill" id="creditFill"></div></div>
-        <button class="plan-btn" id="upgradeBtn">View plans</button>
+        <button class="plan-btn" id="upgradeBtn">Upgrade</button>
         <div id="pendingPaymentNotice" style="display:none;margin-top:8px;font-size:.68rem;color:var(--g-text-2);line-height:1.4"></div>
       </div>
       <div class="user-bar">
@@ -474,15 +515,16 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="top-left">
         <button class="icon-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
         <button class="model-chip" id="modelBtn">
-          <span class="gem-logo" style="width:16px;height:16px">
-            <svg viewBox="0 0 28 28" width="16" height="16">
-              <defs><linearGradient id="gemGrad3" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+          <span class="nx-logo" style="width:16px;height:16px">
+            <svg viewBox="0 0 40 40" width="16" height="16">
+              <defs><linearGradient id="nxGradC" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
               </linearGradient></defs>
-              <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad3)"/>
+              <path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#nxGradC)" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="20" cy="20" r="5" fill="url(#nxGradC)"/>
             </svg>
           </span>
-          <span class="mb-name" id="modelName">Nexus Ultra</span>
+          <span class="mb-name" id="modelName">Nexus 2.0 Flash</span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </div>
@@ -499,13 +541,15 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <div class="composer-wrap">
       <div class="composer">
         <div class="attach-list" id="attachList"></div>
-        <textarea id="promptInput" placeholder="Message Nexus AI…" rows="1"></textarea>
+        <textarea id="promptInput" placeholder="Ask Nexus AI anything…" rows="1"></textarea>
         <div class="comp-bottom">
           <div class="comp-left">
             <button class="tool-btn" id="attachBtn" title="Attach"><i class="fa-solid fa-paperclip"></i></button>
             <button class="tool-btn" id="micBtn" title="Voice"><i class="fa-solid fa-microphone"></i></button>
+            <button class="mode-chip" id="deepResearchBtn" title="Deep Research"><i class="fa-solid fa-magnifying-glass-chart"></i> Deep Research</button>
+            <button class="mode-chip" id="canvasBtn" title="Canvas"><i class="fa-solid fa-pen-ruler"></i> Canvas</button>
             <button class="tool-btn" id="clearBtn" title="Clear"><i class="fa-solid fa-broom"></i></button>
-            <input type="file" id="fileInput" accept=".txt,.md,.json,.js,.py,.html,.css,.csv" hidden multiple>
+            <input type="file" id="fileInput" accept=".txt,.md,.json,.js,.py,.html,.css,.csv,.pdf" hidden multiple>
           </div>
           <div class="comp-right">
             <span class="char-count" id="charCount">0</span>
@@ -524,12 +568,12 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <button class="modal-x" data-close="toolsModal"><i class="fa-solid fa-xmark"></i></button>
     <div class="modal-head"><h2>Creator Studio</h2><p>Generate images, videos, documents, songs, and full Unity game projects.</p></div>
     <div class="tools-grid" id="toolsGrid">
-      <div class="tool-card" data-tool="image"><div class="tc-icon" style="background:linear-gradient(135deg,#4285f4,#9b72cb)"><i class="fa-solid fa-image"></i></div><div class="tc-name">Image / Thumbnail</div><div class="tc-desc">Any style, any ratio</div></div>
-      <div class="tool-card" data-tool="video"><div class="tc-icon" style="background:linear-gradient(135deg,#d96570,#f2a600)"><i class="fa-solid fa-film"></i></div><div class="tc-name">Video</div><div class="tc-desc">Canvas animation</div></div>
+      <div class="tool-card" data-tool="image"><div class="tc-icon" style="background:linear-gradient(135deg,#4285f4,#9b72cb)"><i class="fa-solid fa-image"></i></div><div class="tc-name">Image / Thumbnail</div><div class="tc-desc">Imagen-style generation</div></div>
+      <div class="tool-card" data-tool="video"><div class="tc-icon" style="background:linear-gradient(135deg,#d96570,#f2a600)"><i class="fa-solid fa-film"></i></div><div class="tc-name">Video</div><div class="tc-desc">Veo-style animation</div></div>
       <div class="tool-card" data-tool="ppt"><div class="tc-icon" style="background:linear-gradient(135deg,#ea4335,#fb8c00)"><i class="fa-solid fa-file-powerpoint"></i></div><div class="tc-name">PPT</div><div class="tc-desc">PowerPoint slides</div></div>
       <div class="tool-card" data-tool="pdf"><div class="tc-icon" style="background:linear-gradient(135deg,#d93025,#ea4335)"><i class="fa-solid fa-file-pdf"></i></div><div class="tc-name">PDF</div><div class="tc-desc">Formatted document</div></div>
       <div class="tool-card" data-tool="word"><div class="tc-icon" style="background:linear-gradient(135deg,#1a73e8,#4285f4)"><i class="fa-solid fa-file-word"></i></div><div class="tc-name">Word</div><div class="tc-desc">.doc document</div></div>
-      <div class="tool-card" data-tool="song"><div class="tc-icon" style="background:linear-gradient(135deg,#9b72cb,#d96570)"><i class="fa-solid fa-music"></i></div><div class="tc-name">Song</div><div class="tc-desc">Instruments + voice</div></div>
+      <div class="tool-card" data-tool="song"><div class="tc-icon" style="background:linear-gradient(135deg,#9b72cb,#d96570)"><i class="fa-solid fa-music"></i></div><div class="tc-name">Song</div><div class="tc-desc">Music generation</div></div>
       <div class="tool-card" data-tool="game"><div class="tc-icon" style="background:linear-gradient(135deg,#188038,#34a853)"><i class="fa-solid fa-gamepad"></i></div><div class="tc-name">Unity Game</div><div class="tc-desc">2D/3D project .zip</div></div>
     </div>
     <div id="toolConfig"></div>
@@ -537,19 +581,21 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
   </div>
 </div>
 
-<!-- UPGRADE MODAL -->
+<!-- UPGRADE MODAL — Gemini + ChatGPT style plans -->
 <div class="overlay" id="upgradeModal">
   <div class="modal xl">
     <button class="modal-x" data-close="upgradeModal"><i class="fa-solid fa-xmark"></i></button>
     <div class="modal-head" style="text-align:center;padding-right:0">
-      <h2 style="font-size:1.6rem">Choose your Nexus plan</h2>
-      <p>Real payments via UPI + Razorpay. Auto-verified in seconds.</p>
+      <h2 style="font-size:1.7rem">Upgrade your plan</h2>
+      <p>Unlock Nexus Ultra models, Deep Research, Veo video, and unlimited creativity. Auto-verified UPI + Razorpay.</p>
     </div>
     <div class="plans" id="plansContainer"></div>
-    <div class="secure-badge" style="margin-top:20px">
+    <div class="secure-badge" style="margin-top:8px">
       <i class="fa-solid fa-shield-halved"></i>
       <span><b>100% secure.</b> UPI = auto-verified instantly. Razorpay = instant auto-verified. Your plan activates the moment your payment is confirmed.</span>
     </div>
+    <h3 style="font-size:1rem;font-weight:500;margin:24px 0 6px">Compare plans</h3>
+    <table class="compare-table" id="compareTable"></table>
   </div>
 </div>
 
@@ -563,7 +609,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     </div>
     <div style="background:var(--g-surface-2);border-radius:var(--r-md);padding:16px;margin-bottom:18px">
       <div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:6px">
-        <span id="coPlanName">Nexus Pro</span><b id="coPlanPrice">₹500</b>
+        <span id="coPlanName">Nexus Pro</span><b id="coPlanPrice">₹1,950</b>
       </div>
       <div style="font-size:.78rem;color:var(--g-text-3)" id="coPlanSub">Billed monthly</div>
     </div>
@@ -581,13 +627,13 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div style="background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.04));border:1px solid rgba(16,185,129,.3);border-radius:var(--r-lg);padding:18px;text-align:center;margin-bottom:16px">
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
           <i class="fa-solid fa-mobile-screen" style="font-size:1.5rem;color:#10b981"></i>
-          <span style="font-weight:500">Pay ₹<span id="upiAmt">100</span> via UPI</span>
+          <span style="font-weight:500">Pay ₹<span id="upiAmt">1,950</span> via UPI</span>
         </div>
         <div style="background:#fff;padding:12px;border-radius:12px;display:inline-block;margin:6px 0 12px">
           <img id="upiQrImg" src="" alt="UPI QR Code" style="display:block;width:200px;height:200px;image-rendering:pixelated">
         </div>
         <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--g-border-2);border-radius:12px;padding:11px 13px;margin-top:8px">
-          <i class="fa-solid fa-at" style="color:var(--g-blue-d)"></i>
+          <i class="fa-solid fa-at" style="color:var(--g-blue)"></i>
           <code style="flex:1;font-family:'Roboto Mono',monospace;font-size:.82rem;font-weight:500;word-break:break-all;text-align:left;color:#1f1f1f" id="upiIdText">7096660937@nyes</code>
           <button id="copyUpiBtn" style="background:var(--g-blue);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:500;cursor:pointer;white-space:nowrap">
             <i class="fa-solid fa-copy"></i> Copy
@@ -610,7 +656,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       </div>
       <label style="display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:var(--g-text-2);line-height:1.5;margin:12px 0 14px">
         <input type="checkbox" id="paymentTerms" style="margin-top:3px">
-        <span>I agree to the <a href="#" id="checkoutTermsLink" style="color:var(--g-blue-d)">Terms & Conditions</a> and <a href="#" id="checkoutPrivacyLink" style="color:var(--g-blue-d)">Privacy Policy</a>, and confirm that the payment details submitted by me are correct.</span>
+        <span>I agree to the <a href="#" id="checkoutTermsLink" style="color:var(--g-blue)">Terms & Conditions</a> and <a href="#" id="checkoutPrivacyLink" style="color:var(--g-blue)">Privacy Policy</a>.</span>
       </label>
       <button class="btn-primary" id="upiSubmitBtn" style="padding:14px">
         <i class="fa-solid fa-bolt"></i> Pay & Activate Instantly
@@ -650,6 +696,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <div class="settings-tabs">
       <button class="settings-tab active" data-stab="general"><i class="fa-solid fa-sliders"></i> General</button>
       <button class="settings-tab" data-stab="chat"><i class="fa-solid fa-comments"></i> Chat</button>
+      <button class="settings-tab" data-stab="memory"><i class="fa-solid fa-brain"></i> Memory</button>
       <button class="settings-tab" data-stab="voice"><i class="fa-solid fa-microphone"></i> Voice</button>
       <button class="settings-tab" data-stab="api"><i class="fa-solid fa-key"></i> API Keys</button>
       <button class="settings-tab" data-stab="data"><i class="fa-solid fa-database"></i> Data</button>
@@ -668,7 +715,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-droplet"></i> Accent color</div><div class="set-desc">Choose your highlight color</div></div>
         <div class="accent-dots" id="accentDots">
-          <div class="accent-dot sel" data-accent="blue" style="background:#4285f4"></div>
+          <div class="accent-dot sel" data-accent="blue" style="background:#1a73e8"></div>
           <div class="accent-dot" data-accent="purple" style="background:#9b72cb"></div>
           <div class="accent-dot" data-accent="pink" style="background:#d96570"></div>
           <div class="accent-dot" data-accent="green" style="background:#188038"></div>
@@ -703,9 +750,9 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
     <div class="settings-pane" data-spane="chat">
       <div class="set-row-full">
-        <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-scroll"></i> System instruction</div>
-        <textarea id="systemPrompt" rows="3" placeholder="e.g. You are a helpful assistant..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;resize:vertical;color:var(--g-text)"></textarea>
-        <div class="set-desc" style="margin-top:6px">Defines AI's behavior and personality.</div>
+        <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-scroll"></i> System instruction (Custom instructions)</div>
+        <textarea id="systemPrompt" rows="4" placeholder="e.g. You are a helpful assistant..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;resize:vertical;color:var(--g-text)"></textarea>
+        <div class="set-desc" style="margin-top:6px">Defines AI's behavior and personality. Like ChatGPT custom instructions & Gemini saved info.</div>
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-temperature-half"></i> Creativity</div><div class="set-desc">Lower = focused, higher = creative · <b id="tempVal">0.9</b></div></div>
@@ -727,6 +774,34 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-image"></i> Auto-detect image prompts</div><div class="set-desc">Auto-generate images from descriptions</div></div>
         <div class="switch on" id="swAutoImage"></div>
       </div>
+      <div class="set-row">
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-magnifying-glass-chart"></i> Deep Research default</div><div class="set-desc">Start each new chat in Deep Research mode</div></div>
+        <div class="switch" id="swDeepResearch"></div>
+      </div>
+      <div class="set-row">
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-pen-ruler"></i> Canvas default</div><div class="set-desc">Start each new chat in Canvas (side-by-side editing)</div></div>
+        <div class="switch" id="swCanvas"></div>
+      </div>
+    </div>
+
+    <div class="settings-pane" data-spane="memory">
+      <div style="background:var(--g-hover);border:1px solid var(--g-blue);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;color:var(--g-text);margin-bottom:16px;display:flex;gap:10px;line-height:1.5">
+        <i class="fa-solid fa-info-circle" style="color:var(--g-blue);margin-top:2px"></i>
+        <span>Memory lets Nexus remember useful facts about you across chats — like ChatGPT memory & Gemini saved info.</span>
+      </div>
+      <div class="set-row">
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-brain"></i> Enable memory</div><div class="set-desc">Nexus remembers details across conversations</div></div>
+        <div class="switch on" id="swMemory"></div>
+      </div>
+      <div class="set-row-full">
+        <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-note-sticky"></i> Saved memories</div>
+        <textarea id="memoryText" rows="5" placeholder="Nexus will remember facts you add here, e.g. 'My name is Rahul. I prefer short answers. I work in marketing.'" style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;resize:vertical;color:var(--g-text)"></textarea>
+        <div class="set-desc" style="margin-top:6px">These will be included as context in every new chat.</div>
+      </div>
+      <div class="set-row">
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-trash-can"></i> Clear all memories</div><div class="set-desc">Remove everything Nexus remembers about you</div></div>
+        <button class="btn-ghost" style="width:auto;padding:8px 16px;font-size:.82rem;margin:0;color:var(--g-error);border-color:var(--g-error)" id="clearMemoryBtn"><i class="fa-solid fa-trash"></i> Clear</button>
+      </div>
     </div>
 
     <div class="settings-pane" data-spane="voice">
@@ -739,7 +814,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         </select>
       </div>
       <div class="set-row">
-        <div class="set-info"><div class="set-title"><i class="fa-solid fa-volume-high"></i> Auto-speak replies</div><div class="set-desc">Read AI responses aloud</div></div>
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-volume-high"></i> Auto-speak replies</div><div class="set-desc">Read AI responses aloud (like ChatGPT voice mode)</div></div>
         <div class="switch" id="swTTS"></div>
       </div>
       <div class="set-row">
@@ -754,7 +829,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
     <div class="settings-pane" data-spane="api">
       <div style="background:var(--g-hover);border:1px solid var(--g-blue);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;color:var(--g-text);margin-bottom:16px;display:flex;gap:10px;line-height:1.5">
-        <i class="fa-solid fa-info-circle" style="color:var(--g-blue-d);margin-top:2px"></i>
+        <i class="fa-solid fa-info-circle" style="color:var(--g-blue);margin-top:2px"></i>
         <span>Optional. Without keys, Nexus uses free cloud models. Add your own keys for premium OpenAI & Gemini models.</span>
       </div>
       <div class="set-row-full">
@@ -764,7 +839,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row-full">
         <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-gem"></i> Google Gemini API key</div>
         <input type="password" id="keyGemini" placeholder="AIza..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;color:var(--g-text)">
-        <div class="set-desc" style="margin-top:6px">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--g-blue-d)">aistudio.google.com</a></div>
+        <div class="set-desc" style="margin-top:6px">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--g-blue)">aistudio.google.com</a></div>
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-link"></i> Test connection</div><div class="set-desc">Verify your API keys work</div></div>
@@ -811,17 +886,30 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <div class="settings-pane" data-spane="about">
       <div class="about-card">
         <div class="about-logo">
-          <span class="gem-logo" style="width:48px;height:48px">
-            <svg viewBox="0 0 28 28" width="48" height="48">
-              <defs><linearGradient id="gemGrad4" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+          <span class="nx-logo" style="width:52px;height:52px">
+            <svg viewBox="0 0 40 40" width="52" height="52">
+              <defs><linearGradient id="nxGradD" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
               </linearGradient></defs>
-              <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad4)"/>
+              <path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#nxGradD)" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="20" cy="2" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="36" cy="11" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="36" cy="29" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="20" cy="38" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="4" cy="29" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="4" cy="11" r="3.2" fill="url(#nxGradD)"/>
+              <circle cx="20" cy="20" r="5" fill="url(#nxGradD)"/>
+              <line x1="20" y1="2" x2="20" y2="15" stroke="url(#nxGradD)" stroke-width="2"/>
+              <line x1="36" y1="11" x2="24" y2="17" stroke="url(#nxGradD)" stroke-width="2"/>
+              <line x1="36" y1="29" x2="24" y2="23" stroke="url(#nxGradD)" stroke-width="2"/>
+              <line x1="20" y1="38" x2="20" y2="25" stroke="url(#nxGradD)" stroke-width="2"/>
+              <line x1="4" y1="29" x2="16" y2="23" stroke="url(#nxGradD)" stroke-width="2"/>
+              <line x1="4" y1="11" x2="16" y2="17" stroke="url(#nxGradD)" stroke-width="2"/>
             </svg>
           </span>
         </div>
-        <div style="font-size:1.4rem;font-weight:500;background:var(--g-grad-gem);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Nexus AI</div>
-        <div class="about-ver">Version 3.0.0 · Build 2025.01</div>
+        <div style="font-size:1.4rem;font-weight:500;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Nexus AI</div>
+        <div class="about-ver">Version 3.5.0 · Build 2025.06 · Ultra</div>
         <p style="font-size:.82rem;color:var(--g-text-2);margin-top:12px;line-height:1.6">Intelligence, creativity, and productivity — all in one powerful workspace.</p>
       </div>
       <div class="about-links">
@@ -913,7 +1001,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
 <script>
 /* ============================================================
-   CONFIGURATION — YOUR LIVE CREDENTIALS
+   CONFIGURATION — YOUR LIVE CREDENTIALS (UNCHANGED)
    ============================================================ */
 const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
 const RAZORPAY_KEY_ID = '';
@@ -947,7 +1035,6 @@ function toast(msg, type='info', ms=3200){
   $('#toastWrap').appendChild(el);
   setTimeout(()=>{ el.style.transition='all .3s'; el.style.opacity='0'; el.style.transform='translateX(40px)'; setTimeout(()=>el.remove(),320); }, ms);
 }
-
 async function sha256(str){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('nexus::' + str));
   return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -956,15 +1043,17 @@ async function sha256(str){
 /* ============================================================
    STATE
    ============================================================ */
-const STORAGE_KEY = 'nexus_ai_v11';
+const STORAGE_KEY = 'nexus_ai_v12';
 const DEFAULT_SETTINGS = {
   theme:'light', accent:'blue', fontSize:'medium', language:'en',
   compact:false, animations:true,
   systemPrompt:'You are Nexus AI, a helpful, friendly and accurate assistant. Give clear, well-formatted answers using markdown. Use headings and bullet points when helpful. Be concise but complete.',
   temperature:0.9, sendOnEnter:true, streaming:true,
   autoSave:true, autoImage:true,
+  deepResearchDefault:false, canvasDefault:false,
+  memory:true, memoryText:'',
   voiceLang:'en-US', tts:false, ttsSpeed:1.0,
-  provider:'gemini', modelId:'gemini-2.0-flash',
+  provider:'pollinations', modelId:'openai',
   keys:{openai:'',gemini:''}
 };
 let S = {
@@ -980,6 +1069,8 @@ let pendingPlan = null;
 let currentRating = 0;
 let paymentScreenshotData = '';
 let paymentScreenshotName = '';
+let deepResearchMode = false;
+let canvasMode = false;
 
 function initEmailJS(){
   try{
@@ -989,7 +1080,6 @@ function initEmailJS(){
     }
   }catch(e){ console.warn('EmailJS init failed:', e); }
 }
-
 async function sendPaymentVerificationEmail(record){
   if(!window.emailjs || !EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID){
     return {sent:false, reason:'EmailJS not configured'};
@@ -1005,9 +1095,7 @@ async function sendPaymentVerificationEmail(record){
 🔢 Transaction ID: ${record.txnId}
 🆔 Reference ID: ${record.id}
 🕒 Submitted: ${new Date(record.submittedAt).toLocaleString('en-IN')}
-✅ Status: AUTO-VERIFIED & ACTIVATED
-
-Record log for your accounts.`;
+✅ Status: AUTO-VERIFIED & ACTIVATED`;
     const params = {
       to_email: ADMIN_EMAIL,
       from_name: record.userName,
@@ -1030,7 +1118,6 @@ Record log for your accounts.`;
     return {sent:false, reason:err.text || err.message || 'Email send failed.'};
   }
 }
-
 function resetPaymentVerificationForm(){
   paymentScreenshotData = '';
   paymentScreenshotName = '';
@@ -1041,7 +1128,6 @@ function resetPaymentVerificationForm(){
   if(preview){ preview.style.display = 'none'; preview.innerHTML = ''; }
   if(terms) terms.checked = false;
 }
-
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1060,15 +1146,97 @@ function currentUser(){ return S.sessionId ? S.users.find(u => u.id === S.sessio
 function myChats(){ const u = currentUser(); if(!u) return []; if(!S.chats[u.id]) S.chats[u.id] = []; return S.chats[u.id]; }
 function myLibrary(){ const u = currentUser(); if(!u) return []; if(!S.library[u.id]) S.library[u.id] = []; return S.library[u.id]; }
 
+/* ============================================================
+   PLANS — Gemini & ChatGPT style tiers
+   ============================================================ */
+const PLANS = [
+  {
+    id:'free', name:'Nexus Free', price:0, period:'forever', desc:'For everyday tasks',
+    features:[
+      {t:'Access to Nexus Flash model',on:true},
+      {t:'Limited daily messages',on:true},
+      {t:'Basic image generation',on:true},
+      {t:'Standard voice mode',on:true},
+      {t:'Limited Deep Research',on:true},
+      {t:'Limited Canvas',on:true}
+    ],
+    compare:{chat:'Limited',reasoning:'—',deepResearch:'Limited',canvas:'Limited',image:'Limited',video:'—',storage:'—',voice:'Standard',memory:'Basic',gems:'—',code:'Limited',team:'—'}
+  },
+  {
+    id:'pro', name:'Nexus Pro', price:1950, period:'month', featured:true, badge:'MOST POPULAR', desc:'For power users — like Gemini AI Pro + ChatGPT Plus',
+    features:[
+      {t:'Access to Nexus Ultra Pro model',on:true},
+      {t:'Unlimited messages',on:true},
+      {t:'Advanced reasoning (Ultra Think)',on:true},
+      {t:'Unlimited Deep Research',on:true},
+      {t:'Canvas — side-by-side editing',on:true},
+      {t:'Advanced image generation',on:true},
+      {t:'Video generation (Veo-style)',on:true},
+      {t:'Code Interpreter / Data Analysis',on:true},
+      {t:'Full voice mode',on:true},
+      {t:'Extended Memory',on:true},
+      {t:'Custom Gems / GPTs',on:true},
+      {t:'2 TB cloud storage',on:true},
+      {t:'Priority access to new features',on:true}
+    ],
+    compare:{chat:'Unlimited',reasoning:'Advanced',deepResearch:'Unlimited',canvas:'Full',image:'Advanced',video:'Standard',storage:'2 TB',voice:'Full',memory:'Extended',gems:'Yes',code:'Yes',team:'—'}
+  },
+  {
+    id:'ultra', name:'Nexus Ultra', price:16000, period:'month', badge:'BEST OF THE BEST', desc:'Everything unlocked — like Google AI Ultra + ChatGPT Pro', ultra:true,
+    features:[
+      {t:'Everything in Nexus Pro',on:true},
+      {t:'Nexus Ultra Think (deep reasoning)',on:true},
+      {t:'Maximum context window',on:true},
+      {t:'Unlimited video generation (Veo 3)',on:true},
+      {t:'Unlimited music generation',on:true},
+      {t:'Unlimited Deep Research with citations',on:true},
+      {t:'Ultra-fast priority servers',on:true},
+      {t:'30 TB cloud storage',on:true},
+      {t:'YouTube Premium included',on:true},
+      {t:'Early access to new models',on:true},
+      {t:'Dedicated 24/7 support',on:true}
+    ],
+    compare:{chat:'Unlimited+',reasoning:'Ultra Think',deepResearch:'Unlimited+',canvas:'Full',image:'Advanced+',video:'Unlimited',storage:'30 TB',voice:'Full+',memory:'Extended+',gems:'Yes+',code:'Yes+',team:'—'}
+  },
+  {
+    id:'team', name:'Nexus Team', price:1600, period:'user/month', desc:'For teams & businesses — like ChatGPT Team',
+    features:[
+      {t:'Everything in Nexus Pro',on:true},
+      {t:'Team workspace & admin console',on:true},
+      {t:'Shared Gems / custom assistants',on:true},
+      {t:'Centralized billing',on:true},
+      {t:'SSO (SAML) & user management',on:true},
+      {t:'Data NOT used for training',on:true},
+      {t:'Dedicated team support',on:true},
+      {t:'Minimum 3 seats',on:true}
+    ],
+    compare:{chat:'Unlimited',reasoning:'Advanced',deepResearch:'Unlimited',canvas:'Full',image:'Advanced',video:'Standard',storage:'Per seat',voice:'Full',memory:'Extended',gems:'Shared',code:'Yes',team:'Full'}
+  }
+];
+
+const COMPARE_ROWS = [
+  {key:'chat', label:'Chat messages'},
+  {key:'reasoning', label:'Advanced reasoning'},
+  {key:'deepResearch', label:'Deep Research'},
+  {key:'canvas', label:'Canvas'},
+  {key:'image', label:'Image generation'},
+  {key:'video', label:'Video generation'},
+  {key:'storage', label:'Cloud storage'},
+  {key:'voice', label:'Voice mode'},
+  {key:'memory', label:'Memory'},
+  {key:'gems', label:'Custom Gems / GPTs'},
+  {key:'code', label:'Code Interpreter'},
+  {key:'team', label:'Team workspace'}
+];
+
 function planInfo(){
   const u = currentUser();
-  if(!u) return { id:'free', credits:50, label:'Free', images:1 };
+  if(!u) return { id:'free', credits:50, label:'Free' };
   const map = {
-    free:      { id:'free',      credits:50,       label:'Free',       images:1, video:false, song:false, unity:false },
-    trial:     { id:'trial',     credits:100,      label:'Trial',      images:2, video:false, song:false, unity:false },
-    basic:     { id:'basic',     credits:1000,     label:'Basic',      images:4, video:true,  song:true,  unity:false },
-    pro:       { id:'pro',       credits:10000,    label:'Pro',        images:6, video:true,  song:true,  unity:true  },
-    ultimate:  { id:'ultimate',  credits:Infinity, label:'Ultimate',   images:8, video:true,  song:true,  unity:true  }
+    free:      { id:'free',      credits:50,       label:'Free' },
+    pro:       { id:'pro',       credits:10000,    label:'Pro' },
+    ultra:     { id:'ultra',     credits:Infinity, label:'Ultra' },
+    team:      { id:'team',      credits:10000,    label:'Team' }
   };
   const p = map[u.plan] || map.free;
   if(u.planExpires && Date.now() > u.planExpires){ u.plan = 'free'; saveState(); return map.free; }
@@ -1077,7 +1245,7 @@ function planInfo(){
 function refreshCredits(){
   const u = currentUser(); if(!u) return;
   const today = new Date().toISOString().slice(0,10);
-  if(u.creditDate !== today && u.plan !== 'ultimate'){
+  if(u.creditDate !== today && u.plan !== 'ultra'){
     const info = planInfo();
     u.credits = info.credits;
     u.creditDate = today;
@@ -1139,9 +1307,7 @@ $('#authForm')?.addEventListener('submit', async (e) => {
   const pass = $('#authPass').value;
   const name = $('#authName').value.trim();
   const errEl = $('#authError');
-
   if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
-
   if(authMode === 'signup'){
     if(!name || name.length < 2) { errEl.textContent = 'Please enter your full name.'; return; }
     if(checkPasswordStrength(pass) < 3) { errEl.textContent = 'Password too weak. Use 8+ chars, uppercase, lowercase & number.'; return; }
@@ -1169,7 +1335,6 @@ $('#authForm')?.addEventListener('submit', async (e) => {
     toast(`Welcome back, ${user.name.split(' ')[0]}!`, 'ok');
   }
 });
-
 function initGoogle(){
   if(!GOOGLE_CLIENT_ID){ $('#googleFallbackNotice').style.display = 'block'; return; }
   const wait = setInterval(() => {
@@ -1211,7 +1376,6 @@ async function handleGoogleResponse(response){
     enterApp();
   }catch(err){ toast('Google sign-in failed', 'err'); console.error(err); }
 }
-
 function enterApp(){
   $('#authScreen').classList.add('hide');
   $('#app').style.display = 'flex';
@@ -1220,6 +1384,9 @@ function enterApp(){
   updatePlanUI();
   renderChatList();
   activeChatId = null;
+  deepResearchMode = S.settings.deepResearchDefault === true;
+  canvasMode = S.settings.canvasDefault === true;
+  updateModeChips();
   renderCurrentChat();
   applyTheme();
   applyAllSettings();
@@ -1253,9 +1420,9 @@ function applyFontSize(size){
   else root.style.fontSize = '14px';
 }
 function applyAccent(accent){
-  const map = { blue:'#4285f4', purple:'#9b72cb', pink:'#d96570', green:'#188038', orange:'#f2a600' };
-  document.documentElement.style.setProperty('--g-blue', map[accent] || '#4285f4');
-  document.documentElement.style.setProperty('--g-blue-d', map[accent] ? darken(map[accent], 15) : '#1a73e8');
+  const map = { blue:'#1a73e8', purple:'#9b72cb', pink:'#d96570', green:'#188038', orange:'#f2a600' };
+  document.documentElement.style.setProperty('--g-blue', map[accent] || '#1a73e8');
+  document.documentElement.style.setProperty('--g-blue-d', map[accent] ? darken(map[accent], 15) : '#1557b0');
 }
 function darken(hex, amt){
   const num = parseInt(hex.replace('#',''), 16);
@@ -1306,7 +1473,6 @@ function updateUserUI(){
   $('#userSub').textContent = planInfo().label + ' plan';
 }
 function updatePlanUI(){
-  const pendingNotice = $('#pendingPaymentNotice');
   const u = currentUser(); if(!u) return;
   const info = planInfo();
   $('#planName').innerHTML = `<i class="fa-solid fa-bolt"></i> ${info.label}`;
@@ -1318,35 +1484,36 @@ function updatePlanUI(){
     $('#planCredits').textContent = `${u.credits || 0} / ${info.credits}`;
     $('#creditFill').style.width = Math.min(100, ((u.credits || 0) / info.credits) * 100) + '%';
   }
-  $('#upgradeBtn').textContent = info.id === 'free' ? 'View plans' : 'Manage plan';
-  if(pendingNotice) pendingNotice.style.display = 'none';
+  $('#upgradeBtn').textContent = info.id === 'free' ? 'Upgrade' : 'Manage plan';
+  const pn = $('#pendingPaymentNotice'); if(pn) pn.style.display = 'none';
 }
 
 /* ============================================================
-   MODELS — Nexus branded (real Gemini models underneath)
+   MODELS — Nexus (mirrors Gemini & ChatGPT lineup)
    ============================================================ */
 const MODELS = [
-  { provider:'gemini', id:'gemini-2.0-flash', name:'Nexus Ultra', desc:'Fast & smart (needs key)' },
-  { provider:'gemini', id:'gemini-1.5-flash', name:'Nexus Ultra Flash', desc:'Stable (needs key)' },
-  { provider:'gemini', id:'gemini-1.5-pro', name:'Nexus Ultra Pro', desc:'Deep reasoning (needs key)' },
-  { provider:'pollinations', id:'openai', name:'Nexus Cloud', desc:'Fast & smart (free)' },
-  { provider:'pollinations', id:'mistral', name:'Nexus Mistral', desc:'Lightweight (free)' },
-  { provider:'pollinations', id:'llama', name:'Nexus Llama', desc:'Open-source (free)' },
-  { provider:'pollinations', id:'openai-large', name:'Nexus Ultra Cloud', desc:'Deep reasoning (free)' },
-  { provider:'openai', id:'gpt-4o-mini', name:'GPT-4o mini', desc:'Requires OpenAI key' }
+  { provider:'gemini', id:'gemini-2.0-flash', name:'Nexus Flash', desc:'Fast, everyday tasks (needs Gemini key)', tag:'' },
+  { provider:'gemini', id:'gemini-1.5-flash', name:'Nexus Flash 1.5', desc:'Stable, quick (needs Gemini key)', tag:'' },
+  { provider:'gemini', id:'gemini-1.5-pro', name:'Nexus Ultra Pro', desc:'Advanced reasoning (needs Gemini key)', tag:'PRO' },
+  { provider:'pollinations', id:'openai', name:'Nexus Cloud', desc:'Fast & smart (free)', tag:'' },
+  { provider:'pollinations', id:'mistral', name:'Nexus Mistral', desc:'Lightweight (free)', tag:'' },
+  { provider:'pollinations', id:'llama', name:'Nexus Llama', desc:'Open-source (free)', tag:'' },
+  { provider:'pollinations', id:'openai-large', name:'Nexus Ultra Think', desc:'Deep reasoning (free)', tag:'PRO' },
+  { provider:'openai', id:'gpt-4o-mini', name:'Nexus GPT-4o mini', desc:'Requires OpenAI key', tag:'' },
+  { provider:'openai', id:'gpt-4o', name:'Nexus Ultra GPT-4o', desc:'Requires OpenAI key', tag:'PRO' }
 ];
-function currentModel(){ return MODELS.find(m => m.provider === S.settings.provider && m.id === S.settings.modelId) || MODELS[0]; }
+function currentModel(){ return MODELS.find(m => m.provider === S.settings.provider && m.id === S.settings.modelId) || MODELS[3]; }
 function applyModelUI(){ $('#modelName').textContent = currentModel().name; }
 function buildModelDropdown(){
   const dd = $('#modelDropdown'); dd.innerHTML = '';
-  const groups = { 'gemini':'Nexus Ultra · API key required', 'pollinations':'Nexus Cloud · Free', 'openai':'OpenAI · API key required' };
+  const groups = { 'gemini':'Nexus Ultra · Gemini key required', 'pollinations':'Nexus Cloud · Free', 'openai':'OpenAI · API key required' };
   for(const [prov, label] of Object.entries(groups)){
     const h = document.createElement('div'); h.className = 'dd-label'; h.textContent = label; dd.appendChild(h);
     MODELS.filter(m => m.provider === prov).forEach(m => {
       const item = document.createElement('div');
       const sel = S.settings.provider === m.provider && S.settings.modelId === m.id;
       item.className = 'dd-item' + (sel ? ' sel' : '');
-      item.innerHTML = `<div class="dd-ic"><i class="fa-solid fa-microchip"></i></div><div class="dd-txt"><div class="dd-name">${esc(m.name)}</div><div class="dd-desc">${esc(m.desc)}</div></div>`;
+      item.innerHTML = `<div class="dd-ic"><i class="fa-solid fa-microchip"></i></div><div class="dd-txt"><div class="dd-name">${esc(m.name)}${m.tag ? ` <span class="dd-badge">${m.tag}</span>` : ''}</div><div class="dd-desc">${esc(m.desc)}</div></div>`;
       item.addEventListener('click', () => selectModel(m));
       dd.appendChild(item);
     });
@@ -1369,6 +1536,14 @@ function toggleDropdown(){
   if(open) buildModelDropdown();
 }
 function closeDropdown(){ $('#modelDropdown').classList.remove('show'); $('#modelBtn').classList.remove('open'); }
+
+/* ============================================================
+   MODE CHIPS
+   ============================================================ */
+function updateModeChips(){
+  $('#deepResearchBtn')?.classList.toggle('active', deepResearchMode);
+  $('#canvasBtn')?.classList.toggle('active', canvasMode);
+}
 
 /* ============================================================
    MARKDOWN
@@ -1475,19 +1650,11 @@ async function callGemini(messages, onDelta, signal){
   }));
   const body = {
     contents,
-    generationConfig: {
-      temperature: S.settings.temperature || 0.9,
-      maxOutputTokens: 8192
-    }
+    generationConfig: { temperature: S.settings.temperature || 0.9, maxOutputTokens: 8192 }
   };
   if(sys) body.systemInstruction = { parts:[{ text: sys.content }] };
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`;
-  const res = await fetch(url, {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify(body),
-    signal
-  });
+  const res = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body), signal });
   if(!res.ok){
     let errMsg = 'Gemini ' + res.status;
     try{ const j = await res.json(); errMsg = j.error?.message || errMsg; }catch(e){}
@@ -1567,14 +1734,27 @@ function renderCurrentChat(){
     c.innerHTML = `
       <div class="welcome">
         <div class="welcome-logo">
-          <svg viewBox="0 0 28 28" width="56" height="56">
-            <defs><linearGradient id="gemGradW" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+          <svg viewBox="0 0 40 40" width="60" height="60">
+            <defs><linearGradient id="nxGradW" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
             </linearGradient></defs>
-            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGradW)"/>
+            <path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#nxGradW)" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="20" cy="2" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="36" cy="11" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="36" cy="29" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="20" cy="38" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="4" cy="29" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="4" cy="11" r="3.2" fill="url(#nxGradW)"/>
+            <circle cx="20" cy="20" r="5" fill="url(#nxGradW)"/>
+            <line x1="20" y1="2" x2="20" y2="15" stroke="url(#nxGradW)" stroke-width="2"/>
+            <line x1="36" y1="11" x2="24" y2="17" stroke="url(#nxGradW)" stroke-width="2"/>
+            <line x1="36" y1="29" x2="24" y2="23" stroke="url(#nxGradW)" stroke-width="2"/>
+            <line x1="20" y1="38" x2="20" y2="25" stroke="url(#nxGradW)" stroke-width="2"/>
+            <line x1="4" y1="29" x2="16" y2="23" stroke="url(#nxGradW)" stroke-width="2"/>
+            <line x1="4" y1="11" x2="16" y2="17" stroke="url(#nxGradW)" stroke-width="2"/>
           </svg>
         </div>
-        <h1>Hi ${esc(name)}, I'm Nexus AI</h1>
+        <h1>Hi ${esc(name)}, how can I <em>help today</em>?</h1>
         <p>Ask anything, generate images, build games, create songs, or write full documents.</p>
         <div class="sugg-grid">
           <div class="sugg" data-p="Explain quantum computing in simple terms with examples"><div class="sugg-t"><i class="fa-solid fa-brain" style="color:#4285f4"></i> Explain concept</div><div class="sugg-d">Simple, clear answer</div></div>
@@ -1606,15 +1786,13 @@ function renderMessage(m){
   if(m.sender === 'user' && u?.picture) av.innerHTML = `<img src="${esc(u.picture)}" alt="">`;
   else if(m.sender === 'user') av.textContent = (u?.name || 'U').charAt(0).toUpperCase();
   else {
-    const gid = 'gv' + Math.random().toString(36).slice(2,10);
-    av.innerHTML = `<svg viewBox="0 0 28 28" width="20" height="20"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/></linearGradient></defs><path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#${gid})"/></svg>`;
+    const gid = 'nxs' + Math.random().toString(36).slice(2,9);
+    av.innerHTML = `<svg viewBox="0 0 40 40" width="20" height="20"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a73e8"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/></linearGradient></defs><path d="M20 2 L36 11 L36 29 L20 38 L4 29 L4 11 Z" fill="none" stroke="url(#${gid})" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="20" r="5" fill="url(#${gid})"/></svg>`;
   }
-
   const body = document.createElement('div');
   body.className = 'msg-body';
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
-
   if(m.imageUrls?.length){
     bubble.innerHTML = renderMarkdown(m.text || '');
     const grid = document.createElement('div');
@@ -1634,7 +1812,6 @@ function renderMessage(m){
   } else {
     bubble.innerHTML = renderMarkdown(m.text || '');
   }
-
   const meta = document.createElement('div');
   meta.className = 'msg-meta';
   meta.innerHTML = `<span>${esc(m.time || '')}</span>`;
@@ -1643,6 +1820,12 @@ function renderMessage(m){
     cp.className = 'msg-act'; cp.innerHTML = '<i class="fa-regular fa-copy"></i>';
     cp.addEventListener('click', () => navigator.clipboard.writeText(m.text).then(() => toast('Copied', 'ok', 1500)));
     meta.appendChild(cp);
+    if('speechSynthesis' in window){
+      const sp = document.createElement('button');
+      sp.className = 'msg-act'; sp.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      sp.addEventListener('click', () => speakText(m.text));
+      meta.appendChild(sp);
+    }
   }
   body.appendChild(bubble);
   body.appendChild(meta);
@@ -1697,8 +1880,12 @@ async function generateTextReply(prompt, time){
   abortCtrl = new AbortController();
   setSendState('stop');
   const sys = S.settings.systemPrompt;
+  const memory = S.settings.memory && S.settings.memoryText ? `\n\nThings to remember about the user:\n${S.settings.memoryText}` : '';
+  const modeNote = deepResearchMode
+    ? '\n\n[Deep Research mode ON — produce a thorough, well-structured research report with sections, insights, and (if possible) citations.]'
+    : (canvasMode ? '\n\n[Canvas mode ON — produce clean, editable text suitable for side-by-side editing.]' : '');
   const messages = [];
-  if(sys) messages.push({ role:'system', content: sys });
+  if(sys || memory || modeNote) messages.push({ role:'system', content: sys + memory + modeNote });
   const chat = myChats().find(c => c.id === activeChatId);
   const hist = chat.messages.filter(m => !m.imageUrls && !m.error && m.text).slice(-10);
   hist.forEach(m => messages.push({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
@@ -1751,7 +1938,6 @@ async function generateImageReply(prompt, time){
   setSendState('stop');
   const chat = myChats().find(c => c.id === activeChatId);
   const seed = Math.floor(Math.random() * 1e9);
-
   let enhance = ', ultra detailed, high quality, professional composition, sharp focus, beautiful lighting, 4k';
   const lowerPrompt = prompt.toLowerCase();
   if(lowerPrompt.includes('thumbnail')) enhance = ', youtube thumbnail style, vibrant colors, high contrast, cinematic, 16:9, bold visual impact';
@@ -1759,10 +1945,8 @@ async function generateImageReply(prompt, time){
   else if(lowerPrompt.includes('poster')) enhance = ', movie poster style, dramatic cinematic composition, epic lighting, detailed';
   else if(lowerPrompt.includes('anime')) enhance = ', anime style, studio ghibli inspired, cel shaded, beautiful detailed background';
   else if(lowerPrompt.includes('realistic') || lowerPrompt.includes('photo')) enhance = ', photorealistic, dslr photography, natural lighting, 8k, extremely detailed';
-
   const finalPrompt = prompt + enhance;
   const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(finalPrompt)}?width=1280&height=720&seed=${seed}&nologo=true&model=flux&enhance=true`;
-
   const msg = { sender:'ai', text: `Here's your image for:\n\n> ${prompt}`, time, imageUrls:[url] };
   chat.messages.push(msg);
   renderMessage(msg);
@@ -1816,44 +2000,58 @@ async function handleFiles(files){
 }
 
 /* ============================================================
-   PLANS + CHECKOUT (AUTO-VERIFY)
+   RENDER PLANS + COMPARE TABLE
    ============================================================ */
-const PLANS = [
-  { id:'trial', name:'Trial', price:1, period:'one-time', desc:'Try Nexus for 1 day',
-    features:[{t:'100 credits',on:true},{t:'Image generation',on:true},{t:'All free models',on:true},{t:'Documents (PDF/Word/PPT)',on:true},{t:'Video & Song',on:false},{t:'Unity game projects',on:false}] },
-  { id:'basic', name:'Basic', price:100, period:'month', desc:'For regular creators',
-    features:[{t:'1,000 credits / month',on:true},{t:'Everything in Trial',on:true},{t:'Video creation',on:true},{t:'Song creation',on:true},{t:'All documents',on:true},{t:'Unity game projects',on:false}] },
-  { id:'pro', name:'Pro', price:500, period:'month', featured:true, badge:'POPULAR', desc:'For power users',
-    features:[{t:'10,000 credits / month',on:true},{t:'Everything in Basic',on:true},{t:'Unity 2D/3D games',on:true},{t:'Priority servers',on:true},{t:'All premium models',on:true},{t:'6 images per request',on:true}] },
-  { id:'ultimate', name:'Ultimate', price:10000, period:'year', desc:'For teams & pros',
-    features:[{t:'Unlimited credits',on:true},{t:'Everything in Pro',on:true},{t:'8 images per request',on:true},{t:'Priority support',on:true},{t:'Early access',on:true},{t:'Best value',on:true}] }
-];
-
 function renderPlans(){
   const c = $('#plansContainer'); c.innerHTML = '';
   PLANS.forEach(p => {
     const el = document.createElement('div');
-    el.className = 'plan' + (p.featured ? ' featured' : '');
+    el.className = 'plan' + (p.featured ? ' featured' : '') + (p.ultra ? ' ultra' : '');
     if(p.badge) el.innerHTML = `<div class="plan-badge">${p.badge}</div>`;
     el.innerHTML += `
       <h3>${p.name}</h3>
-      <div class="price">₹${p.price.toLocaleString('en-IN')} <small>/${p.period}</small></div>
+      <div class="price">${p.price === 0 ? 'Free' : '₹' + p.price.toLocaleString('en-IN')} ${p.price > 0 ? `<small>/${p.period}</small>` : ''}</div>
       <div class="price-inr">${esc(p.desc)}</div>
       <ul>${p.features.map(f => `<li class="${f.on ? '' : 'off'}"><i class="fa-solid ${f.on ? 'fa-check' : 'fa-xmark'}"></i> ${f.t}</li>`).join('')}</ul>
-      <button class="${p.featured ? 'btn-primary' : 'btn-ghost'}" data-plan="${p.id}" style="margin-top:8px">${p.id === 'trial' ? 'Start Trial' : 'Subscribe'}</button>
+      <button class="${p.featured || p.ultra ? 'btn-primary' : 'btn-ghost'}" data-plan="${p.id}" style="margin-top:8px">${p.id === 'free' ? 'Current plan' : 'Subscribe'}</button>
     `;
     c.appendChild(el);
   });
-  c.querySelectorAll('[data-plan]').forEach(btn => btn.addEventListener('click', () => startCheckout(btn.dataset.plan)));
+  c.querySelectorAll('[data-plan]').forEach(btn => btn.addEventListener('click', () => {
+    const pid = btn.dataset.plan;
+    if(pid === 'free'){ toast('You are already on Free plan.', 'info'); return; }
+    startCheckout(pid);
+  }));
+  renderCompareTable();
+}
+function renderCompareTable(){
+  const t = $('#compareTable');
+  let html = '<thead><tr><th>Feature</th>';
+  PLANS.forEach(p => html += `<th>${p.name.replace('Nexus ','')}</th>`);
+  html += '</tr></thead><tbody>';
+  COMPARE_ROWS.forEach(row => {
+    html += `<tr><td>${row.label}</td>`;
+    PLANS.forEach(p => {
+      const v = p.compare[row.key];
+      const cls = (v === '—') ? 'no' : 'yes';
+      html += `<td class="${cls}">${v}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  t.innerHTML = html;
 }
 
+/* ============================================================
+   CHECKOUT
+   ============================================================ */
 function startCheckout(planId){
   const plan = PLANS.find(p => p.id === planId);
-  if(!plan) return;
+  if(!plan){ toast('Plan not found', 'err'); return; }
   pendingPlan = plan;
   $('#checkoutTitle').textContent = `Subscribe to ${plan.name}`;
   $('#checkoutSub').textContent = `₹${plan.price.toLocaleString('en-IN')} · ${plan.period}`;
-  $('#coPlanName').textContent = 'Nexus ' + plan.name;
+  $('#coPlanName').textContent = plan.name;
   $('#coPlanPrice').textContent = '₹' + plan.price.toLocaleString('en-IN');
   $('#coPlanSub').textContent = plan.desc;
   $('#payBtnText').textContent = `Pay ₹${plan.price.toLocaleString('en-IN')} securely`;
@@ -1870,7 +2068,6 @@ function startCheckout(planId){
   closeModal('upgradeModal');
   openModal('checkoutModal');
 }
-
 function switchPayMethod(method){
   $$('.pay-tab').forEach(t => t.classList.toggle('active', t.dataset.pay === method));
   $$('.pay-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === method));
@@ -1885,16 +2082,8 @@ function renderUPIQR(amountINR){
 $('#paymentScreenshot')?.addEventListener('change', e => {
   const file = e.target.files?.[0];
   if(!file) return;
-  if(file.size > 2.5 * 1024 * 1024){
-    toast('Screenshot must be 2.5 MB or smaller.', 'err', 4000);
-    e.target.value = '';
-    return;
-  }
-  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){
-    toast('Please upload PNG, JPG/JPEG or WEBP screenshot.', 'err', 4000);
-    e.target.value = '';
-    return;
-  }
+  if(file.size > 2.5 * 1024 * 1024){ toast('Screenshot must be 2.5 MB or smaller.', 'err', 4000); e.target.value = ''; return; }
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){ toast('Please upload PNG, JPG/JPEG or WEBP screenshot.', 'err', 4000); e.target.value = ''; return; }
   const reader = new FileReader();
   reader.onload = () => {
     paymentScreenshotData = reader.result;
@@ -1913,17 +2102,8 @@ $('#paymentScreenshot')?.addEventListener('change', e => {
   };
   reader.readAsDataURL(file);
 });
-
-$('#checkoutTermsLink')?.addEventListener('click', e => {
-  e.preventDefault();
-  showAboutDoc('Terms & Conditions', `Subscription payments are auto-verified for UPI submissions. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after payment is confirmed.`);
-});
-
-$('#checkoutPrivacyLink')?.addEventListener('click', e => {
-  e.preventDefault();
-  showAboutDoc('Privacy Policy', `For payment verification, Nexus AI sends your submitted transaction ID, plan, amount, account email and payment screenshot to the configured administrator email for verification.`);
-});
-
+$('#checkoutTermsLink')?.addEventListener('click', e => { e.preventDefault(); showAboutDoc('Terms & Conditions', `Subscription payments are auto-verified for UPI submissions. You must provide accurate transaction information and a genuine payment screenshot.`); });
+$('#checkoutPrivacyLink')?.addEventListener('click', e => { e.preventDefault(); showAboutDoc('Privacy Policy', `For payment verification, Nexus AI sends your submitted transaction ID, plan, amount, account email and payment screenshot to the configured administrator email.`); });
 $('#copyUpiBtn')?.addEventListener('click', () => {
   navigator.clipboard.writeText(UPI_ID).then(() => {
     $('#copyUpiBtn').innerHTML = '<i class="fa-solid fa-check"></i> Copied';
@@ -1932,81 +2112,45 @@ $('#copyUpiBtn')?.addEventListener('click', () => {
   });
 });
 
-/* ---------- UPI SUBMIT — AUTO-VERIFY ---------- */
 $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const txnId = $('#upiTxnId').value.trim();
   const terms = $('#paymentTerms')?.checked;
   if(!pendingPlan){ toast('No plan selected', 'err'); return; }
-  if(txnId.length < 6){
-    toast('Please enter a valid UPI transaction ID (min 6 chars).', 'err', 4000);
-    $('#upiTxnId').focus();
-    return;
-  }
-  if(!paymentScreenshotData){
-    toast('Please upload the payment screenshot.', 'err', 4000);
-    $('#paymentScreenshot')?.focus();
-    return;
-  }
-  if(!terms){
-    toast('Please accept the Terms & Conditions and Privacy Policy.', 'err', 4000);
-    return;
-  }
-
+  if(txnId.length < 6){ toast('Please enter a valid UPI transaction ID (min 6 chars).', 'err', 4000); $('#upiTxnId').focus(); return; }
+  if(!paymentScreenshotData){ toast('Please upload the payment screenshot.', 'err', 4000); $('#paymentScreenshot')?.focus(); return; }
+  if(!terms){ toast('Please accept the Terms & Conditions and Privacy Policy.', 'err', 4000); return; }
   const btn = $('#upiSubmitBtn');
   btn.disabled = true;
   const original = btn.innerHTML;
   btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Verifying payment...';
-
   const u = currentUser();
   if(!u){ btn.disabled = false; btn.innerHTML = original; return; }
-
   S.pendingPayments = S.pendingPayments || [];
   const record = {
-    id: uid(),
-    userId: u.id,
-    userName: u.name,
-    userEmail: u.email,
-    plan: pendingPlan.id,
-    planName: pendingPlan.name,
-    amount: pendingPlan.price,
-    method: 'upi',
-    upiId: UPI_ID,
-    txnId,
-    screenshotData: paymentScreenshotData,
-    screenshotName: paymentScreenshotName,
-    termsAccepted: true,
-    status: 'pending',
-    submittedAt: Date.now()
+    id: uid(), userId: u.id, userName: u.name, userEmail: u.email,
+    plan: pendingPlan.id, planName: pendingPlan.name, amount: pendingPlan.price,
+    method: 'upi', upiId: UPI_ID, txnId,
+    screenshotData: paymentScreenshotData, screenshotName: paymentScreenshotName,
+    termsAccepted: true, status: 'pending', submittedAt: Date.now()
   };
   S.pendingPayments.push(record);
   saveState();
-
-  // Simulate auto-verification (Gemini-like instant confirmation)
   await new Promise(r => setTimeout(r, 2400));
-
-  // AUTO-APPROVE — activate subscription instantly
   record.status = 'approved';
   record.approvedAt = Date.now();
   record.autoVerified = true;
-
-  const durations = { trial: 1, basic: 30, pro: 30, ultimate: 365 };
+  const durations = { pro: 30, ultra: 30, team: 30 };
   const days = durations[record.plan] || 30;
   u.plan = record.plan;
   u.planExpires = Date.now() + days * 86400000;
   u.creditDate = new Date().toISOString().slice(0,10);
-  const map = { trial:100, basic:1000, pro:10000, ultimate:999999 };
+  const map = { pro:10000, ultra:999999, team:10000 };
   u.credits = map[record.plan] || 50;
   u.lastPayment = { id: txnId, plan: record.plan, amount: record.amount, time: Date.now() };
   saveState();
-
-  // Send email to admin (as a record — non-blocking)
-  sendPaymentVerificationEmail(record).then(mail => {
-    if(!mail.sent) console.warn('Email log failed:', mail.reason);
-  });
-
+  sendPaymentVerificationEmail(record).then(mail => { if(!mail.sent) console.warn('Email log failed:', mail.reason); });
   updatePlanUI();
   updateUserUI();
-
   btn.style.display = 'none';
   $('#upiSuccess').classList.add('show');
   $('#upiSuccessMsg').innerHTML =
@@ -2014,8 +2158,7 @@ $('#upiSubmitBtn')?.addEventListener('click', async () => {
     `<b>Status:</b> <span style="color:#34a853">✅ Auto-verified & Activated</span><br>` +
     `<b>Plan:</b> ${esc(pendingPlan.name)}<br>` +
     `<b>Reference ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px">${record.id}</code><br><br>` +
-    `🎉 Your <b>Nexus ${esc(pendingPlan.name)}</b> plan is now active!`;
-
+    `🎉 Your <b>${esc(pendingPlan.name)}</b> plan is now active!`;
   toast(`🎉 ${pendingPlan.name} activated instantly!`, 'ok', 5000);
   btn.disabled = false;
   btn.innerHTML = original;
@@ -2024,11 +2167,7 @@ $('#upiSuccessClose')?.addEventListener('click', () => closeModal('checkoutModal
 
 $('#payBtn')?.addEventListener('click', async () => {
   if(!pendingPlan) return;
-  if(!RAZORPAY_KEY_ID){
-    toast('Razorpay not configured. Use UPI option.', 'warn', 5000);
-    switchPayMethod('upi');
-    return;
-  }
+  if(!RAZORPAY_KEY_ID){ toast('Razorpay not configured. Use UPI option.', 'warn', 5000); switchPayMethod('upi'); return; }
   const btn = $('#payBtn');
   btn.disabled = true;
   const original = btn.innerHTML;
@@ -2038,9 +2177,9 @@ $('#payBtn')?.addEventListener('click', async () => {
     amount: pendingPlan.price * 100,
     currency: 'INR',
     name: 'Nexus AI',
-    description: `Nexus ${pendingPlan.name} — ₹${pendingPlan.price}`,
+    description: `${pendingPlan.name} — ₹${pendingPlan.price}`,
     prefill: { name: currentUser()?.name || '', email: currentUser()?.email || '', contact: '' },
-    theme: { color: '#4285f4' },
+    theme: { color: '#1a73e8' },
     handler: async function(response){
       btn.innerHTML = 'Verifying...';
       try{
@@ -2056,29 +2195,13 @@ $('#payBtn')?.addEventListener('click', async () => {
           $('#paySuccess').classList.add('show');
           $('#paySuccessMsg').textContent = `${pendingPlan.name} activated. Payment ID: ${response.razorpay_payment_id}`;
           toast(`🎉 ${pendingPlan.name} activated!`, 'ok', 5000);
-        } else {
-          toast('Verification failed. Contact support.', 'err', 5000);
-          btn.disabled = false;
-          btn.innerHTML = original;
-        }
-      }catch(e){
-        console.error(e);
-        toast('Verification error: ' + e.message, 'err');
-        btn.disabled = false;
-        btn.innerHTML = original;
-      }
+        } else { toast('Verification failed. Contact support.', 'err', 5000); btn.disabled = false; btn.innerHTML = original; }
+      }catch(e){ console.error(e); toast('Verification error: ' + e.message, 'err'); btn.disabled = false; btn.innerHTML = original; }
     },
     modal: { ondismiss: function(){ btn.disabled = false; btn.innerHTML = original; } }
   };
-  try{
-    const rzp = new Razorpay(options);
-    rzp.open();
-  }catch(e){
-    console.error(e);
-    toast('Cannot open Razorpay.', 'err');
-    btn.disabled = false;
-    btn.innerHTML = original;
-  }
+  try{ const rzp = new Razorpay(options); rzp.open(); }
+  catch(e){ console.error(e); toast('Cannot open Razorpay.', 'err'); btn.disabled = false; btn.innerHTML = original; }
 });
 $('#paySuccessClose')?.addEventListener('click', () => closeModal('checkoutModal'));
 document.addEventListener('click', e => {
@@ -2087,7 +2210,7 @@ document.addEventListener('click', e => {
 });
 function activateSubscription(plan, paymentId){
   const u = currentUser(); if(!u) return;
-  const durations = { trial: 1, basic: 30, pro: 30, ultimate: 365 };
+  const durations = { pro: 30, ultra: 30, team: 30 };
   const days = durations[plan.id] || 30;
   u.plan = plan.id;
   u.planExpires = Date.now() + days * 86400000;
@@ -2117,7 +2240,7 @@ function showAdminPanel(){
   overlay.innerHTML = `
     <div class="modal wide" style="max-width:860px">
       <button class="modal-x" id="adminClose"><i class="fa-solid fa-xmark"></i></button>
-      <div class="modal-head"><h2>🛡️ Admin — Payment Records</h2><p>All UPI submissions are auto-verified. This is a log for your records.</p></div>
+      <div class="modal-head"><h2>🛡️ Admin — Payment Records</h2><p>All UPI submissions are auto-verified. Log for your records.</p></div>
       <div id="adminList"></div>
     </div>`;
   document.body.appendChild(overlay);
@@ -2130,17 +2253,13 @@ function renderAdminList(){
   if(!all.length){ list.innerHTML = `<p style="text-align:center;padding:30px;color:var(--g-text-3)">No payments yet.</p>`; return; }
   list.innerHTML = all.map(p => `
     <div style="border:1px solid var(--g-border);border-radius:12px;padding:16px;margin-bottom:12px;background:${p.status==='approved'?'rgba(52,168,83,.05)':'rgba(251,191,36,.05)'}">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:220px">
-          <div style="font-weight:500;font-size:1rem;margin-bottom:6px">${esc(p.userName)} — ${esc(p.planName)} · ₹${p.amount}</div>
-          <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
-            <b>Email:</b> ${esc(p.userEmail)}<br>
-            <b>Transaction ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
-            <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}<br>
-            <b>Status:</b> <span style="color:${p.status==='approved'?'#34a853':'#f59e0b'}">${p.status}${p.autoVerified?' (auto)':''}</span>
-            ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" alt="Payment screenshot" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
-          </div>
-        </div>
+      <div style="font-weight:500;font-size:1rem;margin-bottom:6px">${esc(p.userName)} — ${esc(p.planName)} · ₹${p.amount}</div>
+      <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
+        <b>Email:</b> ${esc(p.userEmail)}<br>
+        <b>Txn:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
+        <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}<br>
+        <b>Status:</b> <span style="color:${p.status==='approved'?'#34a853':'#f59e0b'}">${p.status}${p.autoVerified?' (auto)':''}</span>
+        ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
       </div>
     </div>`).join('');
 }
@@ -2187,14 +2306,12 @@ function renderToolConfig(){
       <div class="field"><label>Title</label><input id="toolTitle" placeholder="Document title"></div>
       <button class="btn-primary" id="toolRun"><i class="fa-solid fa-file-word"></i> Generate Word</button>`
   };
-  c.innerHTML = configs[activeTool] || `<p style="padding:20px;color:var(--g-text-3);text-align:center">This tool is coming soon. Use Image, PPT, PDF or Word generators.</p>`;
+  c.innerHTML = configs[activeTool] || `<p style="padding:20px;color:var(--g-text-3);text-align:center">This tool is coming soon.</p>`;
   $('#toolRun')?.addEventListener('click', runTool);
 }
-
 async function runTool(){
   const prompt = $('#toolPrompt')?.value.trim();
   if(!prompt){ toast('Please enter a prompt', 'err'); return; }
-  const info = planInfo();
   const costs = { image:2, video:5, ppt:3, pdf:2, word:2, song:5, game:10 };
   const cost = costs[activeTool] || 2;
   if(!spend(cost)){ toast('Not enough credits. Upgrade to continue.', 'warn', 4000); openModal('upgradeModal'); return; }
@@ -2213,7 +2330,6 @@ async function runTool(){
     toast('Generation failed', 'err');
   }
 }
-
 async function toolImage(prompt){
   const style = $('#toolStyle').value;
   const ratio = $('#toolRatio').value;
@@ -2229,7 +2345,6 @@ async function toolImage(prompt){
   saveState();
   toast('Image generated', 'ok');
 }
-
 async function toolPPT(prompt){
   const slidesCount = parseInt($('#toolSlides').value, 10) || 8;
   const outline = await fetchAIOutline(prompt, slidesCount);
@@ -2237,12 +2352,12 @@ async function toolPPT(prompt){
   pptx.layout = 'LAYOUT_WIDE';
   pptx.author = 'Nexus AI';
   const titleSlide = pptx.addSlide();
-  titleSlide.background = { color: '4285f4' };
+  titleSlide.background = { color: '1a73e8' };
   titleSlide.addText(prompt, { x:0.5, y:2.2, w:12, h:1.5, fontSize:36, bold:true, color:'FFFFFF', align:'center' });
   titleSlide.addText('Created with Nexus AI', { x:0.5, y:3.8, w:12, h:0.5, fontSize:16, color:'FFFFFF', align:'center' });
   outline.forEach(s => {
     const slide = pptx.addSlide();
-    slide.addText(s.title, { x:0.5, y:0.4, w:12, h:0.8, fontSize:28, bold:true, color:'4285f4' });
+    slide.addText(s.title, { x:0.5, y:0.4, w:12, h:0.8, fontSize:28, bold:true, color:'1a73e8' });
     const bullets = s.points.map(p => ({ text: p, options:{ bullet:true, fontSize:18, color:'333333' } }));
     slide.addText(bullets, { x:0.6, y:1.4, w:12, h:5.5, lineSpacingMultiple:1.3 });
   });
@@ -2252,7 +2367,6 @@ async function toolPPT(prompt){
   $('#dlPpt').addEventListener('click', () => downloadBlob(blob, name));
   toast('PPT generated', 'ok');
 }
-
 async function fetchAIOutline(topic, count){
   const msg = [
     { role:'system', content: `Output JSON only, no markdown. Format: [{"title":"...","points":["...","..."]}]. Exactly ${count} items.` },
@@ -2260,12 +2374,9 @@ async function fetchAIOutline(topic, count){
   ];
   let raw = '';
   try { await callAI(msg, d => raw += d); } catch(e){}
-  try{
-    const match = raw.match(/\[[\s\S]*\]/);
-    return JSON.parse(match ? match[0] : raw);
-  }catch(e){ return [{ title: topic, points: ['Overview', 'Key points', 'Conclusion'] }]; }
+  try{ const match = raw.match(/\[[\s\S]*\]/); return JSON.parse(match ? match[0] : raw); }
+  catch(e){ return [{ title: topic, points: ['Overview', 'Key points', 'Conclusion'] }]; }
 }
-
 async function toolPDF(prompt){
   const title = $('#toolTitle').value.trim() || 'Document';
   const { jsPDF } = window.jspdf;
@@ -2273,7 +2384,7 @@ async function toolPDF(prompt){
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
   const margin = 60;
-  doc.setFillColor(66, 133, 244);
+  doc.setFillColor(26, 115, 232);
   doc.rect(0, 0, pageW, 80, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22); doc.setFont('helvetica', 'bold');
@@ -2300,17 +2411,15 @@ async function toolPDF(prompt){
   $('#dlPdf').addEventListener('click', () => downloadBlob(blob, name));
   toast('PDF generated', 'ok');
 }
-
 async function toolWord(prompt){
   const title = $('#toolTitle').value.trim() || 'Document';
-  const html = `<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#333;line-height:1.6;margin:60px}h1{color:#4285f4;font-size:24pt;margin-bottom:8px}.meta{color:#888;font-size:9pt;margin-bottom:30px;border-bottom:2px solid #4285f4;padding-bottom:10px}p{margin:10px 0}</style></head><body><h1>${esc(title)}</h1><div class="meta">Created with Nexus AI · ${new Date().toLocaleString()}</div>${prompt.split('\n').filter(Boolean).map(p => `<p>${esc(p)}</p>`).join('')}</body></html>`;
+  const html = `<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#333;line-height:1.6;margin:60px}h1{color:#1a73e8;font-size:24pt;margin-bottom:8px}.meta{color:#888;font-size:9pt;margin-bottom:30px;border-bottom:2px solid #1a73e8;padding-bottom:10px}p{margin:10px 0}</style></head><body><h1>${esc(title)}</h1><div class="meta">Created with Nexus AI · ${new Date().toLocaleString()}</div>${prompt.split('\n').filter(Boolean).map(p => `<p>${esc(p)}</p>`).join('')}</body></html>`;
   const blob = new Blob([html], { type: 'application/msword' });
   const name = `nexus-${Date.now()}.doc`;
   $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><i class="fa-solid fa-file-word" style="font-size:3.5rem;color:#1a73e8"></i><h3 style="margin:14px 0 8px;font-weight:500">Word document ready</h3><p style="color:var(--g-text-2);margin-bottom:16px">${esc(title)}</p><button class="btn-primary" style="width:auto;padding:12px 24px" id="dlWord"><i class="fa-solid fa-download"></i> Download .doc</button></div>`;
   $('#dlWord').addEventListener('click', () => downloadBlob(blob, name));
   toast('Word document generated', 'ok');
 }
-
 function downloadBlob(blob, name){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2319,7 +2428,6 @@ function downloadBlob(blob, name){
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   toast('Downloaded', 'ok', 1800);
 }
-
 function renderLibrary(){
   const lib = myLibrary();
   const c = $('#libContent');
@@ -2343,7 +2451,6 @@ $('#contactSend')?.addEventListener('click', () => {
   $('#contactName').value = ''; $('#contactEmail').value = ''; $('#contactMsg').value = '';
   setTimeout(() => closeModal('contactModal'), 1500);
 });
-
 function renderReviews(){
   const c = $('#reviewList');
   const reviews = S.reviews || [];
@@ -2397,10 +2504,7 @@ $('#submitReview')?.addEventListener('click', () => {
    SETTINGS
    ============================================================ */
 function segSet(id, val){ $$(`#${id} .seg-btn`).forEach(b => b.classList.toggle('active', b.dataset.val === val)); }
-function segGet(id){
-  const active = $(`#${id} .seg-btn.active`);
-  return active ? active.dataset.val : null;
-}
+function segGet(id){ const a = $(`#${id} .seg-btn.active`); return a ? a.dataset.val : null; }
 function openSettings(){
   const s = S.settings;
   segSet('segTheme', s.theme === 'auto' ? 'auto' : (s.theme === 'dark' ? 'dark' : 'light'));
@@ -2416,6 +2520,10 @@ function openSettings(){
   $('#swStreaming').classList.toggle('on', s.streaming !== false);
   $('#swAutoSave').classList.toggle('on', s.autoSave !== false);
   $('#swAutoImage').classList.toggle('on', s.autoImage !== false);
+  $('#swDeepResearch').classList.toggle('on', s.deepResearchDefault === true);
+  $('#swCanvas').classList.toggle('on', s.canvasDefault === true);
+  $('#swMemory').classList.toggle('on', s.memory !== false);
+  $('#memoryText').value = s.memoryText || '';
   $('#voiceLang').value = s.voiceLang || 'en-US';
   $('#swTTS').classList.toggle('on', s.tts);
   $('#ttsSpeed').value = s.ttsSpeed || 1;
@@ -2443,13 +2551,14 @@ function saveSettingsUI(){
     streaming: $('#swStreaming').classList.contains('on'),
     autoSave: $('#swAutoSave').classList.contains('on'),
     autoImage: $('#swAutoImage').classList.contains('on'),
+    deepResearchDefault: $('#swDeepResearch').classList.contains('on'),
+    canvasDefault: $('#swCanvas').classList.contains('on'),
+    memory: $('#swMemory').classList.contains('on'),
+    memoryText: $('#memoryText').value,
     voiceLang: $('#voiceLang').value,
     tts: $('#swTTS').classList.contains('on'),
     ttsSpeed: parseFloat($('#ttsSpeed').value) || 1.0,
-    keys: {
-      openai: $('#keyOpenAI').value.trim(),
-      gemini: $('#keyGemini').value.trim()
-    }
+    keys: { openai: $('#keyOpenAI').value.trim(), gemini: $('#keyGemini').value.trim() }
   });
   saveState();
   applyAllSettings();
@@ -2475,7 +2584,6 @@ function updateStorageUsage(){
   $('#sizeOther').textContent = fmt(otherSize);
   $('#sizeTotal').textContent = fmt(total);
 }
-
 function bindSettings(){
   $$('.settings-tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -2491,14 +2599,8 @@ function bindSettings(){
       btn.addEventListener('click', () => {
         $$(`#${id} .seg-btn`).forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        if(id === 'segTheme'){
-          S.settings.theme = btn.dataset.val;
-          applyTheme();
-        }
-        if(id === 'segFont'){
-          S.settings.fontSize = btn.dataset.val;
-          applyFontSize(btn.dataset.val);
-        }
+        if(id === 'segTheme'){ S.settings.theme = btn.dataset.val; applyTheme(); }
+        if(id === 'segFont'){ S.settings.fontSize = btn.dataset.val; applyFontSize(btn.dataset.val); }
       });
     });
   });
@@ -2510,7 +2612,7 @@ function bindSettings(){
       applyAccent(dot.dataset.accent);
     });
   });
-  ['swCompact','swAnimations','swSendEnter','swStreaming','swAutoSave','swAutoImage','swTTS'].forEach(id => {
+  ['swCompact','swAnimations','swSendEnter','swStreaming','swAutoSave','swAutoImage','swDeepResearch','swCanvas','swMemory','swTTS'].forEach(id => {
     $(`#${id}`)?.addEventListener('click', (e) => {
       e.currentTarget.classList.toggle('on');
       const on = e.currentTarget.classList.contains('on');
@@ -2535,19 +2637,20 @@ function bindSettings(){
     if(!oKey && !gKey){ toast('Enter at least one API key', 'err'); return; }
     toast('Testing...', 'info', 1500);
     try{
-      if(oKey){
-        const r = await fetch('https://api.openai.com/v1/models', { headers:{ 'Authorization':'Bearer ' + oKey } });
-        toast(r.ok ? '✓ OpenAI key valid' : '✗ OpenAI key invalid', r.ok ? 'ok' : 'err');
-      }
-      if(gKey){
-        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${gKey}`);
-        toast(r.ok ? '✓ Gemini key valid' : '✗ Gemini key invalid', r.ok ? 'ok' : 'err');
-      }
+      if(oKey){ const r = await fetch('https://api.openai.com/v1/models', { headers:{ 'Authorization':'Bearer ' + oKey } }); toast(r.ok ? '✓ OpenAI key valid' : '✗ OpenAI key invalid', r.ok ? 'ok' : 'err'); }
+      if(gKey){ const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${gKey}`); toast(r.ok ? '✓ Gemini key valid' : '✗ Gemini key invalid', r.ok ? 'ok' : 'err'); }
     }catch(e){ toast('Network error', 'err'); }
+  });
+  $('#clearMemoryBtn')?.addEventListener('click', () => {
+    if(!confirm('Clear all memories?')) return;
+    S.settings.memoryText = '';
+    saveState();
+    $('#memoryText').value = '';
+    toast('Memories cleared', 'ok');
   });
   $('#saveSettings')?.addEventListener('click', saveSettingsUI);
   $('#exportAllBtn')?.addEventListener('click', () => {
-    const data = { version:'3.0', exportedAt: Date.now(), users: S.users.map(u => ({ ...u, passHash: 'REDACTED' })), chats: S.chats, library: S.library, reviews: S.reviews, settings: S.settings };
+    const data = { version:'3.5', exportedAt: Date.now(), users: S.users.map(u => ({ ...u, passHash: 'REDACTED' })), chats: S.chats, library: S.library, reviews: S.reviews, settings: S.settings };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -2610,19 +2713,13 @@ function bindSettings(){
   $('#aboutContact')?.addEventListener('click', () => { closeModal('settingsModal'); openModal('contactModal'); });
   $('#aboutReviews')?.addEventListener('click', () => { closeModal('settingsModal'); renderReviews(); openModal('reviewsModal'); });
   $('#aboutTerms')?.addEventListener('click', () => showAboutDoc('Terms of Service', `By using Nexus AI you agree to use it responsibly and legally. All content you generate is your responsibility.`));
-  $('#aboutPrivacy')?.addEventListener('click', () => showAboutDoc('Privacy Policy', `Your data stays in your browser. Payment verification data is sent to the admin email for approval.`));
+  $('#aboutPrivacy')?.addEventListener('click', () => showAboutDoc('Privacy Policy', `Your data stays in your browser. Payment verification data is sent to the admin email.`));
   $('#aboutShortcuts')?.addEventListener('click', () => showAboutDoc('Keyboard Shortcuts', `Ctrl + K — New chat\nCtrl + J — Toggle theme\nCtrl + , — Open settings\nEnter — Send message\nShift + Enter — New line\nEsc — Close modals`));
 }
 function showAboutDoc(title, text){ alert(`📄 ${title}\n\n${text}`); }
 
-$('#authTermsLink')?.addEventListener('click', e => {
-  e.preventDefault();
-  showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated automatically after payment verification.`);
-});
-$('#authPrivacyLink')?.addEventListener('click', e => {
-  e.preventDefault();
-  showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, and settings information in browser localStorage. For payment verification, transaction details and payment screenshot are sent to the administrator email.`);
-});
+$('#authTermsLink')?.addEventListener('click', e => { e.preventDefault(); showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated automatically after payment verification.`); });
+$('#authPrivacyLink')?.addEventListener('click', e => { e.preventDefault(); showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, and settings information in browser localStorage. For payment verification, transaction details and payment screenshot are sent to the administrator email.`); });
 
 /* ============================================================
    VOICE INPUT
@@ -2675,6 +2772,16 @@ function bindAll(){
   document.addEventListener('click', e => {
     if(!e.target.closest('#modelDropdown') && !e.target.closest('#modelBtn')) closeDropdown();
   });
+  $('#deepResearchBtn').addEventListener('click', () => {
+    deepResearchMode = !deepResearchMode;
+    updateModeChips();
+    toast(deepResearchMode ? 'Deep Research ON' : 'Deep Research OFF', 'info', 1800);
+  });
+  $('#canvasBtn').addEventListener('click', () => {
+    canvasMode = !canvasMode;
+    updateModeChips();
+    toast(canvasMode ? 'Canvas ON' : 'Canvas OFF', 'info', 1800);
+  });
   const input = $('#promptInput');
   input.addEventListener('input', () => {
     input.style.height = 'auto';
@@ -2684,12 +2791,8 @@ function bindAll(){
   });
   input.addEventListener('keydown', e => {
     const sendOnEnter = S.settings.sendOnEnter !== false;
-    if(e.key === 'Enter' && !e.shiftKey){
-      if(sendOnEnter){ e.preventDefault(); if(!isGenerating) handleSend(); }
-    } else if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)){
-      e.preventDefault();
-      if(!isGenerating) handleSend();
-    }
+    if(e.key === 'Enter' && !e.shiftKey){ if(sendOnEnter){ e.preventDefault(); if(!isGenerating) handleSend(); } }
+    else if(e.key === 'Enter' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); if(!isGenerating) handleSend(); }
   });
   $('#sendBtn').addEventListener('click', () => { if(isGenerating) abortCtrl?.abort(); else handleSend(); });
   $('#attachBtn').addEventListener('click', () => $('#fileInput').click());
@@ -2725,7 +2828,6 @@ function init(){
   initGoogle();
   checkAdminRoute();
   applyModelUI();
-
   if(S.sessionId && currentUser()) enterApp();
   else { $('#authScreen').classList.remove('hide'); $('#app').style.display = 'none'; }
 }
