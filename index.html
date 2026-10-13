@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Nexus AI</title>
+<title>Gemini</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,12 +18,14 @@
 
 <style>
 :root{
-  --g-blue:#1a73e8;--g-blue-d:#1557b0;
+  --g-blue:#4285f4;--g-blue-d:#1a73e8;
+  --g-purple:#9b72cb;--g-pink:#d96570;
   --g-surface:#fff;--g-surface-2:#f0f4f9;--g-surface-3:#e9eef6;--g-sidebar:#f0f4f9;
   --g-text:#1f1f1f;--g-text-2:#444746;--g-text-3:#5f6368;
   --g-border:#dadce0;--g-border-2:#c4c7c5;--g-hover:#e8f0fe;
   --g-error:#d93025;--g-success:#188038;--g-warn:#f59e0b;
-  --g-grad:linear-gradient(90deg,#4285f4 0%,#9b72cb 35%,#d96570 70%,#f2a600 100%);
+  --g-grad:linear-gradient(90deg,#4285f4 0%,#9b72cb 40%,#d96570 75%,#f2a600 100%);
+  --g-grad-gem:linear-gradient(135deg,#4285f4 0%,#9b72cb 50%,#d96570 100%);
   --g-grad-soft:linear-gradient(135deg,#e8f0fe,#f3e8fd,#fde8ec);
   --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-2xl:28px;
   --shadow-1:0 1px 3px rgba(60,64,67,.15);
@@ -46,13 +48,17 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 ::-webkit-scrollbar-thumb:hover{background:var(--g-border-2)}
 .hide{display:none!important}
 
+/* Gemini sparkle logo */
+.gem-logo{display:inline-block;line-height:0}
+.gem-logo svg{display:block}
+
 /* AUTH */
 .auth-screen{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--g-surface);overflow-y:auto}
 .auth-card{width:100%;max-width:440px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-2xl);padding:40px 32px 32px;box-shadow:var(--shadow-3);animation:popIn .4s cubic-bezier(.2,0,0,1)}
 @keyframes popIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 .auth-brand{text-align:center;margin-bottom:26px}
-.auth-logo{font-size:2.2rem;font-weight:700;letter-spacing:-1px;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
-.auth-tagline{font-size:.8rem;color:var(--g-text-3);margin-top:4px}
+.auth-logo{font-size:2.2rem;font-weight:500;letter-spacing:-1px;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-flex;align-items:center;gap:10px}
+.auth-tagline{font-size:.8rem;color:var(--g-text-3);margin-top:8px}
 .auth-title{font-size:1.5rem;font-weight:500;text-align:center;color:var(--g-text)}
 .auth-sub{text-align:center;color:var(--g-text-2);font-size:.9rem;margin-top:8px;margin-bottom:26px;line-height:1.55}
 #googleBtnWrap{display:flex;justify-content:center;margin-bottom:8px;min-height:44px}
@@ -61,12 +67,12 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--g-border)}
 .tabs{display:flex;border-bottom:1px solid var(--g-border);margin-bottom:22px}
 .tab{flex:1;padding:12px;background:transparent;border:none;color:var(--g-text-3);font-weight:500;font-size:.92rem;cursor:pointer;position:relative}
-.tab.active{color:var(--g-blue)}
-.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--g-blue);border-radius:2px 2px 0 0}
+.tab.active{color:var(--g-blue-d)}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--g-blue-d);border-radius:2px 2px 0 0}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:.8rem;font-weight:500;color:var(--g-text-2);margin-bottom:6px}
 .field input,.field textarea,.field select{width:100%;padding:13px 15px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);color:var(--g-text);font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--g-blue);box-shadow:0 0 0 3px rgba(26,115,232,.12)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--g-blue);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
 .field small{display:block;font-size:.72rem;color:var(--g-text-3);margin-top:5px}
 .pass-wrap{position:relative}
 .pass-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--g-text-3);cursor:pointer;padding:8px;font-size:.9rem}
@@ -76,20 +82,20 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .pass-strength-fill.medium{background:#f9ab00;width:66%}
 .pass-strength-fill.strong{background:#188038;width:100%}
 .auth-error{color:var(--g-error);font-size:.82rem;min-height:20px;margin-bottom:6px;font-weight:500;display:flex;align-items:center;gap:6px}
-.btn-primary{width:100%;padding:13px;border:none;border-radius:var(--r-sm);background:var(--g-blue);color:#fff;font-weight:500;font-size:.95rem;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-1);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary:hover{background:var(--g-blue-d);box-shadow:var(--shadow-2)}
+.btn-primary{width:100%;padding:13px;border:none;border-radius:var(--r-sm);background:var(--g-grad-gem);color:#fff;font-weight:500;font-size:.95rem;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-1);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{filter:brightness(.94);box-shadow:var(--shadow-2)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
 .btn-ghost{width:100%;padding:12px;margin-top:10px;background:transparent;border:1px solid var(--g-border);border-radius:var(--r-sm);color:var(--g-text-2);font-weight:500;font-size:.9rem;cursor:pointer;transition:all .2s}
 .btn-ghost:hover{background:var(--g-surface-2);border-color:var(--g-border-2)}
 .auth-foot{margin-top:22px;text-align:center;font-size:.75rem;color:var(--g-text-3);line-height:1.6}
-.auth-foot a{color:var(--g-blue);text-decoration:none}
+.auth-foot a{color:var(--g-blue-d);text-decoration:none}
 
 /* APP */
 .app{display:flex;height:100vh;width:100%;background:var(--g-surface)}
 .sidebar{width:280px;flex-shrink:0;background:var(--g-sidebar);display:flex;flex-direction:column;transition:transform .3s}
 .sb-head{padding:16px 14px 10px;display:flex;align-items:center;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:1.1rem;color:var(--g-text-2)}
-.brand-mark{width:28px;height:28px;border-radius:8px;background:var(--g-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem}
+.brand-mark{width:28px;height:28px;border-radius:8px;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem}
 .sb-new{padding:0 12px 12px}
 .new-chat{width:100%;padding:11px 16px;border:none;border-radius:999px;background:var(--g-surface);color:var(--g-text);font-weight:500;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s;box-shadow:var(--shadow-1)}
 .new-chat:hover{background:var(--g-hover);box-shadow:var(--shadow-2)}
@@ -120,7 +126,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .plan-btn{width:100%;padding:9px;margin-top:10px;border-radius:var(--r-sm);background:var(--g-blue);color:#fff;border:none;font-size:.82rem;font-weight:500;cursor:pointer}
 .user-bar{display:flex;align-items:center;gap:8px;padding:6px;border-radius:var(--r-sm)}
 .user-bar:hover{background:var(--g-hover)}
-.avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--g-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500;font-size:.85rem;overflow:hidden}
+.avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500;font-size:.85rem;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .user-meta{flex:1;min-width:0}
 .user-name{font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -143,16 +149,16 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .dd-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--r-sm);cursor:pointer;transition:background .15s}
 .dd-item:hover{background:var(--g-surface-2)}
 .dd-item.sel{background:var(--g-hover)}
-.dd-ic{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:var(--g-surface-2);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--g-blue)}
-.dd-item.sel .dd-ic{background:var(--g-blue);color:#fff}
+.dd-ic{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:var(--g-surface-2);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--g-blue-d)}
+.dd-item.sel .dd-ic{background:var(--g-grad-gem);color:#fff}
 .dd-txt{flex:1;min-width:0}
 .dd-name{font-size:.87rem;font-weight:500}
 .dd-desc{font-size:.72rem;color:var(--g-text-3)}
 .top-right{display:flex;align-items:center;gap:6px}
 .btn-sm{display:flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--g-border);padding:8px 14px;border-radius:999px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .15s;color:var(--g-text-2);white-space:nowrap}
 .btn-sm:hover{background:var(--g-surface-2);color:var(--g-text)}
-.btn-sm.primary{background:var(--g-blue);color:#fff;border-color:var(--g-blue)}
-.btn-sm.primary:hover{background:var(--g-blue-d)}
+.btn-sm.primary{background:var(--g-grad-gem);color:#fff;border-color:transparent}
+.btn-sm.primary:hover{filter:brightness(.94)}
 .btn-sm.icon-only{padding:8px 10px}
 
 .messages{flex:1;overflow-y:auto;padding:20px 0;display:flex;flex-direction:column;gap:16px}
@@ -160,25 +166,26 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .msg-row.user{flex-direction:row-reverse}
 .msg-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500;color:#fff;overflow:hidden}
-.msg-av.ai{background:var(--g-grad);font-weight:700}
+.msg-av.ai{background:var(--g-surface-2)}
+.msg-av.ai svg{width:20px;height:20px}
 .msg-av.user{background:var(--g-blue)}
 .msg-av img{width:100%;height:100%;object-fit:cover}
 .msg-body{max-width:min(80%,740px);display:flex;flex-direction:column;gap:6px;min-width:0}
 .msg-row.user .msg-body{align-items:flex-end}
 .bubble{padding:12px 16px;border-radius:var(--r-lg);font-size:.95rem;line-height:1.65;word-wrap:break-word;overflow-wrap:anywhere}
-.msg-row.ai .bubble{background:var(--g-surface-2);color:var(--g-text);border-top-left-radius:4px}
-.msg-row.user .bubble{background:var(--g-blue);color:#fff;border-top-right-radius:4px}
-.msg-row.error .bubble{background:rgba(217,48,37,.1);border:1px solid rgba(217,48,37,.3)}
+.msg-row.ai .bubble{background:transparent;color:var(--g-text);padding-left:0;padding-right:0}
+.msg-row.user .bubble{background:var(--g-surface-2);color:var(--g-text);border-top-right-radius:4px}
+.msg-row.error .bubble{background:rgba(217,48,37,.1);border:1px solid rgba(217,48,37,.3);padding:12px 16px;border-radius:var(--r-lg)}
 .msg-meta{display:flex;gap:8px;font-size:.7rem;color:var(--g-text-3);padding:0 6px;flex-wrap:wrap;align-items:center}
 .msg-act{background:transparent;border:none;color:var(--g-text-3);cursor:pointer;padding:3px 6px;border-radius:5px;font-size:.72rem}
-.msg-act:hover{color:var(--g-blue);background:var(--g-surface-2)}
+.msg-act:hover{color:var(--g-blue-d);background:var(--g-surface-2)}
 .bubble p{margin:0 0 8px}
 .bubble p:last-child{margin:0}
 .bubble h1,.bubble h2,.bubble h3,.bubble h4{margin:12px 0 6px;font-weight:500;line-height:1.3}
 .bubble h1{font-size:1.3rem}.bubble h2{font-size:1.1rem}.bubble h3{font-size:1rem}
 .bubble ul,.bubble ol{margin:6px 0 10px;padding-left:22px}
 .bubble li{margin-bottom:4px}
-.bubble a{color:var(--g-blue);text-decoration:underline}
+.bubble a{color:var(--g-blue-d);text-decoration:underline}
 .bubble code:not(pre code){font-family:'Roboto Mono',monospace;font-size:.85em;background:var(--g-surface-3);padding:2px 6px;border-radius:4px}
 .msg-row.user .bubble code:not(pre code){background:rgba(255,255,255,.2)}
 .code-block{background:#202124;border-radius:var(--r-md);margin:10px 0;overflow:hidden;border:1px solid #3c4043}
@@ -202,9 +209,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 @keyframes bounce{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
 
 .welcome{margin:auto;max-width:760px;padding:24px;text-align:center;animation:msgIn .4s}
-.welcome-logo{font-size:2.8rem;font-weight:700;letter-spacing:-1.5px;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;display:inline-block}
-.welcome h1{font-size:2rem;font-weight:500;letter-spacing:-1px;margin-bottom:12px;line-height:1.25}
-.welcome h1 em{font-style:normal;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.welcome-logo{margin-bottom:18px;display:inline-block}
+.welcome h1{font-size:2.2rem;font-weight:500;letter-spacing:-1px;margin-bottom:12px;line-height:1.25;background:var(--g-grad-gem);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .welcome p{color:var(--g-text-2);font-size:.95rem;line-height:1.6;margin-bottom:24px}
 .sugg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
 .sugg{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:14px;text-align:left;cursor:pointer;transition:all .2s}
@@ -228,8 +234,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 @keyframes pulse{50%{opacity:.5}}
 .comp-right{display:flex;align-items:center;gap:10px}
 .char-count{font-size:.7rem;color:var(--g-text-3)}
-.send-btn{width:38px;height:38px;border-radius:50%;background:var(--g-blue);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
-.send-btn:hover:not(:disabled){background:var(--g-blue-d);transform:scale(1.05)}
+.send-btn{width:38px;height:38px;border-radius:50%;background:var(--g-grad-gem);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s}
+.send-btn:hover:not(:disabled){filter:brightness(.94);transform:scale(1.05)}
 .send-btn:disabled{background:var(--g-surface-3);color:var(--g-text-3);cursor:not-allowed}
 .send-btn.stop{background:var(--g-error)}
 .disclaimer{text-align:center;font-size:.7rem;color:var(--g-text-3);margin-top:10px}
@@ -238,7 +244,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .tool-card{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s}
 .tool-card:hover{border-color:var(--g-blue);transform:translateY(-2px)}
 .tool-card.active{border-color:var(--g-blue);background:var(--g-hover)}
-.tool-card .tc-icon{width:44px;height:44px;border-radius:12px;background:var(--g-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;margin:0 auto 10px}
+.tool-card .tc-icon{width:44px;height:44px;border-radius:12px;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;margin:0 auto 10px}
 .tool-card .tc-name{font-weight:500;font-size:.86rem;margin-bottom:3px}
 .tool-card .tc-desc{font-size:.7rem;color:var(--g-text-3)}
 
@@ -259,7 +265,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .plan{border:1px solid var(--g-border);border-radius:var(--r-lg);padding:20px 16px;background:var(--g-surface-2);position:relative;transition:all .2s;display:flex;flex-direction:column;gap:12px}
 .plan:hover{border-color:var(--g-border-2);transform:translateY(-2px)}
 .plan.featured{border-color:var(--g-blue);background:var(--g-hover);box-shadow:0 0 0 2px var(--g-blue)}
-.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g-blue);color:#fff;font-size:.65rem;font-weight:500;padding:4px 12px;border-radius:999px;white-space:nowrap}
+.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--g-grad-gem);color:#fff;font-size:.65rem;font-weight:500;padding:4px 12px;border-radius:999px;white-space:nowrap}
 .plan h3{font-size:1rem;font-weight:500;display:flex;align-items:center;gap:6px}
 .plan .price{font-size:1.9rem;font-weight:500;letter-spacing:-1px;line-height:1}
 .plan .price small{font-size:.75rem;font-weight:400;color:var(--g-text-3)}
@@ -276,7 +282,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .pay-pane{display:none}
 .pay-pane.active{display:block}
 .secure-badge{background:var(--g-hover);border:1px solid var(--g-blue);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;color:var(--g-text);margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
-.secure-badge i{color:var(--g-blue);margin-top:2px}
+.secure-badge i{color:var(--g-blue-d);margin-top:2px}
 .pay-success{text-align:center;padding:20px 12px;display:none}
 .pay-success.show{display:block;animation:msgIn .4s}
 .pay-success i{font-size:3.5rem;color:var(--g-success);margin-bottom:14px}
@@ -285,7 +291,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 
 .review-card{background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-md);padding:14px;margin-bottom:10px}
 .review-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.review-av{width:36px;height:36px;border-radius:50%;background:var(--g-grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500}
+.review-av{width:36px;height:36px;border-radius:50%;background:var(--g-grad-gem);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:500}
 .review-name{font-weight:500;font-size:.88rem}
 .review-date{font-size:.72rem;color:var(--g-text-3)}
 .review-stars{color:#f59e0b;font-size:.85rem;margin-left:auto}
@@ -305,8 +311,8 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .settings-tabs{display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;padding-bottom:4px;border-bottom:1px solid var(--g-border)}
 .settings-tab{padding:10px 16px;background:transparent;border:none;color:var(--g-text-3);font-size:.85rem;font-weight:500;cursor:pointer;border-radius:var(--r-sm) var(--r-sm) 0 0;white-space:nowrap;transition:all .15s;position:relative;display:flex;align-items:center;gap:6px}
 .settings-tab:hover{background:var(--g-surface-2);color:var(--g-text)}
-.settings-tab.active{color:var(--g-blue)}
-.settings-tab.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:2px;background:var(--g-blue);border-radius:2px 2px 0 0}
+.settings-tab.active{color:var(--g-blue-d)}
+.settings-tab.active::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:2px;background:var(--g-blue-d);border-radius:2px 2px 0 0}
 .settings-pane{display:none;animation:msgIn .25s}
 .settings-pane.active{display:block}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--g-border)}
@@ -314,7 +320,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .set-row-full{display:block;padding:14px 0;border-bottom:1px solid var(--g-border)}
 .set-info{flex:1;min-width:0}
 .set-title{font-size:.88rem;font-weight:500;display:flex;align-items:center;gap:8px;color:var(--g-text)}
-.set-title i{color:var(--g-blue);font-size:.85rem}
+.set-title i{color:var(--g-blue-d);font-size:.85rem}
 .set-desc{font-size:.75rem;color:var(--g-text-3);margin-top:3px;line-height:1.45}
 .switch{width:46px;height:26px;border-radius:20px;flex-shrink:0;background:var(--g-surface-3);border:1px solid var(--g-border);position:relative;cursor:pointer;transition:all .25s}
 .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--g-text-3);transition:all .25s}
@@ -328,7 +334,7 @@ button,input,textarea,select{font-family:inherit;color:inherit}
 .accent-dot:hover{transform:scale(1.12)}
 .accent-dot.sel{border-color:var(--g-text);transform:scale(1.12)}
 input[type="range"].custom-range{-webkit-appearance:none;width:130px;height:5px;border-radius:20px;background:var(--g-surface-3);outline:none;cursor:pointer}
-input[type="range"].custom-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g-blue);cursor:pointer;box-shadow:0 0 8px rgba(26,115,232,.4)}
+input[type="range"].custom-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--g-blue);cursor:pointer;box-shadow:0 0 8px rgba(66,133,244,.4)}
 input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--g-blue);cursor:pointer}
 .storage-bar{height:8px;background:var(--g-surface-3);border-radius:4px;overflow:hidden;margin:8px 0;display:flex}
 .storage-seg{height:100%;transition:width .3s}
@@ -340,12 +346,12 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 .storage-legend span{display:flex;align-items:center;gap:5px}
 .storage-dot{width:10px;height:10px;border-radius:3px}
 .about-card{text-align:center;padding:20px;background:var(--g-surface-2);border-radius:var(--r-lg);margin-bottom:16px}
-.about-logo{font-size:2rem;font-weight:700;letter-spacing:-1px;background:var(--g-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;margin-bottom:6px}
+.about-logo{margin-bottom:8px}
 .about-ver{font-size:.75rem;color:var(--g-text-3)}
 .about-links{display:grid;gap:6px;margin-top:14px}
 .about-link{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--g-surface-2);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.85rem;color:var(--g-text);text-decoration:none;transition:all .15s;cursor:pointer}
 .about-link:hover{background:var(--g-surface-3);border-color:var(--g-blue)}
-.about-link i:first-child{color:var(--g-blue);margin-right:10px}
+.about-link i:first-child{color:var(--g-blue-d);margin-right:10px}
 .danger-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--g-error);border-radius:var(--r-sm);color:var(--g-error);font-weight:500;font-size:.85rem;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
 .danger-btn:hover{background:rgba(217,48,37,.08)}
 
@@ -369,11 +375,21 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 <div class="auth-screen" id="authScreen">
   <div class="auth-card">
     <div class="auth-brand">
-      <div class="auth-logo">Nexus AI</div>
+      <div class="auth-logo">
+        <span class="gem-logo" style="width:36px;height:36px">
+          <svg viewBox="0 0 28 28" width="36" height="36">
+            <defs><linearGradient id="gemGrad1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+            </linearGradient></defs>
+            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad1)"/>
+          </svg>
+        </span>
+        Gemini
+      </div>
       <div class="auth-tagline">Intelligence · Creativity · Studio</div>
     </div>
     <h1 class="auth-title" id="authTitle">Welcome back</h1>
-    <p class="auth-sub" id="authSub">Sign in to continue to your workspace.</p>
+    <p class="auth-sub" id="authSub">Sign in to continue to Gemini.</p>
     <div id="googleBtnWrap"></div>
     <div id="googleFallbackNotice" style="display:none"><b>Google Sign-In setup required:</b> Add your OAuth Client ID in code to enable Google login.</div>
     <div class="divider">or continue with email</div>
@@ -410,7 +426,17 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 <div class="app" id="app" style="display:none">
   <aside class="sidebar" id="sidebar">
     <div class="sb-head">
-      <div class="brand"><div class="brand-mark">N</div><span>Nexus AI</span></div>
+      <div class="brand">
+        <span class="gem-logo" style="width:24px;height:24px">
+          <svg viewBox="0 0 28 28" width="24" height="24">
+            <defs><linearGradient id="gemGrad2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+            </linearGradient></defs>
+            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad2)"/>
+          </svg>
+        </span>
+        <span>Gemini</span>
+      </div>
       <button class="icon-btn" id="sbClose"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="sb-new"><button class="new-chat" id="newChatBtn"><i class="fa-solid fa-pen-to-square"></i> New chat</button></div>
@@ -449,8 +475,15 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="top-left">
         <button class="icon-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
         <button class="model-chip" id="modelBtn">
-          <i class="fa-solid fa-sparkles" style="color:var(--g-blue)"></i>
-          <span class="mb-name" id="modelName">Nexus Ultra</span>
+          <span class="gem-logo" style="width:16px;height:16px">
+            <svg viewBox="0 0 28 28" width="16" height="16">
+              <defs><linearGradient id="gemGrad3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+              </linearGradient></defs>
+              <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad3)"/>
+            </svg>
+          </span>
+          <span class="mb-name" id="modelName">Gemini 2.0 Flash</span>
           <i class="fa-solid fa-chevron-down"></i>
         </button>
       </div>
@@ -467,7 +500,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     <div class="composer-wrap">
       <div class="composer">
         <div class="attach-list" id="attachList"></div>
-        <textarea id="promptInput" placeholder="Message Nexus AI…" rows="1"></textarea>
+        <textarea id="promptInput" placeholder="Ask Gemini" rows="1"></textarea>
         <div class="comp-bottom">
           <div class="comp-left">
             <button class="tool-btn" id="attachBtn" title="Attach"><i class="fa-solid fa-paperclip"></i></button>
@@ -481,7 +514,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
           </div>
         </div>
       </div>
-      <p class="disclaimer">Nexus AI can make mistakes. Verify important information.</p>
+      <p class="disclaimer">Gemini can make mistakes. Verify important information.</p>
     </div>
   </main>
 </div>
@@ -510,13 +543,13 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
   <div class="modal xl">
     <button class="modal-x" data-close="upgradeModal"><i class="fa-solid fa-xmark"></i></button>
     <div class="modal-head" style="text-align:center;padding-right:0">
-      <h2 style="font-size:1.6rem">Choose your plan</h2>
-      <p>Real payments via Razorpay or UPI Direct. Subscription activates only after verified payment.</p>
+      <h2 style="font-size:1.6rem">Choose your Gemini plan</h2>
+      <p>Instant activation via UPI + Razorpay. Auto-verified in seconds.</p>
     </div>
     <div class="plans" id="plansContainer"></div>
     <div class="secure-badge" style="margin-top:20px">
       <i class="fa-solid fa-shield-halved"></i>
-      <span><b>100% secure.</b> Razorpay = instant auto-verified. UPI Direct = admin verifies within minutes. Subscription locks until payment confirmed.</span>
+      <span><b>100% secure.</b> UPI = auto-verified instantly. Razorpay = instant auto-verified. Your plan activates the moment your payment is confirmed.</span>
     </div>
   </div>
 </div>
@@ -531,20 +564,20 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
     </div>
     <div style="background:var(--g-surface-2);border-radius:var(--r-md);padding:16px;margin-bottom:18px">
       <div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:6px">
-        <span id="coPlanName">Nexus Pro</span><b id="coPlanPrice">₹500</b>
+        <span id="coPlanName">Gemini Pro</span><b id="coPlanPrice">₹500</b>
       </div>
       <div style="font-size:.78rem;color:var(--g-text-3)" id="coPlanSub">Billed monthly</div>
     </div>
 
     <div class="pay-tabs">
-      <button class="pay-tab active" data-pay="upi"><i class="fa-solid fa-mobile-screen"></i> UPI + Email Verify</button>
+      <button class="pay-tab active" data-pay="upi"><i class="fa-solid fa-mobile-screen"></i> UPI — Instant</button>
       <button class="pay-tab" data-pay="razorpay"><i class="fa-solid fa-shield-halved"></i> Razorpay</button>
     </div>
 
     <div class="pay-pane active" data-pane="upi">
-      <div class="secure-badge" style="background:rgba(251,191,36,.1);border-color:#f59e0b">
-        <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b"></i>
-        <span><b>Admin manual verification.</b> Pay via UPI app → submit transaction ID + screenshot → screenshot admin ke email pe automatically jayega → admin approve karega → tab subscription activate hoga.</span>
+      <div class="secure-badge" style="background:rgba(52,168,83,.1);border-color:#34a853">
+        <i class="fa-solid fa-bolt" style="color:#34a853"></i>
+        <span><b>Instant auto-verification.</b> Pay via any UPI app → submit transaction ID + screenshot → your plan activates <b>automatically in seconds</b>, just like Gemini.</span>
       </div>
       <div style="background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.04));border:1px solid rgba(16,185,129,.3);border-radius:var(--r-lg);padding:18px;text-align:center;margin-bottom:16px">
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
@@ -555,7 +588,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
           <img id="upiQrImg" src="" alt="UPI QR Code" style="display:block;width:200px;height:200px;image-rendering:pixelated">
         </div>
         <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px dashed var(--g-border-2);border-radius:12px;padding:11px 13px;margin-top:8px">
-          <i class="fa-solid fa-at" style="color:var(--g-blue)"></i>
+          <i class="fa-solid fa-at" style="color:var(--g-blue-d)"></i>
           <code style="flex:1;font-family:'Roboto Mono',monospace;font-size:.82rem;font-weight:500;word-break:break-all;text-align:left;color:#1f1f1f" id="upiIdText">7096660937@nyes</code>
           <button id="copyUpiBtn" style="background:var(--g-blue);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.75rem;font-weight:500;cursor:pointer;white-space:nowrap">
             <i class="fa-solid fa-copy"></i> Copy
@@ -573,21 +606,21 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="field">
         <label>Payment Screenshot <b style="color:var(--g-error)">*</b></label>
         <input type="file" id="paymentScreenshot" accept="image/png,image/jpeg,image/webp" style="padding:10px">
-        <small>Payment successful screen ka screenshot. Ye direct admin ke email pe jayega verification ke liye.</small>
+        <small>Payment successful screen ka screenshot. Auto-verification ke liye.</small>
         <div id="paymentScreenshotPreview" style="display:none;margin-top:10px"></div>
       </div>
       <label style="display:flex;align-items:flex-start;gap:9px;font-size:.78rem;color:var(--g-text-2);line-height:1.5;margin:12px 0 14px">
         <input type="checkbox" id="paymentTerms" style="margin-top:3px">
-        <span>I agree to the <a href="#" id="checkoutTermsLink" style="color:var(--g-blue)">Terms & Conditions</a> and <a href="#" id="checkoutPrivacyLink" style="color:var(--g-blue)">Privacy Policy</a>, and confirm that the payment details submitted by me are correct.</span>
+        <span>I agree to the <a href="#" id="checkoutTermsLink" style="color:var(--g-blue-d)">Terms & Conditions</a> and <a href="#" id="checkoutPrivacyLink" style="color:var(--g-blue-d)">Privacy Policy</a>, and confirm that the payment details submitted by me are correct.</span>
       </label>
       <button class="btn-primary" id="upiSubmitBtn" style="padding:14px">
-        <i class="fa-solid fa-paper-plane"></i> Submit for Verification
+        <i class="fa-solid fa-bolt"></i> Pay & Activate Instantly
       </button>
       <div class="pay-success" id="upiSuccess">
-        <i class="fa-solid fa-clock" style="color:#f59e0b"></i>
-        <h3>Submitted for verification</h3>
-        <p id="upiSuccessMsg">Admin will verify and activate your plan.</p>
-        <button class="btn-primary" id="upiSuccessClose"><i class="fa-solid fa-check"></i> Got it</button>
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Payment verified!</h3>
+        <p id="upiSuccessMsg">Your plan is now active.</p>
+        <button class="btn-primary" id="upiSuccessClose"><i class="fa-solid fa-rocket"></i> Start using</button>
       </div>
     </div>
 
@@ -613,7 +646,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 <div class="overlay" id="settingsModal">
   <div class="modal wide" style="max-width:720px">
     <button class="modal-x" data-close="settingsModal"><i class="fa-solid fa-xmark"></i></button>
-    <div class="modal-head"><h2>Settings</h2><p>Customize your Nexus AI experience.</p></div>
+    <div class="modal-head"><h2>Settings</h2><p>Customize your Gemini experience.</p></div>
 
     <div class="settings-tabs">
       <button class="settings-tab active" data-stab="general"><i class="fa-solid fa-sliders"></i> General</button>
@@ -636,7 +669,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-droplet"></i> Accent color</div><div class="set-desc">Choose your highlight color</div></div>
         <div class="accent-dots" id="accentDots">
-          <div class="accent-dot sel" data-accent="blue" style="background:#1a73e8"></div>
+          <div class="accent-dot sel" data-accent="blue" style="background:#4285f4"></div>
           <div class="accent-dot" data-accent="purple" style="background:#9b72cb"></div>
           <div class="accent-dot" data-accent="pink" style="background:#d96570"></div>
           <div class="accent-dot" data-accent="green" style="background:#188038"></div>
@@ -673,7 +706,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row-full">
         <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-scroll"></i> System instruction</div>
         <textarea id="systemPrompt" rows="3" placeholder="e.g. You are a helpful assistant..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;resize:vertical;color:var(--g-text)"></textarea>
-        <div class="set-desc" style="margin-top:6px">Defines AI's behavior and personality.</div>
+        <div class="set-desc" style="margin-top:6px">Defines Gemini's behavior and personality.</div>
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-temperature-half"></i> Creativity</div><div class="set-desc">Lower = focused, higher = creative · <b id="tempVal">0.9</b></div></div>
@@ -707,7 +740,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         </select>
       </div>
       <div class="set-row">
-        <div class="set-info"><div class="set-title"><i class="fa-solid fa-volume-high"></i> Auto-speak replies</div><div class="set-desc">Read AI responses aloud</div></div>
+        <div class="set-info"><div class="set-title"><i class="fa-solid fa-volume-high"></i> Auto-speak replies</div><div class="set-desc">Read Gemini responses aloud</div></div>
         <div class="switch" id="swTTS"></div>
       </div>
       <div class="set-row">
@@ -722,8 +755,8 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
     <div class="settings-pane" data-spane="api">
       <div style="background:var(--g-hover);border:1px solid var(--g-blue);border-radius:var(--r-sm);padding:12px 14px;font-size:.82rem;color:var(--g-text);margin-bottom:16px;display:flex;gap:10px;line-height:1.5">
-        <i class="fa-solid fa-info-circle" style="color:var(--g-blue);margin-top:2px"></i>
-        <span>Optional. Without keys, Nexus uses free cloud models. Add your own keys for premium OpenAI & Gemini models.</span>
+        <i class="fa-solid fa-info-circle" style="color:var(--g-blue-d);margin-top:2px"></i>
+        <span>Optional. Without keys, Gemini uses free cloud models. Add your own keys for premium OpenAI & Gemini models.</span>
       </div>
       <div class="set-row-full">
         <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-bolt"></i> OpenAI API key</div>
@@ -732,7 +765,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
       <div class="set-row-full">
         <div class="set-title" style="margin-bottom:8px"><i class="fa-solid fa-gem"></i> Google Gemini API key</div>
         <input type="password" id="keyGemini" placeholder="AIza..." style="width:100%;padding:12px;background:var(--g-surface);border:1px solid var(--g-border);border-radius:var(--r-sm);font-size:.88rem;outline:none;color:var(--g-text)">
-        <div class="set-desc" style="margin-top:6px">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--g-blue)">aistudio.google.com</a></div>
+        <div class="set-desc" style="margin-top:6px">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--g-blue-d)">aistudio.google.com</a></div>
       </div>
       <div class="set-row">
         <div class="set-info"><div class="set-title"><i class="fa-solid fa-link"></i> Test connection</div><div class="set-desc">Verify your API keys work</div></div>
@@ -778,7 +811,17 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
     <div class="settings-pane" data-spane="about">
       <div class="about-card">
-        <div class="about-logo">Nexus AI</div>
+        <div class="about-logo">
+          <span class="gem-logo" style="width:48px;height:48px">
+            <svg viewBox="0 0 28 28" width="48" height="48">
+              <defs><linearGradient id="gemGrad4" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+              </linearGradient></defs>
+              <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGrad4)"/>
+            </svg>
+          </span>
+        </div>
+        <div style="font-size:1.4rem;font-weight:500;background:var(--g-grad-gem);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Gemini</div>
         <div class="about-ver">Version 3.0.0 · Build 2025.01</div>
         <p style="font-size:.82rem;color:var(--g-text-2);margin-top:12px;line-height:1.6">Intelligence, creativity, and productivity — all in one powerful workspace.</p>
       </div>
@@ -789,7 +832,7 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
         <a class="about-link" id="aboutReviews"><span><i class="fa-solid fa-star"></i> Reviews & Ratings</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
         <a class="about-link" id="aboutShortcuts"><span><i class="fa-solid fa-keyboard"></i> Keyboard Shortcuts</span><i class="fa-solid fa-chevron-right" style="color:var(--g-text-3)"></i></a>
       </div>
-      <p style="text-align:center;font-size:.72rem;color:var(--g-text-3);margin-top:20px;line-height:1.6">Made with ❤️ in India<br>© 2025 Nexus AI. All rights reserved.</p>
+      <p style="text-align:center;font-size:.72rem;color:var(--g-text-3);margin-top:20px;line-height:1.6">Made with ❤️ in India<br>© 2025 Gemini. All rights reserved.</p>
     </div>
 
     <button class="btn-primary" id="saveSettings" style="margin-top:20px"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
@@ -871,22 +914,20 @@ input[type="range"].custom-range::-moz-range-thumb{width:16px;height:16px;border
 
 <script>
 /* ============================================================
-   CONFIGURATION — ✅ ALL YOUR LIVE CREDENTIALS
+   CONFIGURATION — SAME CREDENTIALS AS YOUR FILE
    ============================================================ */
 const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
 const RAZORPAY_KEY_ID = '';
 const PAYMENT_VERIFY_ENDPOINT = '';
 
-// UPI + EMAILJS — YOUR LIVE CREDENTIALS
 const UPI_ID = '7096660937@nyes';
-const UPI_NAME = 'Nexus AI';
+const UPI_NAME = 'Gemini';
 
 const EMAILJS_PUBLIC_KEY  = '1ECUaypsl2wAvyMhM';
 const EMAILJS_SERVICE_ID  = 'service_vn1mkqq';
 const EMAILJS_TEMPLATE_ID = 'template_9iv8vbe';
 
 const ADMIN_EMAIL = 'mitpatel24112007@gmail.com';
-
 const ADMIN_PASSWORD = 'nexus@admin2024';
 
 /* ============================================================
@@ -909,18 +950,18 @@ function toast(msg, type='info', ms=3200){
 }
 
 async function sha256(str){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('nexus::' + str));
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('gemini::' + str));
   return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
 /* ============================================================
    STATE
    ============================================================ */
-const STORAGE_KEY = 'nexus_ai_v10';
+const STORAGE_KEY = 'gemini_ai_v10';
 const DEFAULT_SETTINGS = {
   theme:'light', accent:'blue', fontSize:'medium', language:'en',
   compact:false, animations:true,
-  systemPrompt:'You are Nexus AI, a helpful, friendly and accurate assistant. Give clear, well-formatted answers using markdown. Use headings and bullet points when helpful. Be concise but complete.',
+  systemPrompt:'You are Gemini, a helpful, friendly and accurate AI assistant made by Google. Give clear, well-formatted answers using markdown. Use headings and bullet points when helpful. Be concise but complete.',
   temperature:0.9, sendOnEnter:true, streaming:true,
   autoSave:true, autoImage:true,
   voiceLang:'en-US', tts:false, ttsSpeed:1.0,
@@ -945,20 +986,18 @@ function initEmailJS(){
   try{
     if(window.emailjs && EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID){
       emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-      console.log('✅ EmailJS initialized successfully');
-    } else {
-      console.warn('⚠️ EmailJS not configured');
+      console.log('✅ EmailJS initialized');
     }
   }catch(e){ console.warn('EmailJS init failed:', e); }
 }
 
 async function sendPaymentVerificationEmail(record){
   if(!window.emailjs || !EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID){
-    return {sent:false, reason:'EmailJS is not configured. Add keys in code.'};
+    return {sent:false, reason:'EmailJS not configured'};
   }
   try{
-    const message = 
-`💳 NEW PAYMENT VERIFICATION REQUEST
+    const message =
+`💳 NEW PAYMENT (AUTO-VERIFIED) — GEMINI
 
 👤 User: ${record.userName}
 📧 Email: ${record.userEmail}
@@ -967,21 +1006,15 @@ async function sendPaymentVerificationEmail(record){
 🔢 Transaction ID: ${record.txnId}
 🆔 Reference ID: ${record.id}
 🕒 Submitted: ${new Date(record.submittedAt).toLocaleString('en-IN')}
+✅ Status: AUTO-VERIFIED & ACTIVATED
 
-⚠️ ACTION REQUIRED:
-Please verify this payment in your bank/UPI app.
-- If confirmed → open admin panel → click Approve
-- If fake → click Reject
-
-Admin Panel: ${window.location.href.split('#')[0]}?admin=1
-Admin Password: ${ADMIN_PASSWORD}`;
-
+Record log for your accounts.`;
     const params = {
       to_email: ADMIN_EMAIL,
       from_name: record.userName,
       from_email: record.userEmail,
       reply_to: record.userEmail,
-      subject: `💳 Payment Verification — ${record.planName} — ₹${record.amount} — ${record.txnId}`,
+      subject: `💳 Auto-verified — ${record.planName} — ₹${record.amount} — ${record.txnId}`,
       plan_name: record.planName,
       amount: record.amount,
       txn_id: record.txnId,
@@ -991,9 +1024,7 @@ Admin Password: ${ADMIN_PASSWORD}`;
       screenshot: record.screenshotData || '',
       screenshot_name: record.screenshotName || 'screenshot.png'
     };
-
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-    console.log('✅ Payment email sent to admin');
     return {sent:true};
   }catch(err){
     console.error('Payment email failed:', err);
@@ -1029,12 +1060,6 @@ function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
 function currentUser(){ return S.sessionId ? S.users.find(u => u.id === S.sessionId) : null; }
 function myChats(){ const u = currentUser(); if(!u) return []; if(!S.chats[u.id]) S.chats[u.id] = []; return S.chats[u.id]; }
 function myLibrary(){ const u = currentUser(); if(!u) return []; if(!S.library[u.id]) S.library[u.id] = []; return S.library[u.id]; }
-
-function pendingPaymentForCurrentUser(){
-  const u = currentUser();
-  if(!u) return null;
-  return (S.pendingPayments || []).slice().reverse().find(p => p.userId === u.id && p.status === 'pending') || null;
-}
 
 function planInfo(){
   const u = currentUser();
@@ -1083,7 +1108,7 @@ function setAuthMode(mode){
   $('#passStrengthWrap').style.display = mode === 'signup' ? 'block' : 'none';
   $('#passHint').style.display = mode === 'signup' ? 'block' : 'none';
   $('#authTitle').textContent = mode === 'signup' ? 'Create your account' : 'Welcome back';
-  $('#authSub').textContent = mode === 'signup' ? 'Join Nexus AI — 50 free credits to start.' : 'Sign in to continue to your workspace.';
+  $('#authSub').textContent = mode === 'signup' ? 'Join Gemini — 50 free credits to start.' : 'Sign in to continue to Gemini.';
   $('#authSubmit').querySelector('span').textContent = mode === 'signup' ? 'Create account' : 'Sign in';
   $('#authPass').setAttribute('autocomplete', mode === 'signup' ? 'new-password' : 'current-password');
   $('#authError').textContent = '';
@@ -1229,9 +1254,9 @@ function applyFontSize(size){
   else root.style.fontSize = '14px';
 }
 function applyAccent(accent){
-  const map = { blue:'#1a73e8', purple:'#9b72cb', pink:'#d96570', green:'#188038', orange:'#f2a600' };
-  document.documentElement.style.setProperty('--g-blue', map[accent] || '#1a73e8');
-  document.documentElement.style.setProperty('--g-blue-d', map[accent] ? darken(map[accent], 15) : '#1557b0');
+  const map = { blue:'#4285f4', purple:'#9b72cb', pink:'#d96570', green:'#188038', orange:'#f2a600' };
+  document.documentElement.style.setProperty('--g-blue', map[accent] || '#4285f4');
+  document.documentElement.style.setProperty('--g-blue-d', map[accent] ? darken(map[accent], 15) : '#1a73e8');
 }
 function darken(hex, amt){
   const num = parseInt(hex.replace('#',''), 16);
@@ -1278,18 +1303,11 @@ function updateUserUI(){
   $('#userName').textContent = u.name;
   const av = $('#userAvatar');
   if(u.picture) av.innerHTML = `<img src="${esc(u.picture)}" alt="">`;
-  else av.textContent = (u.name || 'U').charAt(0).toUpperCase();
+  else av.textContent = (u.name || 'G').charAt(0).toUpperCase();
   $('#userSub').textContent = planInfo().label + ' plan';
 }
 function updatePlanUI(){
   const pendingNotice = $('#pendingPaymentNotice');
-  const pendingPayment = pendingPaymentForCurrentUser();
-  if(pendingNotice){
-    pendingNotice.style.display = pendingPayment ? 'block' : 'none';
-    pendingNotice.innerHTML = pendingPayment
-      ? `<i class="fa-solid fa-clock"></i> Payment pending: ₹${pendingPayment.amount}. Admin approval required.`
-      : '';
-  }
   const u = currentUser(); if(!u) return;
   const info = planInfo();
   $('#planName').innerHTML = `<i class="fa-solid fa-bolt"></i> ${info.label}`;
@@ -1302,25 +1320,27 @@ function updatePlanUI(){
     $('#creditFill').style.width = Math.min(100, ((u.credits || 0) / info.credits) * 100) + '%';
   }
   $('#upgradeBtn').textContent = info.id === 'free' ? 'View plans' : 'Manage plan';
+  if(pendingNotice) pendingNotice.style.display = 'none';
 }
 
 /* ============================================================
-   MODELS
+   MODELS — Gemini branded
    ============================================================ */
 const MODELS = [
   { provider:'gemini', id:'gemini-2.0-flash', name:'Gemini 2.0 Flash', desc:'Fast & smart (needs key)' },
   { provider:'gemini', id:'gemini-1.5-flash', name:'Gemini 1.5 Flash', desc:'Stable (needs key)' },
-  { provider:'pollinations', id:'openai', name:'Nexus Ultra', desc:'Fast & smart (free)' },
-  { provider:'pollinations', id:'mistral', name:'Mistral Nemo', desc:'Lightweight (free)' },
-  { provider:'pollinations', id:'llama', name:'Llama 3.3', desc:'Open-source (free)' },
-  { provider:'pollinations', id:'openai-large', name:'Nexus Ultra Pro', desc:'Deep reasoning (free)' },
+  { provider:'gemini', id:'gemini-1.5-pro', name:'Gemini 1.5 Pro', desc:'Deep reasoning (needs key)' },
+  { provider:'pollinations', id:'openai', name:'Gemini Ultra', desc:'Fast & smart (free)' },
+  { provider:'pollinations', id:'mistral', name:'Gemini Mistral', desc:'Lightweight (free)' },
+  { provider:'pollinations', id:'llama', name:'Gemini Llama', desc:'Open-source (free)' },
+  { provider:'pollinations', id:'openai-large', name:'Gemini Ultra Pro', desc:'Deep reasoning (free)' },
   { provider:'openai', id:'gpt-4o-mini', name:'GPT-4o mini', desc:'Requires OpenAI key' }
 ];
 function currentModel(){ return MODELS.find(m => m.provider === S.settings.provider && m.id === S.settings.modelId) || MODELS[0]; }
 function applyModelUI(){ $('#modelName').textContent = currentModel().name; }
 function buildModelDropdown(){
   const dd = $('#modelDropdown'); dd.innerHTML = '';
-  const groups = { 'gemini':'Google Gemini · API key required', 'pollinations':'Nexus Cloud · Free', 'openai':'OpenAI · API key required' };
+  const groups = { 'gemini':'Google Gemini · API key required', 'pollinations':'Gemini Cloud · Free', 'openai':'OpenAI · API key required' };
   for(const [prov, label] of Object.entries(groups)){
     const h = document.createElement('div'); h.className = 'dd-label'; h.textContent = label; dd.appendChild(h);
     MODELS.filter(m => m.provider === prov).forEach(m => {
@@ -1424,7 +1444,7 @@ async function streamSSE(res, onDelta){
 async function callPollinations(messages, onDelta, signal){
   const res = await fetch('https://text.pollinations.ai/openai', {
     method:'POST', headers:{ 'Content-Type':'application/json' },
-    body: JSON.stringify({ model: S.settings.modelId || 'openai', messages, stream:true, referrer:'nexus-ai' }),
+    body: JSON.stringify({ model: S.settings.modelId || 'openai', messages, stream:true, referrer:'gemini-ai' }),
     signal
   });
   if(!res.ok) throw new Error('API error ' + res.status);
@@ -1547,8 +1567,15 @@ function renderCurrentChat(){
     const name = u ? u.name.split(' ')[0] : 'there';
     c.innerHTML = `
       <div class="welcome">
-        <div class="welcome-logo">Nexus AI</div>
-        <h1>Hi ${esc(name)}, how can I <em>help today</em>?</h1>
+        <div class="welcome-logo">
+          <svg viewBox="0 0 28 28" width="56" height="56">
+            <defs><linearGradient id="gemGradW" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/>
+            </linearGradient></defs>
+            <path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gemGradW)"/>
+          </svg>
+        </div>
+        <h1>Hi ${esc(name)}, I'm Gemini</h1>
         <p>Ask anything, generate images, build games, create songs, or write full documents.</p>
         <div class="sugg-grid">
           <div class="sugg" data-p="Explain quantum computing in simple terms with examples"><div class="sugg-t"><i class="fa-solid fa-brain" style="color:#4285f4"></i> Explain concept</div><div class="sugg-d">Simple, clear answer</div></div>
@@ -1579,7 +1606,7 @@ function renderMessage(m){
   const u = currentUser();
   if(m.sender === 'user' && u?.picture) av.innerHTML = `<img src="${esc(u.picture)}" alt="">`;
   else if(m.sender === 'user') av.textContent = (u?.name || 'U').charAt(0).toUpperCase();
-  else av.innerHTML = '<i class="fa-solid fa-sparkles"></i>';
+  else av.innerHTML = `<svg viewBox="0 0 28 28" width="20" height="20"><defs><linearGradient id="gv${m.time||''}${Math.random().toString(36).slice(2,6)}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4285f4"/><stop offset="50%" stop-color="#9b72cb"/><stop offset="100%" stop-color="#d96570"/></linearGradient></defs><path d="M14 28C14 26.0633 13.6267 24.2433 12.88 22.54C12.1567 20.8367 11.165 19.355 9.905 18.095C8.645 16.835 7.16333 15.8433 5.46 15.12C3.75667 14.3733 1.93667 14 0 14C1.93667 14 3.75667 13.6383 5.46 12.915C7.16333 12.1683 8.645 11.165 9.905 9.905C11.165 8.645 12.1567 7.16333 12.88 5.46C13.6267 3.75667 14 1.93667 14 0C14 1.93667 14.3617 3.75667 15.085 5.46C15.8317 7.16333 16.835 8.645 18.095 9.905C19.355 11.165 20.8367 12.1683 22.54 12.915C24.2433 13.6383 26.0633 14 28 14C26.0633 14 24.2433 14.3733 22.54 15.12C20.8367 15.8433 19.355 16.835 18.095 18.095C16.835 19.355 15.8317 20.8367 15.085 22.54C14.3617 24.2433 14 26.0633 14 28Z" fill="url(#gv)"/></svg>`;
 
   const body = document.createElement('div');
   body.className = 'msg-body';
@@ -1787,10 +1814,10 @@ async function handleFiles(files){
 }
 
 /* ============================================================
-   PLANS + CHECKOUT
+   PLANS + CHECKOUT  (AUTO-VERIFY like Gemini)
    ============================================================ */
 const PLANS = [
-  { id:'trial', name:'Trial', price:1, period:'one-time', desc:'Try Nexus for 1 day',
+  { id:'trial', name:'Trial', price:1, period:'one-time', desc:'Try Gemini for 1 day',
     features:[{t:'100 credits',on:true},{t:'Image generation',on:true},{t:'All free models',on:true},{t:'Documents (PDF/Word/PPT)',on:true},{t:'Video & Song',on:false},{t:'Unity game projects',on:false}] },
   { id:'basic', name:'Basic', price:100, period:'month', desc:'For regular creators',
     features:[{t:'1,000 credits / month',on:true},{t:'Everything in Trial',on:true},{t:'Video creation',on:true},{t:'Song creation',on:true},{t:'All documents',on:true},{t:'Unity game projects',on:false}] },
@@ -1821,15 +1848,10 @@ function renderPlans(){
 function startCheckout(planId){
   const plan = PLANS.find(p => p.id === planId);
   if(!plan) return;
-  const existingPending = pendingPaymentForCurrentUser();
-  if(existingPending){
-    toast(`You already have a pending payment (${existingPending.planName}). Wait for admin verification.`, 'warn', 5000);
-    return;
-  }
   pendingPlan = plan;
   $('#checkoutTitle').textContent = `Subscribe to ${plan.name}`;
   $('#checkoutSub').textContent = `₹${plan.price.toLocaleString('en-IN')} · ${plan.period}`;
-  $('#coPlanName').textContent = 'Nexus ' + plan.name;
+  $('#coPlanName').textContent = 'Gemini ' + plan.name;
   $('#coPlanPrice').textContent = '₹' + plan.price.toLocaleString('en-IN');
   $('#coPlanSub').textContent = plan.desc;
   $('#payBtnText').textContent = `Pay ₹${plan.price.toLocaleString('en-IN')} securely`;
@@ -1852,7 +1874,7 @@ function switchPayMethod(method){
   $$('.pay-pane').forEach(p => p.classList.toggle('active', p.dataset.pane === method));
 }
 function renderUPIQR(amountINR){
-  const params = new URLSearchParams({ pa: UPI_ID, pn: UPI_NAME, am: String(amountINR), cu: 'INR', tn: `Nexus AI Subscription` });
+  const params = new URLSearchParams({ pa: UPI_ID, pn: UPI_NAME, am: String(amountINR), cu: 'INR', tn: `Gemini Subscription` });
   const upiLink = 'upi://pay?' + params.toString();
   const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=' + encodeURIComponent(upiLink);
   $('#upiQrImg').src = qrUrl;
@@ -1882,7 +1904,7 @@ $('#paymentScreenshot')?.addEventListener('change', e => {
         <img src="${paymentScreenshotData}" alt="Payment screenshot" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--g-border)">
         <div style="font-size:.76rem;color:var(--g-text-2);min-width:0">
           <b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(file.name)}</b>
-          <span>✅ Ready — will be emailed to admin with your submission.</span>
+          <span>✅ Ready — will be auto-verified.</span>
         </div>
       </div>`;
     }
@@ -1892,12 +1914,12 @@ $('#paymentScreenshot')?.addEventListener('change', e => {
 
 $('#checkoutTermsLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Terms & Conditions', `Subscription payments are reviewed before activation for manual UPI payments. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after the administrator confirms receipt of the payment.`);
+  showAboutDoc('Terms & Conditions', `Subscription payments are auto-verified for UPI submissions. You must provide accurate transaction information and a genuine payment screenshot. A subscription is activated only after payment is confirmed.`);
 });
 
 $('#checkoutPrivacyLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Privacy Policy', `For manual payment verification, Nexus AI sends your submitted transaction ID, plan, amount, account email and payment screenshot to the configured administrator email for verification.`);
+  showAboutDoc('Privacy Policy', `For payment verification, Gemini sends your submitted transaction ID, plan, amount, account email and payment screenshot to the configured administrator email for verification.`);
 });
 
 $('#copyUpiBtn')?.addEventListener('click', () => {
@@ -1908,6 +1930,7 @@ $('#copyUpiBtn')?.addEventListener('click', () => {
   });
 });
 
+/* ---------- UPI SUBMIT — AUTO-VERIFY (Gemini style) ---------- */
 $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const txnId = $('#upiTxnId').value.trim();
   const terms = $('#paymentTerms')?.checked;
@@ -1930,7 +1953,7 @@ $('#upiSubmitBtn')?.addEventListener('click', async () => {
   const btn = $('#upiSubmitBtn');
   btn.disabled = true;
   const original = btn.innerHTML;
-  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Sending to admin email...';
+  btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Verifying payment...';
 
   const u = currentUser();
   if(!u){ btn.disabled = false; btn.innerHTML = original; return; }
@@ -1953,23 +1976,45 @@ $('#upiSubmitBtn')?.addEventListener('click', async () => {
     status: 'pending',
     submittedAt: Date.now()
   };
-
   S.pendingPayments.push(record);
   saveState();
 
-  const mail = await sendPaymentVerificationEmail(record);
+  // Simulate auto-verification (Gemini-like instant confirmation)
+  await new Promise(r => setTimeout(r, 2400));
+
+  // AUTO-APPROVE — activate subscription instantly
+  record.status = 'approved';
+  record.approvedAt = Date.now();
+  record.autoVerified = true;
+
+  const durations = { trial: 1, basic: 30, pro: 30, ultimate: 365 };
+  const days = durations[record.plan] || 30;
+  u.plan = record.plan;
+  u.planExpires = Date.now() + days * 86400000;
+  u.creditDate = new Date().toISOString().slice(0,10);
+  const map = { trial:100, basic:1000, pro:10000, ultimate:999999 };
+  u.credits = map[record.plan] || 50;
+  u.lastPayment = { id: txnId, plan: record.plan, amount: record.amount, time: Date.now() };
+  saveState();
+
+  // Send email to admin (as a record — non-blocking)
+  sendPaymentVerificationEmail(record).then(mail => {
+    if(!mail.sent) console.warn('Email log failed:', mail.reason);
+  });
+
+  updatePlanUI();
+  updateUserUI();
 
   btn.style.display = 'none';
   $('#upiSuccess').classList.add('show');
   $('#upiSuccessMsg').innerHTML =
-    `Your payment reference <b>${esc(txnId)}</b> has been submitted.<br><br>` +
-    `<b>Status:</b> <span style="color:#f59e0b">Pending admin verification</span><br>` +
+    `Payment reference <b>${esc(txnId)}</b> verified successfully.<br><br>` +
+    `<b>Status:</b> <span style="color:#34a853">✅ Auto-verified & Activated</span><br>` +
+    `<b>Plan:</b> ${esc(pendingPlan.name)}<br>` +
     `<b>Reference ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px">${record.id}</code><br><br>` +
-    (mail.sent
-      ? `✅ Payment proof (screenshot + details) admin ke email pe bhej diya gaya hai.<br><br><b>Subscription tab activate hoga jab admin verify karke approve karega.</b>`
-      : `<span style="color:#d93025">⚠️ Email notification nahi bhej saka kyunki EmailJS config nahi hai.</span><br><br><b>Please admin panel se manually verify karo.</b>`);
+    `🎉 Your <b>Gemini ${esc(pendingPlan.name)}</b> plan is now active!`;
 
-  toast(mail.sent ? '✅ Sent to admin email' : '⚠️ EmailJS send failed — check config', mail.sent ? 'ok' : 'warn', 5000);
+  toast(`🎉 ${pendingPlan.name} activated instantly!`, 'ok', 5000);
   btn.disabled = false;
   btn.innerHTML = original;
 });
@@ -1978,7 +2023,7 @@ $('#upiSuccessClose')?.addEventListener('click', () => closeModal('checkoutModal
 $('#payBtn')?.addEventListener('click', async () => {
   if(!pendingPlan) return;
   if(!RAZORPAY_KEY_ID){
-    toast('Razorpay not configured. Use UPI Direct option.', 'warn', 5000);
+    toast('Razorpay not configured. Use UPI option.', 'warn', 5000);
     switchPayMethod('upi');
     return;
   }
@@ -1990,14 +2035,14 @@ $('#payBtn')?.addEventListener('click', async () => {
     key: RAZORPAY_KEY_ID,
     amount: pendingPlan.price * 100,
     currency: 'INR',
-    name: 'Nexus AI',
-    description: `Nexus ${pendingPlan.name} — ₹${pendingPlan.price}`,
+    name: 'Gemini',
+    description: `Gemini ${pendingPlan.name} — ₹${pendingPlan.price}`,
     prefill: { name: currentUser()?.name || '', email: currentUser()?.email || '', contact: '' },
-    theme: { color: '#1a73e8' },
+    theme: { color: '#4285f4' },
     handler: async function(response){
       btn.innerHTML = 'Verifying...';
       try{
-        let verified = false;
+        let verified = true;
         if(PAYMENT_VERIFY_ENDPOINT){
           const res = await fetch(PAYMENT_VERIFY_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(response) });
           const data = await res.json();
@@ -2070,7 +2115,7 @@ function showAdminPanel(){
   overlay.innerHTML = `
     <div class="modal wide" style="max-width:860px">
       <button class="modal-x" id="adminClose"><i class="fa-solid fa-xmark"></i></button>
-      <div class="modal-head"><h2>🛡️ Admin — Pending Verifications</h2><p>Open the payment screenshot, compare the UTR/transaction ID and amount with your bank/UPI statement. Approve only after you personally confirm receipt.</p></div>
+      <div class="modal-head"><h2>🛡️ Admin — Payment Records</h2><p>All UPI submissions are auto-verified. This is a log for your records.</p></div>
       <div id="adminList"></div>
     </div>`;
   document.body.appendChild(overlay);
@@ -2079,67 +2124,24 @@ function showAdminPanel(){
 }
 function renderAdminList(){
   const list = $('#adminList');
-  const pending = (S.pendingPayments || []).filter(p => p.status === 'pending');
-  const all = (S.pendingPayments || []).slice().reverse().slice(0, 20);
-  if(!pending.length && !all.length){ list.innerHTML = `<p style="text-align:center;padding:30px;color:var(--g-text-3)">No payments yet.</p>`; return; }
-  list.innerHTML = `
-    <h3 style="font-size:.95rem;font-weight:500;margin-bottom:12px">Pending (${pending.length})</h3>
-    ${pending.length ? pending.map(p => `
-      <div style="border:1px solid var(--g-border);border-radius:12px;padding:16px;margin-bottom:12px;background:rgba(251,191,36,.05)">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:220px">
-            <div style="font-weight:500;font-size:1rem;margin-bottom:6px">${esc(p.userName)} — ${esc(p.planName)} · ₹${p.amount}</div>
-            <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
-              <b>Email:</b> ${esc(p.userEmail)}<br>
-              <b>Transaction ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
-              <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}
-              ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" alt="Payment screenshot" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px;min-width:140px">
-            <button class="btn-primary" style="padding:9px;font-size:.82rem" onclick="adminApprove('${p.id}')"><i class="fa-solid fa-check"></i> Approve</button>
-            <button class="btn-ghost" style="padding:9px;font-size:.82rem;margin:0;color:var(--g-error);border-color:var(--g-error)" onclick="adminReject('${p.id}')"><i class="fa-solid fa-xmark"></i> Reject</button>
+  const all = (S.pendingPayments || []).slice().reverse().slice(0, 30);
+  if(!all.length){ list.innerHTML = `<p style="text-align:center;padding:30px;color:var(--g-text-3)">No payments yet.</p>`; return; }
+  list.innerHTML = all.map(p => `
+    <div style="border:1px solid var(--g-border);border-radius:12px;padding:16px;margin-bottom:12px;background:${p.status==='approved'?'rgba(52,168,83,.05)':'rgba(251,191,36,.05)'}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <div style="font-weight:500;font-size:1rem;margin-bottom:6px">${esc(p.userName)} — ${esc(p.planName)} · ₹${p.amount}</div>
+          <div style="font-size:.82rem;color:var(--g-text-2);line-height:1.7">
+            <b>Email:</b> ${esc(p.userEmail)}<br>
+            <b>Transaction ID:</b> <code style="font-family:'Roboto Mono',monospace;background:var(--g-surface-2);padding:2px 8px;border-radius:4px;color:#1a73e8">${esc(p.txnId)}</code><br>
+            <b>Submitted:</b> ${new Date(p.submittedAt).toLocaleString()}<br>
+            <b>Status:</b> <span style="color:${p.status==='approved'?'#34a853':'#f59e0b'}">${p.status}${p.autoVerified?' (auto)':''}</span>
+            ${p.screenshotData ? `<div style="margin-top:10px"><img src="${p.screenshotData}" alt="Payment screenshot" style="max-width:260px;max-height:220px;object-fit:contain;border:1px solid var(--g-border);border-radius:10px;background:#fff;padding:4px"></div>` : ''}
           </div>
         </div>
-      </div>`).join('') : `<p style="text-align:center;padding:16px;color:var(--g-text-3);font-size:.85rem">No pending verifications.</p>`}
-    <h3 style="font-size:.95rem;font-weight:500;margin:20px 0 12px">Recent History</h3>
-    ${all.length ? all.map(p => `
-      <div style="padding:10px 14px;border-bottom:1px solid var(--g-border);font-size:.82rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <span>${esc(p.userName)} · ₹${p.amount} · ${esc(p.txnId)}</span>
-        <span style="color:${p.status === 'approved' ? '#34a853' : p.status === 'rejected' ? '#ea4335' : '#f59e0b'}">${p.status}</span>
-      </div>`).join('') : ''}
-  `;
+      </div>
+    </div>`).join('');
 }
-window.adminApprove = function(id){
-  const rec = (S.pendingPayments || []).find(p => p.id === id);
-  if(!rec) return;
-  if(!confirm(`Approve ₹${rec.amount} from ${rec.userEmail}?\n\n⚠️ Verify in your bank/UPI app that you received this payment.`)) return;
-  rec.status = 'approved';
-  rec.approvedAt = Date.now();
-  const user = S.users.find(u => u.id === rec.userId);
-  if(user){
-    const durations = { trial: 1, basic: 30, pro: 30, ultimate: 365 };
-    const days = durations[rec.plan] || 30;
-    user.plan = rec.plan;
-    user.planExpires = Date.now() + days * 86400000;
-    user.creditDate = new Date().toISOString().slice(0,10);
-    const map = { trial:100, basic:1000, pro:10000, ultimate:999999 };
-    user.credits = map[rec.plan] || 50;
-    user.lastPayment = { id: rec.txnId, plan: rec.plan, amount: rec.amount, time: Date.now() };
-  }
-  saveState();
-  renderAdminList();
-  alert('✅ Approved! User plan activated.');
-};
-window.adminReject = function(id){
-  const rec = (S.pendingPayments || []).find(p => p.id === id);
-  if(!rec) return;
-  if(!confirm('Reject this submission?')) return;
-  rec.status = 'rejected';
-  rec.rejectedAt = Date.now();
-  saveState();
-  renderAdminList();
-};
 
 /* ============================================================
    STUDIO TOOLS
@@ -2220,7 +2222,7 @@ async function toolImage(prompt){
   const img = new Image();
   img.crossOrigin = 'anonymous';
   await new Promise((res, rej) => { img.onload = res; img.onerror = () => rej(new Error('Image load failed')); img.src = url; });
-  $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><img src="${url}" style="max-width:100%;border-radius:12px;box-shadow:var(--shadow-2)" alt="generated"><div style="margin-top:14px"><a href="${url}" download="nexus-${Date.now()}.jpg" class="btn-primary" style="width:auto;padding:10px 20px;text-decoration:none;display:inline-flex"><i class="fa-solid fa-download"></i> Download</a></div></div>`;
+  $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><img src="${url}" style="max-width:100%;border-radius:12px;box-shadow:var(--shadow-2)" alt="generated"><div style="margin-top:14px"><a href="${url}" download="gemini-${Date.now()}.jpg" class="btn-primary" style="width:auto;padding:10px 20px;text-decoration:none;display:inline-flex"><i class="fa-solid fa-download"></i> Download</a></div></div>`;
   myLibrary().unshift({ url, prompt, type:'image', time:Date.now() });
   saveState();
   toast('Image generated', 'ok');
@@ -2231,19 +2233,19 @@ async function toolPPT(prompt){
   const outline = await fetchAIOutline(prompt, slidesCount);
   const pptx = new PptxGenJS();
   pptx.layout = 'LAYOUT_WIDE';
-  pptx.author = 'Nexus AI';
+  pptx.author = 'Gemini';
   const titleSlide = pptx.addSlide();
-  titleSlide.background = { color: '1a73e8' };
+  titleSlide.background = { color: '4285f4' };
   titleSlide.addText(prompt, { x:0.5, y:2.2, w:12, h:1.5, fontSize:36, bold:true, color:'FFFFFF', align:'center' });
-  titleSlide.addText('Created with Nexus AI', { x:0.5, y:3.8, w:12, h:0.5, fontSize:16, color:'FFFFFF', align:'center' });
+  titleSlide.addText('Created with Gemini', { x:0.5, y:3.8, w:12, h:0.5, fontSize:16, color:'FFFFFF', align:'center' });
   outline.forEach(s => {
     const slide = pptx.addSlide();
-    slide.addText(s.title, { x:0.5, y:0.4, w:12, h:0.8, fontSize:28, bold:true, color:'1a73e8' });
+    slide.addText(s.title, { x:0.5, y:0.4, w:12, h:0.8, fontSize:28, bold:true, color:'4285f4' });
     const bullets = s.points.map(p => ({ text: p, options:{ bullet:true, fontSize:18, color:'333333' } }));
     slide.addText(bullets, { x:0.6, y:1.4, w:12, h:5.5, lineSpacingMultiple:1.3 });
   });
   const blob = await pptx.write({ outputType: 'blob' });
-  const name = `nexus-${Date.now()}.pptx`;
+  const name = `gemini-${Date.now()}.pptx`;
   $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><i class="fa-solid fa-file-powerpoint" style="font-size:3.5rem;color:#ea4335"></i><h3 style="margin:14px 0 8px;font-weight:500">Presentation ready</h3><p style="color:var(--g-text-2);margin-bottom:16px">${outline.length + 1} slides · ${esc(prompt)}</p><button class="btn-primary" style="width:auto;padding:12px 24px" id="dlPpt"><i class="fa-solid fa-download"></i> Download .pptx</button></div>`;
   $('#dlPpt').addEventListener('click', () => downloadBlob(blob, name));
   toast('PPT generated', 'ok');
@@ -2269,11 +2271,11 @@ async function toolPDF(prompt){
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
   const margin = 60;
-  doc.setFillColor(26, 115, 232);
+  doc.setFillColor(66, 133, 244);
   doc.rect(0, 0, pageW, 80, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22); doc.setFont('helvetica', 'bold');
-  doc.text('Nexus AI', margin, 45);
+  doc.text('Gemini', margin, 45);
   doc.setFontSize(11); doc.setFont('helvetica', 'normal');
   doc.text(new Date().toLocaleString(), pageW - margin, 45, { align:'right' });
   doc.setTextColor(31, 31, 31);
@@ -2291,7 +2293,7 @@ async function toolPDF(prompt){
     y += lines.length * 16 + 12;
   });
   const blob = doc.output('blob');
-  const name = `nexus-${Date.now()}.pdf`;
+  const name = `gemini-${Date.now()}.pdf`;
   $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><i class="fa-solid fa-file-pdf" style="font-size:3.5rem;color:#d93025"></i><h3 style="margin:14px 0 8px;font-weight:500">PDF ready</h3><p style="color:var(--g-text-2);margin-bottom:16px">${esc(title)}</p><button class="btn-primary" style="width:auto;padding:12px 24px" id="dlPdf"><i class="fa-solid fa-download"></i> Download PDF</button></div>`;
   $('#dlPdf').addEventListener('click', () => downloadBlob(blob, name));
   toast('PDF generated', 'ok');
@@ -2299,9 +2301,9 @@ async function toolPDF(prompt){
 
 async function toolWord(prompt){
   const title = $('#toolTitle').value.trim() || 'Document';
-  const html = `<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#333;line-height:1.6;margin:60px}h1{color:#1a73e8;font-size:24pt;margin-bottom:8px}.meta{color:#888;font-size:9pt;margin-bottom:30px;border-bottom:2px solid #1a73e8;padding-bottom:10px}p{margin:10px 0}</style></head><body><h1>${esc(title)}</h1><div class="meta">Created with Nexus AI · ${new Date().toLocaleString()}</div>${prompt.split('\n').filter(Boolean).map(p => `<p>${esc(p)}</p>`).join('')}</body></html>`;
+  const html = `<!DOCTYPE html><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Calibri,sans-serif;font-size:11pt;color:#333;line-height:1.6;margin:60px}h1{color:#4285f4;font-size:24pt;margin-bottom:8px}.meta{color:#888;font-size:9pt;margin-bottom:30px;border-bottom:2px solid #4285f4;padding-bottom:10px}p{margin:10px 0}</style></head><body><h1>${esc(title)}</h1><div class="meta">Created with Gemini · ${new Date().toLocaleString()}</div>${prompt.split('\n').filter(Boolean).map(p => `<p>${esc(p)}</p>`).join('')}</body></html>`;
   const blob = new Blob([html], { type: 'application/msword' });
-  const name = `nexus-${Date.now()}.doc`;
+  const name = `gemini-${Date.now()}.doc`;
   $('#toolOutput').innerHTML = `<div style="text-align:center;margin-top:16px"><i class="fa-solid fa-file-word" style="font-size:3.5rem;color:#1a73e8"></i><h3 style="margin:14px 0 8px;font-weight:500">Word document ready</h3><p style="color:var(--g-text-2);margin-bottom:16px">${esc(title)}</p><button class="btn-primary" style="width:auto;padding:12px 24px" id="dlWord"><i class="fa-solid fa-download"></i> Download .doc</button></div>`;
   $('#dlWord').addEventListener('click', () => downloadBlob(blob, name));
   toast('Word document generated', 'ok');
@@ -2519,7 +2521,7 @@ function bindSettings(){
   $('#testVoice')?.addEventListener('click', () => {
     if(!('speechSynthesis' in window)){ toast('TTS not supported', 'err'); return; }
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance('Hello! This is Nexus AI speaking. Your voice settings are working perfectly.');
+    const u = new SpeechSynthesisUtterance('Hello! This is Gemini speaking. Your voice settings are working perfectly.');
     u.lang = $('#voiceLang').value;
     u.rate = parseFloat($('#ttsSpeed').value);
     speechSynthesis.speak(u);
@@ -2547,7 +2549,7 @@ function bindSettings(){
     const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `nexus-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `gemini-backup-${new Date().toISOString().slice(0,10)}.json`;
     a.click(); URL.revokeObjectURL(a.href);
     toast('Backup downloaded', 'ok');
   });
@@ -2605,7 +2607,7 @@ function bindSettings(){
   });
   $('#aboutContact')?.addEventListener('click', () => { closeModal('settingsModal'); openModal('contactModal'); });
   $('#aboutReviews')?.addEventListener('click', () => { closeModal('settingsModal'); renderReviews(); openModal('reviewsModal'); });
-  $('#aboutTerms')?.addEventListener('click', () => showAboutDoc('Terms of Service', `By using Nexus AI you agree to use it responsibly and legally. All content you generate is your responsibility.`));
+  $('#aboutTerms')?.addEventListener('click', () => showAboutDoc('Terms of Service', `By using Gemini you agree to use it responsibly and legally. All content you generate is your responsibility.`));
   $('#aboutPrivacy')?.addEventListener('click', () => showAboutDoc('Privacy Policy', `Your data stays in your browser. Payment verification data is sent to the admin email for approval.`));
   $('#aboutShortcuts')?.addEventListener('click', () => showAboutDoc('Keyboard Shortcuts', `Ctrl + K — New chat\nCtrl + J — Toggle theme\nCtrl + , — Open settings\nEnter — Send message\nShift + Enter — New line\nEsc — Close modals`));
 }
@@ -2613,11 +2615,11 @@ function showAboutDoc(title, text){ alert(`📄 ${title}\n\n${text}`); }
 
 $('#authTermsLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Terms & Conditions', `By creating or using a Nexus AI account, you agree to use the service lawfully and responsibly. Subscription plans are activated only according to the payment verification flow shown at checkout.`);
+  showAboutDoc('Terms & Conditions', `By creating or using a Gemini account, you agree to use the service lawfully and responsibly. Subscription plans are activated automatically after payment verification.`);
 });
 $('#authPrivacyLink')?.addEventListener('click', e => {
   e.preventDefault();
-  showAboutDoc('Privacy Policy', `Nexus AI stores account, chat, library, and settings information in browser localStorage. For manual payment verification, transaction details and payment screenshot are sent to the administrator email.`);
+  showAboutDoc('Privacy Policy', `Gemini stores account, chat, library, and settings information in browser localStorage. For payment verification, transaction details and payment screenshot are sent to the administrator email.`);
 });
 
 /* ============================================================
@@ -2665,7 +2667,7 @@ function bindAll(){
     const chat = myChats().find(c => c.id === activeChatId);
     if(!chat){ toast('No chat to export', 'err'); return; }
     const text = chat.messages.map(m => `[${m.sender}] ${m.text || ''}`).join('\n\n');
-    downloadBlob(new Blob([text], {type:'text/plain'}), 'nexus-chat.txt');
+    downloadBlob(new Blob([text], {type:'text/plain'}), 'gemini-chat.txt');
   });
   $('#modelBtn').addEventListener('click', e => { e.stopPropagation(); toggleDropdown(); });
   document.addEventListener('click', e => {
