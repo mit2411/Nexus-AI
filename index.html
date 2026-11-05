@@ -1290,13 +1290,12 @@ input[type="range"].custom-range::-moz-range-thumb{
    NEXUS AI v5.1 — CONFIG (UPDATED WITH YOUR DETAILS)
    ══════════════════════════════════════════════════════════ */
 const GOOGLE_CLIENT_ID = '553159198298-gto7uf6to1htqclfnl5oakhbfnt2ubd1.apps.googleusercontent.com';
-const RAZORPAY_KEY_ID = 'rzp_test_TwS8m8BXDrzjnx';
+const RAZORPAY_KEY_ID = 'rzp_test_TwSrkhHpiwiWiDz';
 const UPI_ID = '7096660937@nyes';
 const UPI_NAME = 'Nexus AI';
 
-// Backend host karne ke baad is URL ko update karein
-// Agar aap abhi test karna chahte hain (Demo Mode), to ise khaali chhod dein: ''
-const PAYMENT_VERIFY_ENDPOINT = ''; 
+// Aapka Live Backend URL
+const PAYMENT_VERIFY_ENDPOINT = 'https://nexus-backend-zag2.onrender.com/api/verify-payment'; 
 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
