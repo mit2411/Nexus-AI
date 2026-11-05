@@ -1287,13 +1287,16 @@ input[type="range"].custom-range::-moz-range-thumb{
 
 <script>
 /* ══════════════════════════════════════════════════════════
-   NEXUS AI v5.1 — FULLY FIXED SINGLE FILE
+   NEXUS AI v5.1 — CONFIG (UPDATED WITH YOUR DETAILS)
    ══════════════════════════════════════════════════════════ */
-const GOOGLE_CLIENT_ID = '332879107872-tb0tp5srmsdabjatlq1clopjphoqktaq.apps.googleusercontent.com';
-const RAZORPAY_KEY_ID = '';
-const PAYMENT_VERIFY_ENDPOINT = '';
+const GOOGLE_CLIENT_ID = '553159198298-gto7uf6to1htqclfnl5oakhbfnt2ubd1.apps.googleusercontent.com';
+const RAZORPAY_KEY_ID = 'rzp_test_TwS8m8BXDrzjnx';
 const UPI_ID = '7096660937@nyes';
 const UPI_NAME = 'Nexus AI';
+
+// Backend host karne ke baad is URL ko update karein
+// Agar aap abhi test karna chahte hain (Demo Mode), to ise khaali chhod dein: ''
+const PAYMENT_VERIFY_ENDPOINT = ''; 
 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
@@ -1628,7 +1631,6 @@ function renderMarkdown(src){
     html += '</tbody></table>';
     return html;
   });
-  // FIXED list rendering - wrap consecutive <li> together
   text = text.replace(/^\s*[-*]\s+(.+)$/gm, '<li>$1</li>');
   text = text.replace(/^\s*(\d+)\.\s+(.+)$/gm, '<li>$2</li>');
   text = text.replace(/(?:<li>[\s\S]*?<\/li>)+/g, (m) => '<ul>' + m + '</ul>');
@@ -2344,7 +2346,6 @@ function generateProceduralSong(prompt, lyrics){
   const duration = 20;
   const sampleRate = 22050;
   const length = duration * sampleRate;
-  // FIX: OfflineAudioContext prevents leak
   const Ctx = window.OfflineAudioContext || window.webkitOfflineAudioContext;
   const ctx = new Ctx(2, length, sampleRate);
   const buffer = ctx.createBuffer(2, length, sampleRate);
@@ -3282,46 +3283,99 @@ function bindAll(){
     btn.disabled = false; btn.innerHTML = original;
   });
   $('#upiSuccessClose')?.addEventListener('click', () => closeModal('checkoutModal'));
+
+  // Razorpay Logic
   $('#payBtn')?.addEventListener('click', async () => {
     if(!pendingPlan) return;
     if(!RAZORPAY_KEY_ID){ toast('Razorpay not configured. Use UPI option.', 'warn', 5000); switchPayMethod('upi'); return; }
+    
     const btn = $('#payBtn');
     btn.disabled = true;
     const original = btn.innerHTML;
     btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-top-color:#fff;margin-right:8px;display:inline-block;vertical-align:middle"></div> Opening Razorpay...';
-    const options = {
-      key: RAZORPAY_KEY_ID, amount: pendingPlan.price * 100, currency: 'INR',
-      name: 'Nexus AI', description: `${pendingPlan.name} — ₹${pendingPlan.price}`,
-      prefill: { name: currentUser()?.name || '', email: currentUser()?.email || '' },
-      theme: { color: '#1a73e8' },
-      handler: async function(response){
-        btn.innerHTML = 'Verifying...';
-        try{
-          let verified = true;
-          if(PAYMENT_VERIFY_ENDPOINT){
-            const res = await fetch(PAYMENT_VERIFY_ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(response) });
-            const data = await res.json();
-            verified = data.verified === true;
+
+    try {
+      let orderId = null;
+
+      // Agar Backend URL set hai, to pehle Order ID create karo
+      if (PAYMENT_VERIFY_ENDPOINT) {
+        const backendUrl = PAYMENT_VERIFY_ENDPOINT.replace('/verify-payment', '');
+        const orderRes = await fetch(`${backendUrl}/create-order`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: pendingPlan.price })
+        });
+        
+        if (!orderRes.ok) throw new Error('Order creation failed');
+        const orderData = await orderRes.json();
+        orderId = orderData.order_id;
+      }
+
+      const options = {
+        key: RAZORPAY_KEY_ID, 
+        amount: pendingPlan.price * 100, 
+        currency: 'INR',
+        name: 'Nexus AI', 
+        description: `${pendingPlan.name} — ₹${pendingPlan.price}`,
+        prefill: { name: currentUser()?.name || '', email: currentUser()?.email || '' },
+        theme: { color: '#1a73e8' },
+        handler: async function(response){
+          btn.innerHTML = 'Verifying...';
+          try{
+            let verified = false;
+            
+            // Backend se verify karo
+            if(PAYMENT_VERIFY_ENDPOINT){
+              const res = await fetch(PAYMENT_VERIFY_ENDPOINT, { 
+                method:'POST', 
+                headers:{ 'Content-Type':'application/json' }, 
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature
+                }) 
+              });
+              const data = await res.json();
+              verified = data.verified === true;
+            } else {
+              // Demo mode (backend ke bina)
+              verified = true;
+            }
+
+            if(verified){
+              const u = currentUser();
+              const days = pendingPlan.id === 'trial' ? 3 : (pendingPlan.id === 'pro_y' ? 365 : (pendingPlan.id === 'lifetime' ? 36500 : 30));
+              u.plan = pendingPlan.id;
+              u.planExpires = Date.now() + days * 86400000;
+              u.lastPayment = { id: response.razorpay_payment_id, plan: pendingPlan.id, amount: pendingPlan.price, time: Date.now() };
+              saveState();
+              updatePlanUI(); updateUserUI();
+              btn.style.display = 'none';
+              $('#paySuccess').classList.add('show');
+              $('#paySuccessMsg').textContent = `${pendingPlan.name} activated. Payment ID: ${response.razorpay_payment_id}`;
+              toast(`🎉 ${pendingPlan.name} activated!`, 'ok', 5000);
+            } else { 
+              toast('Verification failed. Please contact support.', 'err'); 
+              btn.disabled = false; btn.innerHTML = original; 
+            }
+          }catch(e){ 
+            console.error(e); 
+            toast('Error: ' + e.message, 'err'); 
+            btn.disabled = false; btn.innerHTML = original; 
           }
-          if(verified){
-            const u = currentUser();
-            const days = pendingPlan.id === 'trial' ? 3 : (pendingPlan.id === 'pro_y' ? 365 : (pendingPlan.id === 'lifetime' ? 36500 : 30));
-            u.plan = pendingPlan.id;
-            u.planExpires = Date.now() + days * 86400000;
-            u.lastPayment = { id: response.razorpay_payment_id, plan: pendingPlan.id, amount: pendingPlan.price, time: Date.now() };
-            saveState();
-            updatePlanUI(); updateUserUI();
-            btn.style.display = 'none';
-            $('#paySuccess').classList.add('show');
-            $('#paySuccessMsg').textContent = `${pendingPlan.name} activated. Payment ID: ${response.razorpay_payment_id}`;
-            toast(`🎉 ${pendingPlan.name} activated!`, 'ok', 5000);
-          } else { toast('Verification failed.', 'err'); btn.disabled = false; btn.innerHTML = original; }
-        }catch(e){ console.error(e); toast('Error: ' + e.message, 'err'); btn.disabled = false; btn.innerHTML = original; }
-      },
-      modal: { ondismiss: function(){ btn.disabled = false; btn.innerHTML = original; } }
-    };
-    try{ new Razorpay(options).open(); }
-    catch(e){ console.error(e); toast('Cannot open Razorpay.', 'err'); btn.disabled = false; btn.innerHTML = original; }
+        },
+        modal: { ondismiss: function(){ btn.disabled = false; btn.innerHTML = original; } }
+      };
+
+      if (orderId) options.order_id = orderId;
+
+      new Razorpay(options).open();
+    } catch (err) {
+      console.error(err);
+      toast('Failed to initiate payment: ' + err.message, 'err');
+      btn.disabled = false; 
+      btn.innerHTML = original;
+    }
   });
   $('#paySuccessClose')?.addEventListener('click', () => closeModal('checkoutModal'));
   document.addEventListener('click', e => {
